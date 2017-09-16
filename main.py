@@ -25,12 +25,12 @@ from Portfolio import Portfolio
 
 run_strategy    = False
 run_statistics  = False
-run_cryptopia   = True
+run_cryptopia   = False
 run_poloniex    = False
 
 cmc_load        = False
-cryptopia_load  = False
-poloniex_load   = False
+cryptopia_load  = True
+poloniex_load   = True
 load_type       = "all"     # all | ico ! custom_list | do_nothing
 
 
