@@ -99,16 +99,36 @@ class GraphCandlestick2(object):
 
 if __name__ == "__main__":
     
-    mkt_name = "Bitcoin"
-    mkt = Market(mkt_name)
-    mkt_data = mkt.readMarketDataCSV()
+    mkt_name = "Bitcoin_Test"
+    mkt = Market.fromTesting(mkt_name)
+    mkt_data = mkt.readMarketDataCSV(p_testing=True)
     
     graph = GraphCandlestick2()
-    quotes = mkt_data.loc[:20,"Date":"Close"]
+    quotes = mkt_data.iloc[0:3,:4]
     print("quotes"); print(quotes.head(5))
     #graph.graph_data(quotes)
     graph.testGraph()
+    
+    plt.switch_backend("macosx")
+    plt.plot([1,2,3,4])
+    plt.ylabel('some numbers')
+    plt.show()
     print("plotted")
+    
+#     Backend    Description
+# GTKAgg    Agg rendering to a GTK 2.x canvas (requires PyGTK and pycairo or cairocffi; Python2 only)
+# GTK3Agg    Agg rendering to a GTK 3.x canvas (requires PyGObject and pycairo or cairocffi)
+# GTK    GDK rendering to a GTK 2.x canvas (not recommended and d eprecated in 2.0) (requires PyGTK and pycairo or cairocffi; Python2 only)
+# GTKCairo    Cairo rendering to a GTK 2.x canvas (requires PyGTK and pycairo or cairocffi; Python2 only)
+# GTK3Cairo    Cairo rendering to a GTK 3.x canvas (requires PyGObject and pycairo or cairocffi)
+# WXAgg    Agg rendering to to a wxWidgets canvas (requires wxPython)
+# WX    Native wxWidgets drawing to a wxWidgets Canvas (not recommended and deprecated in 2.0) (requires wxPython)
+# TkAgg    Agg rendering to a Tk canvas (requires TkInter)
+# Qt4Agg    Agg rendering to a Qt4 canvas (requires PyQt4 or pyside)
+# Qt5Agg    Agg rendering in a Qt5 canvas (requires PyQt5)
+# macosx    Cocoa rendering in OSX windows (presently lacks blocking show() behavior when matplotlib is in non-interactive mode)
+    
+    
         
         
         

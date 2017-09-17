@@ -345,7 +345,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
                 #         print(payload.tail(5))
     
                     # Save the data
-                    mkt = Market(market, payload)
+                    mkt = Market(market, self.source_dir_name,"Day_1",payload)
                     mkt.saveMarketData( p_file_path = file_path )
 #                     
 #                     # Save the file to CSV 

@@ -32,8 +32,8 @@ class SuperTrendCross_test(unittest.TestCase):
         
         # Get the data
 #         mkt = Market("Test-bitcoin-SuperTrend")
-        mkt = Market("bitcoin")
-        mkt_data = mkt.readMarketDataCSV()
+        mkt = Market(test_file)
+        mkt_data = mkt.readMarketDataCSV(p_testing=True)
         
         # Create the Indicator
         p_wma_period         = 90

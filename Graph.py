@@ -65,7 +65,7 @@ if __name__ == "__main__":
     
     mkt_name = "Bitcoin"
     mkt = Market(mkt_name)
-    mkt_data = mkt.readMarketDataCSV()
+    mkt_data = mkt.readMarketDataCSV(p_test=True)
     
     graph = GraphCandlestick()
     quotes = mkt_data.loc[:,"Date":"Close"]

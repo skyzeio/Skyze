@@ -3,6 +3,10 @@
 #
 #   CLASS Market
 #
+#        represents a particular market (trading pair e.g. USD/AUD or Share/AUD or Bitcon/Eth
+#                   on a particular exchange / broker e.g. IG, Poloniex, Bittrex, Cryptopia, ASX
+#                   over a particular time period (interval) e.g. tick, 5 min, hourly, 4 hour, daily
+#
 #----------------------------------------------------------------------------------------------------------
 
 # 3rd Party Libraries
@@ -24,10 +28,16 @@ import settings
 class Market:
     
 
-    def __init__(self, p_market_name, p_market_data = [] ):
+    def __init__(self, p_market_name, p_exchange, p_interval, p_market_data = [] ):
             self.market_name = p_market_name
+            self.exchange = p_exchange
+            self.interval = p_interval
             self.market_data = p_market_data
-
+            
+    
+    @classmethod
+    def fromTesting(cls, p_market_name , p_market_data = []):
+            return cls(p_market_name,"","",p_market_data)
 
     
     def getMarketName( self ):

@@ -306,7 +306,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                         print("Number of Rows imported: "+str(len(market_data)))
                         
                         # Save the data
-                        mkt = Market(market, market_data)
+                        mkt = Market(market, self.source_dir_name, interval.Directory_name, market_data)
                         mkt.saveMarketData( p_file_path = file_path )
                         
                         # exchange specific post processing
