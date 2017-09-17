@@ -40,7 +40,7 @@ class Crosses_test(SkyzeUnitTest):
         test_columns   = ["Date","MA_15","MA_30","Crossesdiff","Crosses"]
         
         # Get the data
-        mkt = Market(test_file)
+        mkt = Market.fromTesting(test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
         
         # Calcualte the Indicators

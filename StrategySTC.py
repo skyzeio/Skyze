@@ -88,13 +88,15 @@ def run():
     end_date = datetime.datetime(2017, 1, 1)
     markets = ["test_coin_10rows"]
     strategies = ["StrategySTC"]
+    exchange = "Cryptopia"
+    Interval = "Day_1"
 #     markets = ["Bitcoin","DaleCoin","Tierion"]
 #     strategies = ["StrategySTC","StrategySTC","StrategySTC"]
     
     #Create the Market Strategy list for the Portfolio
     market_strategies = []
     for market,strategy in zip (markets,strategies):
-        market_strategies.append(MarketStrategy(market,strategy,start_date, end_date)) 
+        market_strategies.append(MarketStrategy(market, exchange, interval, strategy,start_date, end_date)) 
     
     # Use the MAC Strategy
 #     events_queue = queue.Queue()

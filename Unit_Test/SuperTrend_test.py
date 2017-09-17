@@ -47,7 +47,7 @@ class SuperTrend_test(SkyzeUnitTest):
         print ("Parameters: period: " + str(st_period) + "   Multiplier: " + str(st_multiplier))
          
         # Get the data
-        mkt = Market(test_file)
+        mkt = Market.fromTesting(test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
         
         # Calcualte the Indicators

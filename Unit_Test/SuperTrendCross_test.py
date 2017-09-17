@@ -32,7 +32,7 @@ class SuperTrendCross_test(unittest.TestCase):
         
         # Get the data
 #         mkt = Market("Test-bitcoin-SuperTrend")
-        mkt = Market(test_file)
+        mkt = Market.fromTesting(test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
         
         # Create the Indicator

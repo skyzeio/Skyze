@@ -57,13 +57,13 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
         
         
     
-    def addMarkets( self, p_markets ):
+    def addMarkets( self, p_markets, p_exchange, p_interval ):
         ''' INPUT     list of market names as strings
             OUTPUT    nil
             FUNCTION  creates market objects for each market listed and adds to the internal list
         '''
         for market in p_markets:
-            mkt_obj = Market(market)
+            mkt_obj = Market(market, p_exchange, p_interval)
             self.portfolio_market_strategies.append(mkt_obj)
             
             
@@ -110,8 +110,8 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
     
     
         
-    
-    def calculateStats( self, p_market_list ):
+    # TODO: hardwired for only single exchange and inteval .. make the market list be a list of tuples (m,e,i)
+    def calculateStats( self, p_market_list, p_exchange, p_interval ):
         market_stats = [] #pd.DataFrame()
         error_list   = []
         
@@ -120,7 +120,7 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
         print("Market count: "+str(total_markets))
         for market_name in p_market_list:
             market_count += 1
-            mkt = Market(market_name)
+            mkt = Market(market_name, p_exchange, p_interval)
             
 
             try:
