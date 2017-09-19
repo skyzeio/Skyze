@@ -19,13 +19,14 @@ from pathlib2 import Path                       # OO File management
 
 # Skyze Libraries
 import settings
+import ExceptionSkyzeAbstract
 # import Portfolio
 
 
 
 
 
-class Market:
+class Market():
     
 
     def __init__(self, p_market_name, p_exchange, p_interval, p_market_data = [] ):
@@ -43,6 +44,33 @@ class Market:
     def getMarketName( self ):
         return self.market_name 
 
+    
+    def getInterval( self ):
+        return self.interval 
+
+    
+    def getExchange( self ):
+        return self.exchange 
+    
+    
+        
+    
+    # creates the full path and file name
+    def constructFileName( self, p_testing ):
+        file_name = ""
+        if p_testing:
+            file_name = os.path.join(settings.testing_file_path, "%s.csv" % p_market)
+        else:
+            file_name = os.path.join( settings.data_file_path, 
+                                      "%s.csv" % ( settings.exchanges.get_value(self.exchange,"Directory_name") + "/"
+                                                  + self.interval + "/"
+                                                  + self.market_name) 
+                                    )
+            
+            
+        return file_name
+                
+
         
     #    Read Data from CSV
     #    INPUT
@@ -59,10 +87,7 @@ class Market:
             p_market = self.market_name
 #         p_market = "Bitcoin"
 
-        if p_testing:
-            file_path = os.path.join(settings.testing_file_path, "%s.csv" % p_market)
-        else:
-            file_path = os.path.join(settings.data_file_path, "%s.csv" % p_market)
+        file_path = self.constructFileName(p_testing)
         print("File Path: " + file_path)
         
         

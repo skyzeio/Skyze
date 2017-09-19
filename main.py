@@ -62,7 +62,7 @@ if run_strategy:
 
 if run_statistics:
     bruce = portfolio.getMarketsICO()
-    mkt_stat = portfolio.calculateStats(bruce)   #WORKING ON RETURNING DATAFRAME
+    mkt_stat = portfolio.calculateStats(bruce, "Coin Market Cap", "DAY_1")   #WORKING ON RETURNING DATAFRAME
     print("mkt_stat: " + str(mkt_stat.head(5)))
     print("describe: " + str(mkt_stat.describe()))
     print("describe 2: " + str(mkt_stat.describe(percentiles=[.05,.1,.2,.3,.4,.5,.6,.7,.8,.9,.95])[[0,1,4,5]]))

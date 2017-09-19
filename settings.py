@@ -8,7 +8,7 @@ results_file_path = "/Users/michaelnew/Dropbox/Trading/Data/Test_Data/"
 
 # INTERVALS
 dict_list = [
-                {"Name":"TICK",    "Seconds":      0,    "Directory_name":"tick"         },
+                {"Name":"TICK",    "Seconds":      0,    "Directory_name":"tick"       },
                 {"Name":"MIN_5",   "Seconds":    300,  "Directory_name":"minutes_5"    },
                 {"Name":"MIN_15",  "Seconds":    900,  "Directory_name":"minutes_5"    },
                 {"Name":"MIN_30",  "Seconds":   1800,  "Directory_name":"minutes_5"    },
@@ -24,3 +24,19 @@ intervals = pd.DataFrame(dict_list)
 intervals = intervals.set_index('Name')  
 
 # access by:   intervals.get_value("5_MIN","Seconds")
+
+
+
+
+# EXCHANGES
+exch_list = [
+                {"Name":"Coin Market Cap",    "Directory_name":"CMC"            },
+                {"Name":"Cryptopia",          "Directory_name":"Cryptopia"      },
+                {"Name":"Poloniex",           "Directory_name":"Poloniex"       },
+                {"Name":"IGMarkets",          "Directory_name":"IGMarkets"      }
+            ]
+
+exchanges = pd.DataFrame(exch_list)
+exchanges = exchanges.set_index('Name')  
+
+# access by:   exchanges.get_value("Cryptopia","Directory_name")

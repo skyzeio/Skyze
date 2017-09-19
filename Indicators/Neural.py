@@ -25,8 +25,8 @@ def get_data(filename):
         csvFileReader = csv.reader(csvfile)
         next(csvFileReader)
         for row in csvFileReader:
-           dates.append(int(row[0].split('-')[0]))
-           prices.append(float(row[1]))
+            dates.append(int(row[0].split('-')[0]))
+            prices.append(float(row[1]))
                 
     return
 
@@ -79,7 +79,7 @@ class Neural(IndicatorAbstract,ExceptionSkyzeAbstract):
         svr_poly.fit(dates,prices)
         svr_rbf.fit(dates,prices)
         
-        plt.scatter(dates,prices, color='blac,', label = 'Date')
+        plt.scatter(dates,prices, color='black', label = 'Date')
         plt.xlabel('Date')
         plt.ylabel('Price')
         plt.title('Support Vector Regression')

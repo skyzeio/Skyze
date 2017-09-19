@@ -124,7 +124,7 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
             
 
             try:
-                print(str(market_count)+" of "+str(total_markets)+" "+mkt.getMarketName())
+                print(str(market_count)+" of "+str(total_markets)+" "+mkt.getMarketName() +", " + mkt.getInterval() +" on " + mkt.getExchange())
                 mkt_data = mkt.readMarketDataCSV()       # self.readMarketDataCSV()
             except IOError:
 #                 print("ERROR: Portfolio::calculateStats   " + )
