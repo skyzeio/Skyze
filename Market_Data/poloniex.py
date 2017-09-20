@@ -17,13 +17,14 @@ def createTimeStamp(datestr, format="%Y-%m-%d %H:%M:%S"):
 
 class poloniex:
     def __init__(self, APIKey, Secret):
+        # TODO move the keys to a local settings file or encrypt them ??
         self.APIKey = "AQMOOBX5-N52FGSW2-8QJQ90WF-JEFH4324"
         self.Secret = "c530bb4184f91c779dcd3d4d46e70179579e4a556df6504e85f5189859e898ddb0b601d1c4aaf821808da8c423dc473e3ff62b1f955d21728459a94a55059c28"
 
     def post_process(self, before):
         after = before
 
-        # Add timestamps if there isnt one but is a datetime
+        # Add timestamps if there isn't one but is a datetime
         if('return' in after):
             if(isinstance(after['return'], list)):
                 for x in xrange(0, len(after['return'])):
