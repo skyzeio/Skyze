@@ -257,6 +257,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         download_total = str(len(mkt_list))
         interval_total = len(self.exchange_intervals)
         print("Markets to downlaod: " + download_total + "    ... each market has " + str(interval_total) + " intervals")
+        print("List of Markets: "+str(list((mkt_list))))
         
         # convert market format from / to _
         mkt_list = [w.replace('/', '_') for w in mkt_list]
@@ -319,3 +320,4 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         print(error_list)
         print("No Data:   NOT IMPLEMENTED ... "+str(len(no_data_list)))
         print(no_data_list)
+        print("List of Markets: "+str(list((mkt_list))))
