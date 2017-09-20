@@ -2,9 +2,9 @@
 import pandas as pd
 
 # PATHS
-data_file_path    = "/Users/michaelnew/Dropbox/Trading/Data/"
-testing_file_path = "/Users/michaelnew/Dropbox/Trading/Data/Test_Data/"
-results_file_path = "/Users/michaelnew/Dropbox/Trading/Data/Test_Data/"
+data_file_path    = "Data/"
+testing_file_path = "Data/Test_Data/"
+results_file_path = "Data/Test_Data/"
 
 # INTERVALS
 dict_list = [
