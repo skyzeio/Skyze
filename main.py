@@ -31,11 +31,11 @@ run_poloniex    = False
 
 # === Data load Switches =====
 cmc_load        = False
-cryptopia_load  = True
-poloniex_load   = False
+cryptopia_load  = False
+poloniex_load   = True
 
 # === Data load Type =====
-load_type       = "custom_list"     # Laod_type Options are:
+load_type       = "all"     # Laod_type Options are:
                                     #        all             ... the exchanege will call get all markets then download all
                                     #        ico             ... will use the custom ICO list
                                     #        custom_list     ... will use the custom list
@@ -46,7 +46,7 @@ load_type       = "custom_list"     # Laod_type Options are:
 # === Custom Load Lists =====
 custom_list_cmc = [ 'bitcoin']      # currency
 custom_list_cryptopia = ['MST_BTC', 'BCN_DOGE', 'BCN_LTC', 'XRA_BTC', 'SKR_DOGE', 'LIT_BTC'] 
-custom_list_poloniex = ['BTC_AMP'] #, 'BTC_ARDR', 'BTC_BCH', 'BTC_BCN', 'BTC_BCY', 'BTC_BELA', 'BTC_BLK', 'BTC_BTCD']
+custom_list_poloniex = ['ETH_CVC'] #, 'BTC_ARDR', 'BTC_BCH', 'BTC_BCN', 'BTC_BCY', 'BTC_BELA', 'BTC_BLK', 'BTC_BTCD']
 
 
 #----------------------------------------------------------------------------------------------------------
@@ -82,7 +82,8 @@ if run_statistics:
    
    
 # Data load switches
-if load_type == "all":
+data_load_switch = cmc_load or cryptopia_load or poloniex_load
+if load_type == "all" and data_load_switch:
     print("=== UPDATE MARKET DATA - ALL ===")
     if cmc_load: 
         cmc = CoinMarketCap()
@@ -93,7 +94,7 @@ if load_type == "all":
     if poloniex_load: 
         poloniex = PoloniexSkyze()
         poloniex.updateMarketData()
-elif load_type == "ico":
+elif load_type == "ico" and data_load_switch:
     print("=== UPDATE MARKET DATA - ICO ===")
     if cmc_load: 
         cmc = CoinMarketCap()
@@ -101,9 +102,9 @@ elif load_type == "ico":
     if cryptopia_load: 
         crypt = Cryptopia()
         crypt.updateMarketData(portfolio.cryptopia_ICO)
-elif load_type == "custom_list":
-    print("=== UPDATE MARKET DATA - CUSTOM ===")
+elif load_type == "custom_list" and data_load_switch:
     if cmc_load: 
+        print("=== UPDATE MARKET DATA - CUSTOM ===")
         cmc = CoinMarketCap()
         cmc.updateMarketData(custom_list_cmc)
     if cryptopia_load: 
@@ -117,13 +118,16 @@ elif load_type == "custom_list":
 
 # Run Switches
 if run_cryptopia == True:
+    print("=== RUN CRYPTOPIA ===")
     cryptopia = Cryptopia()
     print(cryptopia.getAllMarkets())
 
 if run_poloniex == True:
+    print("=== RUN POLONIEX ===")
     poloniex = PoloniexSkyze()
 #     print(poloniex.getAllMarkets())
-    poloniex.updateMarketData(custom_list_poloniex)
+#     poloniex.updateMarketData(custom_list_poloniex)
+    poloniex.processMarketDataFilesCSV()
 
 
 # Calculate and print run time
