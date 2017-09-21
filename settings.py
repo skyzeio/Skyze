@@ -2,9 +2,9 @@
 import pandas as pd
 
 # PATHS
-data_file_path    = "Data/"
-testing_file_path = "Data/Test_Data/"
-results_file_path = "Data/Test_Data/"
+data_file_path    = "Data/Trading/"
+testing_file_path = "Data/Trading/Test_Data/"
+results_file_path = "Data/Trading/Test_Data/"
 
 # INTERVALS
 dict_list = [
@@ -21,7 +21,7 @@ dict_list = [
             ]
 
 intervals = pd.DataFrame(dict_list)
-intervals = intervals.set_index('Name')  
+intervals = intervals.set_index('Name')
 
 # access by:   intervals.get_value("5_MIN","Seconds")
 
@@ -37,6 +37,6 @@ exch_list = [
             ]
 
 exchanges = pd.DataFrame(exch_list)
-exchanges = exchanges.set_index('Name')  
+exchanges = exchanges.set_index('Name')
 
 # access by:   exchanges.get_value("Cryptopia","Directory_name")
