@@ -273,6 +273,10 @@ class CoinMarketCap (MarketDataSourceAbstract) :
     
     
     def updateMarketData( self, p_market_list ="all" ): 
+        ''' Iterates through the market list and calls the exchagne API to get the historical data
+            Saves the data into CSV
+            Tracks errors adding the market pair name to the error list
+        '''
         if p_market_list == "all":
             mkt_list = self.scrapeAllCMCMarkets("currencies")
             mkt_list = mkt_list + self.scrapeAllCMCMarkets("assets")
@@ -297,8 +301,8 @@ class CoinMarketCap (MarketDataSourceAbstract) :
             
             # Get the load dates
             file_path = self.fileName(market, "day_1" )
-            file_start_date, file_end_date, load_start_date = self.getLoadDates(market, load_start_date, file_path)
-            load_start_date = load_start_date + datetime.timedelta(1,0)
+            file_start_date, file_end_date, load_start_date = self.getLoadDates(market, self.exchange_intervals.loc["DAY_1"], load_start_date, file_path)
+#             load_start_date = load_start_date + datetime.timedelta(1,0)
              
             # Print the dates
             print("File: "+file_path)

@@ -5,6 +5,7 @@ Created on 08/09/2017
 '''
 
 import pandas as pd
+import numpy as np
 from datetime import datetime, timedelta
 import os
 import re
@@ -38,10 +39,10 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         '''
         Constructor
         '''
-        self.source_name             = p_source_name
-        self.source_dir_name         = p_source_dir_name
+        self.source_name             = p_source_name                    # Data source name e.g. Cryptopia, IGMarkets etc 
+        self.source_dir_name         = p_source_dir_name                
         self.url_list_all_markets    = p_url_list_all_markets,          # For some reason the str is cast to a tuple
-        self.max_start_date          = p_max_start_date
+        self.max_start_date          = p_max_start_date                 # Earliest data available from that data source
         self.default_end_date        = p_default_end_date
         self.url_market_history      = p_url_market_history
         
@@ -167,6 +168,9 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
     
     
     def getLoadDates (self, p_market, p_interval, p_load_start_date, p_file_path):
+        ''' Opens the CSV file ... gets the date from the first (File Start date) and last (file end date) of the file
+            Add the interval to the end date to calculate the load_start_date
+        '''
         file_start_date = "No File"
         file_end_date = "No File"
         load_start_date = p_load_start_date
@@ -187,6 +191,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                 #Get the File End date from the last row
                 with open(p_file_path, 'r') as f:
                     q = deque(f, 2)
+                    # Handle the case where theris only one row in the file
                     if len(q) == 2:
                         if q[1] == "\n" : 
                             file_end_date = datetime.strptime( q[0][:q[0].find(',')], "%Y-%m-%d %H:%M:%S" )
@@ -194,9 +199,15 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                             file_end_date = datetime.strptime( q[1][:q[1].find(',')], "%Y-%m-%d %H:%M:%S" )
                     else:
                         file_end_date = datetime.strptime( q[0][:q[0].find(',')], "%Y-%m-%d %H:%M:%S" )
-                        
-                load_start_date = file_end_date + timedelta(0,p_interval.Seconds)  # Add a second
-                            
+                
+                # ensure correct type of interval (int) as chagnes when coming from CMC to numpy.Int64
+                interval = p_interval.Seconds
+                if type(p_interval.Seconds) != "int":
+                    interval = int(p_interval.Seconds)
+                
+                load_start_date = file_end_date + timedelta(0,interval)                     # Add the interval 
+                
+                
         return file_start_date, file_end_date, load_start_date
                 
                 
@@ -205,8 +216,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         
     
     def getHistoricalData( self, p_market, p_interval, p_start_date="", p_end_date="" ):
-        '''
-            Returns 
+        ''' Calls the data source's REST API to get the historical data
         '''
         # Set dates
         if p_start_date == "" :   p_start_date = self.default_start_date
@@ -249,6 +259,11 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
     
     
     def updateMarketData( self, p_market_list ="all" ): 
+        ''' Iterates through the market list and calls the exchagne API to get the historical data
+            Saves the data into CSV
+            Tracks errors adding the market pair name to the error list
+        '''
+        
         if p_market_list == "all":
             mkt_list = self.getAllMarkets() # TODO .Label for poloniex or cmc? Move to subclass
         else:
@@ -257,6 +272,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         download_total = str(len(mkt_list))
         interval_total = len(self.exchange_intervals)
         print("Markets to downlaod: " + download_total + "    ... each market has " + str(interval_total) + " intervals")
+        print("List of Markets: "+str(list((mkt_list))))
         
         # convert market format from / to _
         mkt_list = [w.replace('/', '_') for w in mkt_list]
@@ -319,3 +335,100 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         print(error_list)
         print("No Data:   NOT IMPLEMENTED ... "+str(len(no_data_list)))
         print(no_data_list)
+        print("List of Markets: "+str(list((mkt_list))))
+        
+        
+        
+        
+        
+        
+        
+  
+    
+    def removeDuplicateRowsCSV( self, p_market, p_interval): 
+        ''' Removes duplicate rows from a CSV file
+            Opens a file, saves only unique rows to a temp file, deletes the original file and renames the temp file
+        '''  
+        #Get the file names
+        data_file_name = self.fileName(p_market, p_interval)
+        temp_file_name = self.fileName(p_market+"_TEMP", p_interval)
+        
+        # Iterate through the file and only write unique lines to the temp file
+        with open(data_file_name,'r') as data_file, open(temp_file_name,'w') as temp_file:
+            seen = set() # set for fast O(1) amortized lookup
+            seen.add("1970-01-01 00:00:00,0,0,0,0,0,0,0\n")
+            duplicate_count = 0
+            for line in data_file:
+                if line in seen: 
+                    duplicate_count += 1
+                    continue # skip duplicate
+        
+                seen.add(line)            # unique so add the line
+                temp_file.write(line)
+        
+        # Clean up files
+        os.remove(data_file_name)                    # delete the old data file
+        os.rename(temp_file_name, data_file_name)    # rename the temp file to the data file name
+        
+        return duplicate_count
+        
+    
+    
+    
+        
+    
+    
+    
+    
+    def processMarketDataFilesCSV( self, p_market_list ="all" ): 
+        ''' Iterates through the market list, opens the data file, runs a process over it and saves it
+        '''
+        
+        if p_market_list == "all":
+            mkt_list = self.getAllMarkets() # TODO .Label for poloniex or cmc? Move to subclass
+        else:
+            mkt_list = p_market_list
+            
+        process_total = str(len(mkt_list))
+        interval_total = len(self.exchange_intervals)
+        print("Markets to process: " + process_total + "    ... each market has " + str(interval_total) + " intervals")
+        print("List of Markets: "+str(list((mkt_list))))
+        
+        # convert market format from / to _
+        mkt_list = [w.replace('/', '_') for w in mkt_list]
+        
+        # Loop throuth the Markets
+        error_list = []
+        no_file_list = []
+        mkt_count = 0
+        for market in mkt_list: 
+            mkt_count += 1
+            print(); print(str(mkt_count)+" of "+process_total+". "+market )
+            
+            for index, interval in self.exchange_intervals.iterrows():
+                
+                # Get the load dates
+                file_path = self.fileName(market, interval.Directory_name)
+                file_start_date, file_end_date, load_start_date = self.getLoadDates(market, interval, self.max_start_date , file_path)
+                
+                # Print the dates
+                print()
+                print("Interval: "+interval.Directory_name + "   Seconds: " + str(interval.Seconds)+"   Process start time: "+str(datetime.now() ))
+                print("File: "+file_path)
+                print("File Start: "+str(file_start_date)+"   End: "+str(file_end_date))
+                
+                # Process the file
+                # TODO Pass this function as a parameter
+                duplicate_count = self.removeDuplicateRowsCSV(market, interval.Directory_name)
+                print("Dupliates removed: "+str(duplicate_count))
+                
+                
+                
+        print(); print(); print();
+        print("Success: "+str(len(mkt_list))) #-len(error_list)))   
+        #-str(len(no_data_list))
+        print("Error:   "+str(len(error_list)))
+        print(error_list)
+        print("No Data:   NOT IMPLEMENTED ... "+str(len(error_list)))
+        print(no_data_list)
+        print("List of Markets: "+str(list((mkt_list))))

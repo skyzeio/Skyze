@@ -71,6 +71,7 @@ class Cryptopia (MarketDataSourceAbstract) :
         """
         print("Get all markets")
         # query the website and return the html to the variable ‘page’
+        # TODO add a timeout e.g. no internet connection ... at the moment it just sits and waits ....
         all_markets = requests.get(self.url_list_all_markets[0])    # <class 'dict'>
         all_markets = pd.DataFrame(all_markets.json())           # all_markets.json() is class 'dict'
         
@@ -99,7 +100,7 @@ class Cryptopia (MarketDataSourceAbstract) :
                 
     def post_process_file(self, p_market,p_interval):
         print ("POST PROCESS FILE ... " +self.source_name + " ... " + p_market)
-        #Get the file anmes
+        #Get the file names
         data_file_name = self.fileName(p_market,p_interval)
         temp_file_name = self.fileName(p_market+"_TEMP",p_interval)
         
