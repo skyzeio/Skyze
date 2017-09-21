@@ -5,6 +5,7 @@ Created on 08/09/2017
 '''
 
 import pandas as pd
+import numpy as np
 from datetime import datetime, timedelta
 import os
 import re
@@ -198,9 +199,15 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                             file_end_date = datetime.strptime( q[1][:q[1].find(',')], "%Y-%m-%d %H:%M:%S" )
                     else:
                         file_end_date = datetime.strptime( q[0][:q[0].find(',')], "%Y-%m-%d %H:%M:%S" )
-                        
-                load_start_date = file_end_date + timedelta(0,p_interval.Seconds)  # Add a second
-                            
+                
+                # ensure correct type of interval (int) as chagnes when coming from CMC to numpy.Int64
+                interval = p_interval.Seconds
+                if type(p_interval.Seconds) != "int":
+                    interval = int(p_interval.Seconds)
+                
+                load_start_date = file_end_date + timedelta(0,interval)                     # Add the interval 
+                
+                
         return file_start_date, file_end_date, load_start_date
                 
                 
