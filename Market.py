@@ -106,6 +106,7 @@ class Market():
             print("File Error:   " + file_path)
             print("FileNotFound - Market::readMarketDataCSV .... IOError File does not exist")
 #             raise IOError ("FileNotFound","EXCEPTION Market::readMarketDataCSV .... IOError File does not exist")
+            raise IOError("FileNotFound Raised - Market::readMarketDataCSV .... IOError File does not exist\nFile Path:   "+ file_path)
             return
         except:
             print("AN EXCEPTION - Market::readMarketDataCSV( p_market )")
