@@ -9,8 +9,22 @@ Used like a comandline with switches to run various functions
 '''
 
 #--- Imports ---------------------------------------------------------------------------------------------
+# 3rd Party
 import datetime
+import argparse
+
+# Skyze
 from Portfolio import Portfolio
+
+
+#----------------------------------------------------------------------------------------------------------
+#
+#    PARSE ARGUEMENTS
+#
+#----------------------------------------------------------------------------------------------------------
+
+parser = argparse.ArgumentParser('Utility to run Skyze modules')
+
 
 
 #----------------------------------------------------------------------------------------------------------
@@ -24,7 +38,7 @@ from Portfolio import Portfolio
 # === Run Switches =====
 # This runs various functions - I use this to tesst things at the moment
 run_strategy    = False
-run_statistics  = False
+run_statistics  = True
 run_cryptopia   = False
 run_poloniex    = False
 #----------------------------------------------------------------------------------------------------------
@@ -51,10 +65,10 @@ if run_strategy:
 if run_statistics:
     ico_markets = portfolio.getMarketsICO()
     mkt_stat = portfolio.calculateStats(ico_markets, "Coin Market Cap", "DAY_1")   #WORKING ON RETURNING DATAFRAME
-    print("mkt_stat: " + str(mkt_stat.head(5)))
-    print("describe: " + str(mkt_stat.describe()))
-    print("describe 2: " + str(mkt_stat.describe(percentiles=[.05,.1,.2,.3,.4,.5,.6,.7,.8,.9,.95])[[0,1,4,5]]))
-    print(type(mkt_stat.describe(percentiles=[.05,.1,.2,.3,.4,.5,.6,.7,.8,.9,.95])[[0,1,4,5]]))
+    print("\n\nmkt_stat: \n" + str(mkt_stat.head(5)))
+    print("\n\ndescribe: \n" + str(mkt_stat.describe()))
+#    print("describe 2: " + str(mkt_stat.describe(percentiles=[.05,.1,.2,.3,.4,.5,.6,.7,.8,.9,.95])[[0,3,4]]))
+#    print(type(mkt_stat.describe(percentiles=[.05,.1,.2,.3,.4,.5,.6,.7,.8,.9,.95])[[0,3,4]]))
     portfolio.saveStatsToExcel( mkt_stat )
 
 
