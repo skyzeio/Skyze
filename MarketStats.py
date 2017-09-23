@@ -10,20 +10,7 @@ import datetime as datetime
 
 
 class MarketStats:
-    
-    market_name     =""
-    days            = 0
-    startDate       = 1
-    endDate         = 1
-    initialPrice    = 0
-    highestHigh     = 0
-    highestHighDate = 1
-    highMult        = 0
-    lowestLow       = 0
-    lowestLowDate   = 1
-    lowMult         = 0
-    lowHighRatio    = 0
-    
+
     def __init__(self):
         self.market_name     = ""
         self.days            = 0
@@ -37,9 +24,8 @@ class MarketStats:
         self.lowestLowDate   = 1
         self.lowMult         = 0
         self.lowHighRatio    = 0
-        
+
     # Converting to Dictionary format to then easily convert to Pandas DataFrame
-    
     def toDict( self ):
         return {
                 'market_name'       : self.market_name,
@@ -55,21 +41,21 @@ class MarketStats:
                 'lowMult'           : self.lowMult,
                 'lowHighRatio'      : self.lowHighRatio,
         }
-        
-        
-        
-        
+
+
+
+
     # Converting to Pandas DataFrame
-    
+
     def toDataFrame( self ):
         x= pd.DataFrame.from_records( self.toDict(), index=[self.toDict()['market_name']] )
         return x
-    
-    
 
 
-        
-    
+
+
+
+
     def calculateStats( self, p_mkt_name, p_mktData ):
         self.market_name = p_mkt_name
 #         self.days = p_mktData.count()["High"]
@@ -83,7 +69,6 @@ class MarketStats:
 #         self.lowestLowDate = p_mktData.loc[p_mktData['Low'].argmin(), "Date"].strftime("%B %d, %Y")
 #         self.lowMult = round(1-self.lowestLow/self.initialPrice,2)
 #         self.lowHighRatio = round(self.highestHigh/self.lowestLow,2)
-        
         self.market_name     = p_mkt_name
         self.days            = p_mktData.High.count()
         self.startDate       = p_mktData.index[0].to_datetime().strftime("%B %d, %Y")
@@ -96,10 +81,10 @@ class MarketStats:
         self.lowestLowDate   = p_mktData.High.argmin().strftime("%B %d, %Y")
         self.lowMult         = round(1-self.lowestLow/self.initialPrice,2)
         self.lowHighRatio    = round(self.highestHigh/self.lowestLow,2)
-        
-        return 
-    
-    
+
+        return
+
+
     def printStats( self ):
         print("Market: "+self.market_name)
         print("From: "+str(self.startDate)+" To: "+str(self.endDate))
