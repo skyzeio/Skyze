@@ -5,12 +5,9 @@ Created on 05/09/2017
 '''
 
 # Standard Libraries
-from pandas.util.testing import assert_frame_equal
-from pandas.util.testing import assert_series_equal
-import pandas as pd
 
 # Our libraries - Required
-from SkyzeUnitTest import SkyzeUnitTest
+from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 from Market import Market
 
 # Our libraries - Test Specific
@@ -19,7 +16,7 @@ from Indicators.SuperTrend import SuperTrend
 
 
 
-class SuperTrend_test(SkyzeUnitTest):
+class SuperTrend_test(UnitTestSkyzeAbstract):
     '''
     classdocs
     '''
@@ -33,16 +30,16 @@ class SuperTrend_test(SkyzeUnitTest):
         output_info    = True
         target_file    = "Results-bitcoin-SuperTrend"
         test_file      = "bitcoin_TEST"
-        target_columns = ["Date","H-L","H-PC","L-PC","True_Range","ATR_15","basic_ub","basic_lb","final_ub","final_lb","Super_Trend"]
-        test_columns   = ["Date","H-L","H-PC","L-PC","True_Range","ATR_15","basic_ub","basic_lb","final_ub","final_lb","Super_Trend"]
-                            # ["Date","H-L","H-PC","L-PC","TR","ATR","BUB","BLB","FUB","FLB","ST"]
+        target_columns = ["H-L","H-PC","L-PC","True_Range","ATR_15","basic_ub","basic_lb","final_ub","final_lb","Super_Trend"]
+        test_columns   = ["H-L","H-PC","L-PC","True_Range","ATR_15","basic_ub","basic_lb","final_ub","final_lb","Super_Trend"]
+
         st_period = 15
         st_multiplier = 3
         st_name_extension = ""
 
         # Output Headings
-        print ("This is a test of SUPERTREND")
-        print ("Test Data: " + test_file + "    Target Data: " + target_file)
+        print ("\n\n======= This is a test of SUPERTREND INDICATOR ==============")
+        print ("Test data: " + test_file + "    \nTarget data: " + target_file)
         print ("Columns: "+ str(test_columns))
         print ("Parameters: period: " + str(st_period) + "   Multiplier: " + str(st_multiplier))
 
