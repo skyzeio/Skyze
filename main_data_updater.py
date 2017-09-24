@@ -32,7 +32,7 @@ cryptopia_load  = True
 poloniex_load   = False
 
 # === Data load Type =====
-load_type       = "custom_list"     # Laod_type Options are:
+load_type       = "all"     # Laod_type Options are:
                                     #        all             ... the exchanege will call get all markets then download all
                                     #        ico             ... will use the custom ICO list
                                     #        custom_list     ... will use the custom list
@@ -42,7 +42,7 @@ load_type       = "custom_list"     # Laod_type Options are:
 
 # === Custom Load Lists =====
 custom_list_cmc = [ 'maker']      # currency
-custom_list_cryptopia = ['FJC_BTC','IFC_LTC']
+custom_list_cryptopia = ['DBIX_DOGE']
 custom_list_poloniex = ['ETH_CVC'] #, 'BTC_ARDR', 'BTC_BCH', 'BTC_BCN', 'BTC_BCY', 'BTC_BELA', 'BTC_BLK', 'BTC_BTCD']
 
 
