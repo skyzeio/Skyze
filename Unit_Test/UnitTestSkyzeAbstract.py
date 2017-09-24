@@ -6,6 +6,8 @@ Created on 05/09/2017
 # 3rd Party Libraries
 import os
 import unittest
+from pandas.util.testing import assert_frame_equal
+from pandas.util.testing import assert_series_equal
 import pandas as pd
 from dateutil import parser
 
@@ -15,7 +17,7 @@ import settings
 
 
 
-class SkyzeUnitTest(unittest.TestCase):
+class UnitTestSkyzeAbstract(unittest.TestCase):
     '''
     classdocs
     '''

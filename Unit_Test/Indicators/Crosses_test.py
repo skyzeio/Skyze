@@ -1,14 +1,10 @@
 
 
 # Standard Libraries
-from pandas.util.testing import assert_frame_equal
-from pandas.util.testing import assert_series_equal
-import pandas as pd
 
-import unittest
 
 # Our libraries - Required
-from Unit_Test.SkyzeUnitTest import SkyzeUnitTest
+from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 from Market import Market
 
 # Our libraries - Test Specific
@@ -18,7 +14,7 @@ from Indicators.MovingAverage import MovingAverage
 
 
 
-class Crosses_test(SkyzeUnitTest):
+class Crosses_test(UnitTestSkyzeAbstract):
     '''
     classdocs
     '''
