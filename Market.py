@@ -59,7 +59,7 @@ class Market():
     def constructFileName( self, p_testing ):
         file_name = ""
         if p_testing:
-            file_name = os.path.join(settings.testing_file_path, "%s.csv" % p_market)
+            file_name = os.path.join(settings.testing_file_path, "%s.csv" % self.market_name)
         else:
             file_name = os.path.join( settings.data_file_path,
                                       "%s.csv" % ( settings.exchanges.get_value(self.exchange,"Directory_name") + "/"
@@ -85,8 +85,8 @@ class Market():
         # default parameter handling
         if p_market == "NOTPASSED" :
             p_market = self.market_name
-#         p_market = "Bitcoin"
 
+        # set the file path
         file_path = self.constructFileName(p_testing)
         print("File Path: " + file_path)
 
@@ -105,7 +105,6 @@ class Market():
         except IOError as err:
             print("File Error:   " + file_path)
             print("FileNotFound - Market::readMarketDataCSV .... IOError File does not exist")
-#             raise IOError ("FileNotFound","EXCEPTION Market::readMarketDataCSV .... IOError File does not exist")
             raise IOError("FileNotFound Raised - Market::readMarketDataCSV .... IOError File does not exist\nFile Path:   "+ file_path)
             return
         except:
