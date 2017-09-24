@@ -11,3 +11,4 @@ pandas = "*"
 
 
 [dev-packages]
+unittest2 = "*"
