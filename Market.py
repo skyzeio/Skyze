@@ -99,7 +99,7 @@ class Market():
                         names = [
                                   "Date", "Open", "High", "Low",
                                   "Close", "Volume", "MarketCap","HLOrder"
-                                ],
+                                ]
 #                         index_col = "Date"
                         )
         except IOError as err:
