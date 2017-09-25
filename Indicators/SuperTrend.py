@@ -90,7 +90,7 @@ class SuperTrend(IndicatorAbstract):
 
         # for i, row in p_data.iterrows():    # pre date as the index
         for i, (index, row) in enumerate(p_data.iterrows()):
-            print(p_data.head(5)); print("i"); print(i); print("row"); print(row)
+            #print(p_data.head(5)); print("i"); print(i); print("row"); print(row)
             if i < self.st_period:
                 p_data.set_value(index, 'basic_ub'+self.name_extension, 0.00)
                 p_data.set_value(index, 'basic_lb'+self.name_extension, 0.00)
@@ -99,25 +99,25 @@ class SuperTrend(IndicatorAbstract):
                 p_data.set_value(index, 'Super_Trend'+self.name_extension, 0.00)
             else:
                 p_data.set_value(index, 'final_ub'+self.name_extension, (p_data.get_value(index, 'basic_ub'+self.name_extension)
-                                             if p_data.get_value(index, 'basic_ub'+self.name_extension) < p_data.get_value(i-1, 'final_ub'+self.name_extension) or
-                                                p_data.get_value(i-1, 'Close') > p_data.get_value(i-1, 'final_ub'+self.name_extension)
-                                             else p_data.get_value(i-1, 'final_ub'+self.name_extension)))
+                                             if p_data.get_value(index, 'basic_ub'+self.name_extension) < p_data.get_value(prev_index, 'final_ub'+self.name_extension) or
+                                                p_data.get_value(prev_index, 'Close') > p_data.get_value(prev_index, 'final_ub'+self.name_extension)
+                                             else p_data.get_value(prev_index, 'final_ub'+self.name_extension)))
                 p_data.set_value(index, 'final_lb'+self.name_extension, (p_data.get_value(index, 'basic_lb'+self.name_extension)
-                                             if p_data.get_value(index, 'basic_lb'+self.name_extension) > p_data.get_value(i-1, 'final_lb'+self.name_extension) or
-                                                p_data.get_value(i-1, 'Close') < p_data.get_value(i-1, 'final_lb'+self.name_extension)
-                                             else p_data.get_value(i-1, 'final_lb'+self.name_extension)))
+                                             if p_data.get_value(index, 'basic_lb'+self.name_extension) > p_data.get_value(prev_index, 'final_lb'+self.name_extension) or
+                                                p_data.get_value(prev_index, 'Close') < p_data.get_value(prev_index, 'final_lb'+self.name_extension)
+                                             else p_data.get_value(prev_index, 'final_lb'+self.name_extension)))
 
                 p_data.set_value(index, 'Super_Trend'+self.name_extension, (p_data.get_value(index, 'final_ub'+self.name_extension)
-                                                         if ( ( p_data.get_value(i-1, 'Super_Trend'+self.name_extension) == p_data.get_value(i-1, 'final_ub'+self.name_extension) ) and
+                                                         if ( ( p_data.get_value(prev_index, 'Super_Trend'+self.name_extension) == p_data.get_value(prev_index, 'final_ub'+self.name_extension) ) and
                                                               ( p_data.get_value(index, 'Close')         <= p_data.get_value(index, 'final_ub'+self.name_extension)   )       )
                                                          else ( p_data.get_value(index, 'final_lb'+self.name_extension)
-                                                                   if ( (p_data.get_value(i-1, 'Super_Trend'+self.name_extension) == p_data.get_value(i-1, 'final_ub'+self.name_extension) ) and
+                                                                   if ( (p_data.get_value(prev_index, 'Super_Trend'+self.name_extension) == p_data.get_value(prev_index, 'final_ub'+self.name_extension) ) and
                                                                         (p_data.get_value(index, 'Close')          > p_data.get_value(index, 'final_ub'+self.name_extension)   )       )
                                                                    else ( p_data.get_value(index, 'final_lb'+self.name_extension)
-                                                                             if ( (p_data.get_value(i-1, 'Super_Trend'+self.name_extension) == p_data.get_value(i-1, 'final_lb'+self.name_extension) ) and
+                                                                             if ( (p_data.get_value(prev_index, 'Super_Trend'+self.name_extension) == p_data.get_value(prev_index, 'final_lb'+self.name_extension) ) and
                                                                                   (p_data.get_value(index, 'Close')        >= p_data.get_value(index, 'final_lb'+self.name_extension)    )      )
                                                                              else (p_data.get_value(index, 'final_ub'+self.name_extension)
-                                                                                       if ( (p_data.get_value(i-1, 'Super_Trend'+self.name_extension) == p_data.get_value(i-1, 'final_lb'+self.name_extension) ) and
+                                                                                       if ( (p_data.get_value(prev_index, 'Super_Trend'+self.name_extension) == p_data.get_value(prev_index, 'final_lb'+self.name_extension) ) and
                                                                                             (p_data.get_value(index, 'Close')          < p_data.get_value(index, 'final_lb'+self.name_extension)   )      )
                                                                                        else 0.00
                                                                                   )
@@ -125,6 +125,8 @@ class SuperTrend(IndicatorAbstract):
                                                                )
                                                     )
                                     )
+
+            prev_index = index
 
         return p_data
 
