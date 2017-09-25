@@ -28,8 +28,8 @@ from Market_Data.PoloniexSkyze import PoloniexSkyze
 
 # === Data load Switches =====
 cmc_load        = False
-cryptopia_load  = True
-poloniex_load   = False
+cryptopia_load  = False
+poloniex_load   = True
 
 # === Data load Type =====
 load_type       = "all"     # Laod_type Options are:
@@ -42,7 +42,7 @@ load_type       = "all"     # Laod_type Options are:
 
 # === Custom Load Lists =====
 custom_list_cmc = [ 'maker']      # currency
-custom_list_cryptopia = ['DBIX_DOGE']
+custom_list_cryptopia = ['WSX_DOGE']
 custom_list_poloniex = ['ETH_CVC'] #, 'BTC_ARDR', 'BTC_BCH', 'BTC_BCN', 'BTC_BCY', 'BTC_BELA', 'BTC_BLK', 'BTC_BTCD']
 
 
