@@ -5,6 +5,7 @@ Created on 05/09/2017
 '''
 # 3rd Party Libraries
 import os
+import sys
 import unittest
 from pandas.util.testing import assert_frame_equal
 from pandas.util.testing import assert_series_equal
@@ -37,6 +38,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                                             file_path,
                                             header=None ,
                                             names = column_names,
+                                            index_col=False,
                                             skiprows = 1
                                         )
         except IOError as err:
@@ -51,7 +53,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         else:
             # Convert the date column to a date ! ...... Not needed now date is the index
             #target_results['Date'] = pd.to_datetime(target_results['Date'].astype(str), format='%Y%m%d')
-
+            
             # Move the date column to the index
             target_results.index = [parser.parse(str(d)) for d in target_results["Date"]]
             del target_results["Date"]
