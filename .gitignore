@@ -2,5 +2,8 @@ __pycache__
 Data/*
 Jupyter/Martin Flow Calcs.ipynb
 .DS_Store
+.externalToolBuilders
+.ipynb_checkpoints
+.settings
 .pydevproject
-Jupyter/.ipyng_checkpoints/
+Jupyter/.ipynb_checkpoints/
