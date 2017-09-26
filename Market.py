@@ -16,6 +16,7 @@ import csv
 import pandas as pd
 from dateutil import parser
 from pathlib2 import Path                       # OO File management
+from pandas   import ExcelWriter
 
 # Skyze Libraries
 import settings
@@ -98,7 +99,7 @@ class Market():
                         header=None ,
                         names = [
                                   "Date", "Open", "High", "Low",
-                                  "Close", "Volume", "MarketCap","HLOrder"
+                                  "Close", "Volume", "MarketCap" #,"HLOrder"
                                 ]
 #                         index_col = "Date"
                         )
@@ -165,4 +166,35 @@ class Market():
 #                 wr = csv.writer(myfile)
 #                 # Reverse it so it is date ascending (newest at the end)
 #                 wr.writerows(reversed(self.market_data))
+        return
+
+
+
+
+    def toExcel (self, p_file_path = "", p_file_name = "", p_testing = False ):
+        ''' Export to excel file '''
+
+        # set file path
+        file_path = p_file_path
+        if p_file_path == "":
+            if p_testing:
+                file_path = settings.testing_file_path
+            else:
+                file_path = settings.data_file_path
+
+        # Set file name
+        file_name = p_file_name
+        if p_file_name == "":
+            file_name = self.exchange + "-" + self.market_name + "-" + self.interval
+
+    #         xlApp=win32com.client.Dispatch("Excel.Application")
+    #         wb = xlApp.Workbooks.Open(Filename="C:\Full Location\To\excelsheet.xlsm")
+
+        # Write to Excel
+        print(file_path)
+        print(file_name)
+        writer = ExcelWriter(file_path+"/"+file_name)
+        self.market_data.to_excel(writer,'Results')
+        writer.save()
+
         return
