@@ -66,6 +66,7 @@ class SuperTrend(IndicatorAbstract):
                    p_data        # pd dataframe series
                      ):
         '''  Calculations
+
             BASIC UPPERBAND =  (HIGH + LOW) / 2 + Multiplier * ATR
             BASIC LOWERBAND =  (HIGH + LOW) / 2 - Multiplier * ATR
 
@@ -80,9 +81,8 @@ class SuperTrend(IndicatorAbstract):
         '''
         p_data = self.initial( p_data )
 
-        atr = AverageTrueRange(self.st_period)
-        p_data = atr.calculate(p_data)
-#         p_data["Av_Tr_Rge"] = atr.calculate(p_data)
+        atr = AverageTrueRange( self.st_period )
+        p_data = atr.calculate( p_data )
 
         # calculate Basic bounds
         p_data["basic_ub"+self.name_extension] = (p_data["High"]+p_data["Low"])/2 + self.st_multiplier*p_data["ATR_"+ str(self.st_period)]
