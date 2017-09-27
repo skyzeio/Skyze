@@ -8,7 +8,9 @@ requests = "*"
 pathlib2 = "*"
 bs4 = "*"
 pandas = "*"
+scipy = "*"
 
 
 [dev-packages]
 unittest2 = "*"
+
