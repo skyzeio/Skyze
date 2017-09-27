@@ -36,6 +36,16 @@ Draft v0.1
 		- [Solutions](#solutions)
 			- [Markdown](#markdown)
 			- [Sphynx](#sphynx)
+			- [GitWiki](#gitwiki)
+	- [Project Management](#project-management)
+		- [Requirement Management](#requirement-management)
+			- [Trello](#trello)
+		- [Defect Management](#defect-management)
+			- [GIT Issues](#git-issues)
+		- [Work Management](#work-management)
+			- [Trello](#trello)
+		- [Team Communications](#team-communications)
+			- [Slack](#slack)
 
 <!-- /TOC -->
 
@@ -161,3 +171,24 @@ test runner and a great one at that. It can run tests created using unittest, py
 #### Sphynx
 Seems to be a favourite in the pythoniverse
 http://www.sphinx-doc.org/en/stable/
+#### GitWiki
+Do we do this? How does this fit in?
+
+## Project Management
+
+### Requirement Management
+#### Trello
+https://trello.com/b/VdJ7MOCk/skyze-the-limit
+Wishlist / Backlog
+
+### Defect Management
+#### GIT Issues
+https://github.com/SkyzeTrading/Skyze/issues
+
+### Work Management
+#### Trello
+https://trello.com/skyze2
+
+### Team Communications
+#### Slack
+https://skyze.slack.com
