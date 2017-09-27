@@ -49,6 +49,28 @@ Draft v0.1
 
 <!-- /TOC -->
 
+## Modular architecture
+### Functional Modules
+1. Market data
+2. Indicators
+3. Strategies
+4. Portfolios
+5. Statistics
+6. Optimizer
+5. BackTesting
+6. Trading
+7. Screener
+8. Alerts
+8. Visualisation
+
+### Non-Functional Modules
+1. User Management / Login
+2. Persistence
+3. Logging
+4. etc
+
+## Class architecture
+
 
 ## Python
 
@@ -123,6 +145,17 @@ version 3.6
 * widgetsnbextension==3.0.3
 * wrapt==1.10.11']
 
+
+## Virtual Environment
+### VE Manager
+#### pipenv
+
+### Development Environment
+Set up like: ....
+
+### Production environment
+when we have one
+
 ## Persistence
 ### Database
 #### MongoDB
@@ -147,6 +180,12 @@ https://github.com/SkyzeTrading/Skyze/
 #### Code Climate
 Used by over 100,000 projects, and analyzing over 2 billion lines of code daily, Code Climate incorporates fully-configurable test coverage and maintainability data throughout the development workflow, making quality improvement explicit, continous, and ubiquitous.
 
+#### PyCodeStyle
+
+#### PyDocStyle
+
+#### coverage.py
+
 ## Testing
 
 ### Test running
@@ -158,6 +197,7 @@ test runner and a great one at that. It can run tests created using unittest, py
 
 
 ### Continuous Integration
+http://docs.python-guide.org/en/latest/scenarios/ci/
 
 ## Documentation
 ### Requirements
@@ -165,8 +205,16 @@ test runner and a great one at that. It can run tests created using unittest, py
 2. General documentation - manuals, how to's, architecture etc
 3. Code documentation - inline documentation mapped into code documents
 4. Tags - to do 's etc
+5. UML and other design tools
 
 ### Solutions
+#### UML and other modelling
+1. Looking for round trip class diagrams
+##### StarUML
+* generates Python
+##### PieNSource
+* Reverse engineers an image of a UML diagram
+
 #### Markdown
 #### Sphynx
 Seems to be a favourite in the pythoniverse
@@ -192,3 +240,8 @@ https://trello.com/skyze2
 ### Team Communications
 #### Slack
 https://skyze.slack.com
+
+## Deployment Management
+### Deployment Process
+
+### Deployment Tools
