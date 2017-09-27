@@ -10,4 +10,3 @@ bs4 = "*"
 pandas = "*"
 pylint = "*"
 scipy = "*"
-
