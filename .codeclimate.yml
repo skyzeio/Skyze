@@ -1,13 +1,13 @@
 ---
 engines:
+  pep8:
+    enabled: true
   duplication:
     enabled: true
     config:
       languages:
-      - ruby
       - javascript
       - python
-      - php
   fixme:
     enabled: true
   radon:
@@ -18,7 +18,5 @@ ratings:
   - "**.js"
   - "**.jsx"
   - "**.module"
-  - "**.php"
   - "**.py"
-  - "**.rb"
 exclude_paths: []

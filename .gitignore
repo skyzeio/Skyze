@@ -7,3 +7,4 @@ Jupyter/Martin Flow Calcs.ipynb
 .settings
 .pydevproject
 Jupyter/.ipynb_checkpoints/
+*.pyc
