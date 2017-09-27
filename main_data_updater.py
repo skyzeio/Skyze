@@ -42,7 +42,7 @@ load_type       = "all"     # Laod_type Options are:
 
 # === Custom Load Lists =====
 custom_list_cmc = [ 'maker']      # currency
-custom_list_cryptopia = ['WSX_DOGE']
+custom_list_cryptopia = ['DOGE_USDT']
 custom_list_poloniex = ['ETH_CVC'] #, 'BTC_ARDR', 'BTC_BCH', 'BTC_BCN', 'BTC_BCY', 'BTC_BELA', 'BTC_BLK', 'BTC_BTCD']
 
 

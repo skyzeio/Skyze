@@ -12,14 +12,14 @@ from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 from Market import Market
 
 # Skyze imports
+from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 from Strategies.SuperTrendCross import SuperTrendCross
-import Market
 
 
 
-class SuperTrendCross_test(unittest.TestCase):
+class SuperTrendCross_test(UnitTestSkyzeAbstract):
     '''
-    classdocs
+        Test class for the SuperTrendCross strategy
     '''
 
 
@@ -28,8 +28,8 @@ class SuperTrendCross_test(unittest.TestCase):
 
         # Test Parameters
         output_info    = True
-        target_file    = "Results-bitcoin-SuperTrend"
-        test_file      = "bitcoin_TEST"                 # "Test-bitcoin-SuperTrend"
+        target_file    = "Target-Results-SuperTrendCross-bitcoin"
+        test_file      = "bitcoin_TEST"
         target_columns = ["ST_Signal"]
         test_columns   = ["ST_Signal"]
 
@@ -41,16 +41,18 @@ class SuperTrendCross_test(unittest.TestCase):
         p_slow_st_multiplier = 3.5
         p_slow_st_period     = p_fast_st_period
         p_fat_ratio          = 0.65
+        p_days_since_cross   = 5
 
         # Output Headings
-        print ("\n\n======= This is a test of SUPERTREND STRATEGY ==============")
-        print ("Test data: " + test_file + "    \nTarget data: " + target_file)
-        print ("Columns: "+ str(test_columns))
-        print ("Parameters: period: " + str(st_period) + "   Multiplier: " + str(st_multiplier))
+        self.printTestHeader(test_file, target_file, test_columns)
+        print ("    WMA period: " + str(p_wma_period) + " on column: " + p_wma_column )
+        print ("    Fast ST Multiplier: " + str(p_fast_st_multiplier) + " on period: " + str(p_fast_st_period))
+        print ("    Slow ST Multiplier: " + str(p_slow_st_multiplier) + " on period: " + str(p_slow_st_period))
+        print ("    Fat Ratio: " + str(p_fat_ratio))
+        print ("    Crossing period: " + str(p_days_since_cross))
 
-        # Get the data
-        mkt = Market.fromTesting(test_file)
-        mkt_data = mkt.readMarketDataCSV(p_testing=True)
+        # Load test and result data
+        mkt_data, target_data = self.getTestAndResultData(test_file,target_file,target_columns)
 
         # Create the Strategy
         stc = SuperTrendCross(
@@ -60,43 +62,22 @@ class SuperTrendCross_test(unittest.TestCase):
                                 p_fast_st_period,
                                 p_slow_st_multiplier,
                                 p_slow_st_period,
-                                p_fat_ratio
+                                p_fat_ratio,
+                                p_days_since_cross
                             )
 
         # Calculate the strategy
-        stc.calculate(mkt_data)
+        stc.calculateSignals(mkt_data)
 
-        # Read in the target results
-        target_data = self.readTargetResults(target_file, target_columns)
+        # Output the Testing Info
+        self.printTestInfo( output_info, mkt_data, target_data, stc.getName() )
 
-        # Format boolean columns
-        # None                       # convert to boolean
+        # Assert by series
+        self.assertBySeries( output_info, mkt_data, target_data, target_columns )
 
-        # Output the Testing Results
-        if output_info:
-            print();print();print(); print("=== Target_data . head  === === === === === ")
-            print(target_data.head(16))
-            print(); print("=== Target_data . tail === === === === === ")
-            print(target_data.tail(5))
-
-            print();print();print(); print("=== Market data Results . head === === === === === ")
-            print(mkt_data.head(16)) #[test_columns]
-            print(); print("=== Market data Results . tail === === === === === ")
-            print(mkt_data.tail(5)) # [test_columns]
-
-        # Assertions
-        if output_info:
-            # Columm by colum assertions
-            print(); print("=== Series Equal DATE === === === === === ")
-#             assert_series_equal( mkt_data["Date"], target_data["Date"])
-            print("PASS")
-
-        # Assert data frame equal
+        # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        assert_frame_equal( mkt_data[test_columns], target_data)
-        print("PASS")
-
-
+        self.dataframe_assert( "Final Results", mkt_data, target_data)
 
 
 
