@@ -9,7 +9,4 @@ pathlib2 = "*"
 bs4 = "*"
 pandas = "*"
 pylint = "*"
-
-
-
-[dev-packages]
+scipy = "*"
