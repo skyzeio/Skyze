@@ -10,11 +10,13 @@ import unittest
 from pandas.util.testing import assert_frame_equal
 from pandas.util.testing import assert_series_equal
 import pandas as pd
-from dateutil import parser
 from pandas   import ExcelWriter
+from dateutil import parser
+from datetime import datetime
 
 # Skyze Libraries
 import settings
+from Market import Market
 
 
 
@@ -29,6 +31,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
     '''
     def setUp(self):
         self.assertion_errors = []
+        self.start_time = datetime.now()
 
 
 
@@ -51,6 +54,23 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         print("\n\nLeft = test results ..... Right = target results")
         return
 
+
+
+
+    def getTestAndResultData( self, p_test_file, p_target_file, p_target_columns ):
+        # Get the Market data
+        mkt = Market.fromTesting(p_test_file)
+        mkt_data = mkt.readMarketDataCSV(p_testing=True)
+        print("Rows in mkt data: "+str(len(mkt_data)))
+
+        # Read in the target results
+        target_data = self.readTargetResults(p_target_file, p_target_columns)
+        print("\n\n")
+
+        # Format boolean columns
+        # None
+
+        return mkt_data, target_data
 
 
 
@@ -105,6 +125,20 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
 
 
+    def printTestHeader( self, p_test_file, p_target_file, p_test_columns):
+        ''' Prints the test info '''
+        print ("\n\n======= This is a test of SUPERTREND INDICATOR ==============")
+        print ("Start time: "+str(self.start_time))
+        print ("Test data: " + p_test_file + "    \nTarget data: " + p_target_file)
+        print ("Columns: " + str(len(p_test_columns)) + " ... "+ str(p_test_columns))
+        print ("Parameters: ")
+
+        return
+
+
+
+
+
     def printTestInfo( self, p_output, p_mkt_data, p_target_data, p_file_name):
         if p_output:
             print();print();print(); print("=== Target_data . head  === === === === === ")
@@ -123,6 +157,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
 
 
+
     def assertBySeries( self, p_output, p_mkt_data, p_target_data, p_target_columns):
         if p_output:
             print(); print()
@@ -131,6 +166,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # loop through the series
             for test_column in p_target_columns:
                 self.series_assert( test_column, p_mkt_data, p_target_data)
+
 
 
 
@@ -185,9 +221,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                 file_path = settings.testing_file_path
             else:
                 file_path = settings.data_file_path
-
-    #         xlApp=win32com.client.Dispatch("Excel.Application")
-    #         wb = xlApp.Workbooks.Open(Filename="C:\Full Location\To\excelsheet.xlsm")
 
         # Write to Excel
         print("Test Output: "+file_path+"/"+p_file_name+".xlsx")

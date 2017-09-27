@@ -30,10 +30,21 @@ class StrategyAbstract( UnitTestSkyzeAbstract ):
 #    __metaclass__=CombinedMeta
 
 
+    # Static Class Variables
+    name        = "StrategyAbstract v01"
+    description = "Parent class for all strategies."
+    buy_signal  =  1
+    sell_signal = -1
+
+
+
+
     def __init__(self):
         '''
         Constructor
         '''
+
+
 
     def saveToExcel(self, p_df):
         pass
