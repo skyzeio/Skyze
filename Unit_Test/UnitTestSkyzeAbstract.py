@@ -32,6 +32,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
     def setUp(self):
         self.assertion_errors = []
         self.start_time = datetime.now()
+        self.target_columns_market = ["Date","Open","High","Low","Close","Volume","MarketCap"]
 
 
 
@@ -57,14 +58,14 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
 
 
-    def getTestAndResultData( self, p_test_file, p_target_file, p_target_columns ):
+    def getTestAndResultData( self, p_path, p_test_file, p_target_file, p_target_columns ):
         # Get the Market data
-        mkt = Market.fromTesting(p_test_file)
+        mkt = Market.fromTesting( p_test_file )
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
         print("Rows in mkt data: "+str(len(mkt_data)))
 
         # Read in the target results
-        target_data = self.readTargetResults(p_target_file, p_target_columns)
+        target_data = self.readTargetResults( p_path + p_target_file, p_target_columns )
         print("\n\n")
 
         # Format boolean columns
@@ -142,12 +143,12 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
     def printTestInfo( self, p_output, p_mkt_data, p_target_data, p_file_name):
         if p_output:
             print();print();print(); print("=== Target_data . head  === === === === === ")
-            print(p_target_data.head(16))
+            print(p_target_data.head(5))
             print(); print("=== Target_data . tail === === === === === ")
             print(p_target_data.tail(5))
 
             print();print();print(); print("=== Test Results . head === === === === === ")
-            print(p_mkt_data.head(16)) #[test_columns]
+            print(p_mkt_data.head(5)) #[test_columns]
             print(); print("=== Test Results . tail === === === === === ")
             print(p_mkt_data.tail(5)) # [test_columns]
 
@@ -173,13 +174,14 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
     def readTargetResults( self, p_results_file, p_column_names ):
         "Opens the file and reads the data"
 
-    #     print("File Path: " + settings.data_file_path)
+        # Create the path name
         file_path = os.path.join(settings.results_file_path, "%s.csv" % p_results_file)
 
-        column_names = ["Date"] + p_column_names
-
+        # Add the standard market columns to the beginning of the column list
+        column_names = self.target_columns_market + p_column_names
+        print(column_names)
         try:
-            # d is type <class 'pandas.core.frame.DataFrame'>
+            # Read the target results into a dataframe
             target_results = pd.read_csv(
                                             file_path,
                                             header=None ,
@@ -189,10 +191,10 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                                         )
         except IOError as err:
             print("File Error:   " + file_path)
-            raise IOError ("FileNotFound","EXCEPTION SkyzeUnitTest::readTargetResults .... IOError File does not exist")
+            raise IOError ("FileNotFound","EXCEPTION UnitTestSkyzeAbstract::readTargetResults .... IOError File does not exist")
             return
         except:
-            print("AN EXCEPTION - SkyzeUnitTest::readTargetResults( p_market )")
+            print("AN EXCEPTION - UnitTestSkyzeAbstract::readTargetResults( p_market )")
             print("File path:   " + file_path)
             print(sys.exc_info())
             return
