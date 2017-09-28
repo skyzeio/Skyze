@@ -42,13 +42,13 @@ class Crosses_test(UnitTestSkyzeAbstract):
 
         # Output Headings
         self.printTestHeader(test_file, target_file, test_columns)
-        print ("     slow: " + str(slow_ma_period) + "   fast: " + str(fast_ma_period))
+        print("     slow: " + str(slow_ma_period) + "   fast: " + str(fast_ma_period))
 
         # Load test and result data
-        mkt_data, target_data = self.getTestAndResultData( test_path, test_file, target_file, target_columns )
+        mkt_data, target_data = self.getTestAndResultData(test_path, test_file, target_file, target_columns)
 
         # Output the Testing Info
-        self.printTestInfo( output_info, mkt_data, target_data, Crosses.getName())
+        self.printTestInfo(output_info, mkt_data, target_data, Crosses.getName())
 
         # Format boolean columns
         target_data["Crosses"] = target_data["Crosses"] == 1
@@ -62,11 +62,11 @@ class Crosses_test(UnitTestSkyzeAbstract):
         mkt_data = crosses.calculate(mkt_data)
 
         # Assert by series
-        self.assertBySeries( output_info, mkt_data, target_data, target_columns )
+        self.assertBySeries(output_info, mkt_data, target_data, target_columns)
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        self.dataframe_assert( "Final Results", mkt_data, target_data)
+        self.dataframe_assert("Final Results", mkt_data, target_data)
 
 
 

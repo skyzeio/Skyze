@@ -55,13 +55,13 @@ class IGMarkets (MarketDataSourceAbstract,ExceptionSkyzeAbstract) :
 #         exchange_intervals      = ["DAY_1", "HOUR_4", "HOUR_2","MIN_5"]
         exchange_intervals      = ["DAY_1", "HOUR_4", "HOUR_2"]
         
-        super().__init__( source_name, source_dir_name, url_list_all_markets, max_start_date, 
-                          default_end_date, url_market_history, exchange_intervals )
+        super().__init__(source_name, source_dir_name, url_list_all_markets, max_start_date, 
+                          default_end_date, url_market_history, exchange_intervals)
         
         
     
     
-    def getAllMarkets( self, p_save_excel = False ):
+    def getAllMarkets(self, p_save_excel = False):
         """
             Returns a list of all markets (currency pairs) on the exchange
             
@@ -87,7 +87,7 @@ class IGMarkets (MarketDataSourceAbstract,ExceptionSkyzeAbstract) :
     def formatMarketHistoryURL(self, p_market, p_interval, p_start_date, p_end_date):
             
         # "https://poloniex.com/public?command=returnChartData&currencyPair={0}&start={1}&end={2}&period={3}"
-        formatted_url = self.url_market_history.format( p_market, p_start_date.strftime("%s"), p_end_date.strftime("%s"), p_interval )
+        formatted_url = self.url_market_history.format(p_market, p_start_date.strftime("%s"), p_end_date.strftime("%s"), p_interval)
         
         return formatted_url
                 
@@ -106,7 +106,7 @@ class IGMarkets (MarketDataSourceAbstract,ExceptionSkyzeAbstract) :
 
          
          
-    def post_process_market_history( self, p_market_history ):
+    def post_process_market_history(self, p_market_history):
     
         # Request failures
         if p_market_history.status_code != 200:

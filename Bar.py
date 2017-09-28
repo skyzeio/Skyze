@@ -9,14 +9,14 @@ import numpy as np
 
 class Bar:
 
-    def __init__(   self,
+    def __init__(  self,
                     p_open,
                     p_high,
                     p_low,
                     p_close,
                     p_volume,
                     p_high_low_order
-                ):
+               ):
         self.open = p_open
         self.high = p_high
         self.low = p_low
@@ -26,27 +26,27 @@ class Bar:
         
     
     
-    def getOpen( self ):
+    def getOpen(self):
         return self.open
     
     
-    def getHigh( self ):
+    def getHigh(self):
         return self.high
     
     
-    def getLow( self ):
+    def getLow(self):
         return self.low
     
     
-    def getClose( self ):
+    def getClose(self):
         return self.close
     
     
-    def getVolume( self ):
+    def getVolume(self):
         return self.volume
     
     
-    def getHighLowOrder( self ):
+    def getHighLowOrder(self):
         return self.high_low_order
     
     

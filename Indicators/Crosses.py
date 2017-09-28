@@ -24,7 +24,7 @@ class Crosses(IndicatorAbstract):
 
 
 
-    def __init__( self, p_series_cross, p_series_base, p_direction = "Up", p_col_name = "Crosses" ):
+    def __init__(self, p_series_cross, p_series_base, p_direction = "Up", p_col_name = "Crosses"):
         ''' Constructor '''
 
         # raise exceptionality
@@ -64,11 +64,11 @@ class Crosses(IndicatorAbstract):
 
 
 
-    def calculate ( self,
+    def calculate (self,
                     p_data        # pd dataframe series
-                  ):
+                 ):
         '''  Calculations '''
-        p_data = self.initial( p_data )
+        p_data = self.initial(p_data)
 
         # Difference between series on each row
         p_data[self.column_name+'diff'] = p_data[self.series_cross] - p_data[self.series_base]
@@ -77,7 +77,7 @@ class Crosses(IndicatorAbstract):
         p_data[self.column_name] = np.sign(p_data[self.column_name+'diff'].shift(1)) != np.sign(p_data[self.column_name+'diff'])
 
         # TODO: Calculate the UP or DOWN options
-#         p_data[self.column_name+"_direction"] = 1 #p_data[[self.column_name+'diff']].apply(self.direction("Up"), axis=1 )
+#         p_data[self.column_name+"_direction"] = 1 #p_data[[self.column_name+'diff']].apply(self.direction("Up"), axis=1)
 
         # Set cross to False if the inputs are NaN
         p_data[self.column_name] = np.where(p_data[self.column_name+'diff'].isnull(), np.NaN, p_data[self.column_name])             # this diff is null
@@ -89,12 +89,12 @@ class Crosses(IndicatorAbstract):
 
 
 
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
 
 
     @classmethod
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name

@@ -40,13 +40,13 @@ class CoinMarketCap (MarketDataSourceAbstract) :
         url_market_history      = ""
         exchange_intervals      = ["DAY_1"]
         
-        super().__init__( source_name, source_dir_name, url_list_all_markets, max_start_date, 
-                          default_end_date, url_market_history, exchange_intervals )
+        super().__init__(source_name, source_dir_name, url_list_all_markets, max_start_date, 
+                          default_end_date, url_market_history, exchange_intervals)
         
                 
         
     
-    def constructScrapeURL( self, marketStr, p_start_date, p_end_date ):
+    def constructScrapeURL(self, marketStr, p_start_date, p_end_date):
         start_date = p_start_date.strftime('%Y%m%d')
         end_date   = p_end_date.strftime('%Y%m%d')
         return "https://coinmarketcap.com/currencies/%(mkt)s/historical-data/?start=%(startDate)s&end=%(endDate)s" % {"mkt":marketStr, "startDate":start_date, "endDate":end_date}
@@ -55,7 +55,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
                 
     
     
-    def scrapeAllCMCMarkets( self, crypto_type ):
+    def scrapeAllCMCMarkets(self, crypto_type):
         """
             Looking for the currency full name as taht is what the historical data list uses
             <table claass="table dataTAble no-footer" id="currencies-all"
@@ -110,7 +110,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
                 
         
     
-    def scrapeHistoricalData( self, p_markets, p_startDate="20170727", p_endDate="" ):
+    def scrapeHistoricalData(self, p_markets, p_startDate="20170727", p_endDate=""):
         # . CMC URL: https://coinmarketcap.com/assets/0x/historical-data/?start=20100101&end=20170826
 
         if p_endDate == "":
@@ -119,7 +119,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
         #CMC uses - for spaces in the URL
         marketStr = re.sub(" ", "-", p_markets)    # CMC uses - instead of spaces in the URL
 #         marketStr = re.sub("\\.", "", marketStr)     # CMC removes . in the URL MIKE TODO
-        scrape_page = self.constructScrapeURL( marketStr, p_startDate, p_endDate )
+        scrape_page = self.constructScrapeURL(marketStr, p_startDate, p_endDate)
         print(scrape_page)
         
         # query the website and return the html to the variable ‘page’
@@ -170,7 +170,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
     #         "percent_change_7d": "5.71", 
     #         "last_updated": "1503817467"    },  ....... ]
     
-    def getMarketDetails( self ):
+    def getMarketDetails(self):
         
         # Get the URL JSON
         request=requests.get(url='https://api.coinmarketcap.com/v1/ticker/')
@@ -185,7 +185,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
         
     # See Get Market Details for format of p_marketDetails  
     
-    def saveMarketDetailsToCSV( self, p_market_details ):
+    def saveMarketDetailsToCSV(self, p_market_details):
 #         print(type(p_market_details))
 #         if str(type(p_market_details)) == "<class 'list'>":
 #             # It's a List
@@ -208,9 +208,9 @@ class CoinMarketCap (MarketDataSourceAbstract) :
     
     # Converts month in Jan form to 01 form
     
-    def convertMonthString( self, 
+    def convertMonthString(self, 
                   p_month_str       # String of 3 characters representing the month
-                  ):
+                 ):
         
         month_num_string = "ERR"
         
@@ -237,9 +237,9 @@ class CoinMarketCap (MarketDataSourceAbstract) :
     # Output
     #    market data with date "20170826"
     
-    def convertScrapedDateFormat( self,
+    def convertScrapedDateFormat(self,
                                   p_market_data     # Scraed data - List of lists
-                                ):
+                               ):
         for row in p_market_data:
             row[0] = row[0][7:]+self.convertMonthString(row[0][:3])+row[0][4:6]
         
@@ -250,10 +250,10 @@ class CoinMarketCap (MarketDataSourceAbstract) :
         
         
     
-#     def saveHistoricalDataToCSV( self, 
+#     def saveHistoricalDataToCSV(self, 
 #                                  p_market_name,     # String
 #                                  p_market_data      # List of scraped data
-#                                 ): 
+#                                ): 
 #         
 #         # Save to CSV
 #         file_path = os.path.join(settings.data_file_path, "%s.csv" % p_market_name)
@@ -272,7 +272,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
     
     
     
-    def updateMarketData( self, p_market_list ="all" ): 
+    def updateMarketData(self, p_market_list ="all"): 
         ''' Iterates through the market list and calls the exchagne API to get the historical data
             Saves the data into CSV
             Tracks errors adding the market pair name to the error list
@@ -293,14 +293,14 @@ class CoinMarketCap (MarketDataSourceAbstract) :
 #             print("No Data:   "+str(len(no_data_list)))
 #             print(no_data_list)
             mkt_count += 1
-            print(); print(str(mkt_count)+" of "+download_total+". "+market ) # MIKE [0]
+            print(); print(str(mkt_count)+" of "+download_total+". "+market) # MIKE [0]
             
             # Default start date if data not previously laoded
             load_start_date = self.max_start_date   
             load_end_date   = self.default_end_date
             
             # Get the load dates
-            file_path = self.fileName(market, "day_1" )
+            file_path = self.fileName(market, "day_1")
             file_start_date, file_end_date, load_start_date = self.getLoadDates(market, self.exchange_intervals.loc["DAY_1"], load_start_date, file_path)
 #             load_start_date = load_start_date + datetime.timedelta(1,0)
              
@@ -311,7 +311,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
             
             # Scrape the webpage
             try:
-                market_data = self.scrapeHistoricalData( market, load_start_date, load_end_date ) 
+                market_data = self.scrapeHistoricalData(market, load_start_date, load_end_date) 
             except urllib.error.HTTPError as err:
                 print("HTTP ERROR: CoinMarketCap::updateMarketData: Probably wrong file name in URL"+str(err.args))
                 error_list = error_list.append(market)
@@ -350,7 +350,7 @@ class CoinMarketCap (MarketDataSourceAbstract) :
     
                     # Save the data
                     mkt = Market(market, self.source_dir_name,"Day_1",payload)
-                    mkt.saveMarketData( p_file_path = file_path )
+                    mkt.saveMarketData(p_file_path = file_path)
 #                     
 #                     # Save the file to CSV 
 #                     my_file = Path(file_path)

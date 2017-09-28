@@ -43,21 +43,21 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
 
 
 
-    def getMarketsICO( self ):
+    def getMarketsICO(self):
         return self.markets_ICO
 
 
-    def marketStatsAll( self ):
+    def marketStatsAll(self):
         return self.market_stats_all
 
 
 
-    def getPortfolioMarketStrategies( self ):
+    def getPortfolioMarketStrategies(self):
         return self.portfolio_market_strategies
 
 
 
-    def addMarkets( self, p_markets, p_exchange, p_interval ):
+    def addMarkets(self, p_markets, p_exchange, p_interval):
         ''' INPUT     list of market names as strings
             OUTPUT    nil
             FUNCTION  creates market objects for each market listed and adds to the internal list
@@ -67,7 +67,7 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
             self.portfolio_market_strategies.append(mkt_obj)
 
 
-    def addMarketStrategy (self,p_market_strategies ):
+    def addMarketStrategy (self,p_market_strategies):
         ''' INPUT     list of market names, strategy pairs
             OUTPUT    nil
             FUNCTION  creates market objects for each market listed and adds to the internal list
@@ -87,7 +87,7 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
 
 
 
-    def printICOStats( self, p_mkt_stats ):
+    def printICOStats(self, p_mkt_stats):
         for market_name in p_mkt_stats:
                 mstats.printStats()
                 print(); print(); print()
@@ -96,11 +96,11 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
 
 
 
-    def saveStatsToExcel( self, mkt_stat ):
+    def saveStatsToExcel(self, mkt_stat):
         # TODO This function should probably be in the MarketStats class
         # TODO add the error list to the saved excel
         # TODO add the runtime statistics to the excel file
-        file_path = self.fileName( "Market Stats "+datetime.datetime.now().strftime("%d. %B %Y %I:%M%p"),"xlsx" )
+        file_path = self.fileName("Market Stats "+datetime.datetime.now().strftime("%d. %B %Y %I:%M%p"),"xlsx")
         print("File save to:   " + file_path)
 
         writer = ExcelWriter(file_path, engine='openpyxl')
@@ -116,7 +116,7 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
 
 
     # TODO: hardwired for only single exchange and inteval .. make the market list be a list of tuples (m,e,i)
-    def calculateStats( self, p_market_list, p_exchange, p_interval ):
+    def calculateStats(self, p_market_list, p_exchange, p_interval):
         market_stats = [] #pd.DataFrame()
         error_list   = []
 
@@ -132,7 +132,7 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
                 print(str(market_count)+" of "+str(total_markets)+" "+mkt.getMarketName() +", " + mkt.getInterval() +" on " + mkt.getExchange())
                 mkt_data = mkt.readMarketDataCSV()       # self.readMarketDataCSV()
             except IOError:
-                print("ERROR: Portfolio::calculateStats   " )
+                print("ERROR: Portfolio::calculateStats   ")
                 self.printException(inspect.currentframe().f_lineno, market_name + " does not exist. "+str(sys.exc_info()[0]))
                 error_list = ["NO FILE: "+market_name] + error_list
                 print(); print(); print()
@@ -145,7 +145,7 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
                 print(); print(); print()
             else:
                 mstats = MarketStats()
-                mstats.calculateStats( market_name, mkt_data )
+                mstats.calculateStats(market_name, mkt_data)
                 market_stats.append(mstats.toDict())
 #                 print(mstats.toDataFrame())
 
@@ -155,13 +155,13 @@ class Portfolio(DataAccess, ExceptionSkyzeAbstract):
 
 
 
-    def getBacktestMarkets( self, p_markets):
+    def getBacktestMarkets(self, p_markets):
         # TODO: implement the real code
         return self.market_strategies
 
 
 
-    def backtestIndependent( self, p_title, p_initial_equity, p_market_strategies, p_start_date, p_end_date, p_scope = "all" ):
+    def backtestIndependent(self, p_title, p_initial_equity, p_market_strategies, p_start_date, p_end_date, p_scope = "all"):
 
         # Get the list of MarketStrategies to backtest
         backtest_markets = []

@@ -41,10 +41,10 @@ class Neural_test(SkyzeUnitTest):
         st_name_extension = "" 
         
         # Output Headings
-        print ("This is a test of SUPERTREND")
-        print ("Test Data: " + test_file + "    Target Data: " + target_file)
-        print ("Columns: "+ str(test_columns))
-        print ("Parameters: period: " + str(st_period) + "   Multiplier: " + str(st_multiplier))
+        print("This is a test of SUPERTREND")
+        print("Test Data: " + test_file + "    Target Data: " + target_file)
+        print("Columns: "+ str(test_columns))
+        print("Parameters: period: " + str(st_period) + "   Multiplier: " + str(st_multiplier))
          
         # Get the data
         mkt = Market.fromTesting(test_file)
@@ -75,15 +75,15 @@ class Neural_test(SkyzeUnitTest):
         # Assertions
         if output_info:
             print(); print("=== Series Equal DATE === === === === === ")
-#             assert_series_equal( mkt_data["Date"], target_data["Date"])
+#             assert_series_equal(mkt_data["Date"], target_data["Date"])
             print("PASS")
 #             for test_column in target_columns:
 #                 print(); print("=== Series Equal %s === === === === === " % test_column)
-#                 assert_series_equal( mkt_data[test_column], target_data[test_column])
+#                 assert_series_equal(mkt_data[test_column], target_data[test_column])
 #                 print("PASS")
 # 
 #         print(); print("=== DataFrame Equal === === === === === ")
-#         assert_frame_equal( mkt_data[test_columns], target_data)
+#         assert_frame_equal(mkt_data[test_columns], target_data)
 #         print("PASS")
         
         

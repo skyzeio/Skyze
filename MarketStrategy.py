@@ -26,7 +26,7 @@ class MarketStrategy(object):
         # https://stackoverflow.com/questions/4821104/python-dynamic-instantiation-from-string-name-of-a-class-in-dynamically-imported
         module = __import__(p_strategy)
         class_ = getattr(module, p_strategy)
-        self.strategy = class_( p_start_date, p_end_date)
+        self.strategy = class_(p_start_date, p_end_date)
       
       
         

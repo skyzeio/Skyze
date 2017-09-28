@@ -22,10 +22,10 @@ class WeightedMovingAverage(IndicatorAbstract):
 
 
 
-    def __init__( self, 
+    def __init__(self, 
                   p_wma_period,  
                   p_wma_column
-                ):
+               ):
         ''' Constructor '''
         
 #             raise exceptionality
@@ -50,22 +50,22 @@ class WeightedMovingAverage(IndicatorAbstract):
     
     def calculate (self, 
                    p_data        # pd dataframe series
-                     ):
+                    ):
         '''  Calculations '''
-        p_data = self.initial( p_data )
+        p_data = self.initial(p_data)
         # TODO: Convert next line from SMA to WMA
         p_data["WMA_"+str(self.wma_period)] = p_data[self.wma_column].rolling(window=self.wma_period, win_type='triang').mean().shift(1)
         return p_data
     
     
     
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
     
     
     
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name
     

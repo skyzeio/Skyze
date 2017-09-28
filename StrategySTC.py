@@ -45,22 +45,22 @@ class StrategySTC (StrategyAbstract):
                             TrueRange(),
                             MovingAverage(self.wma_period, "Close"),
                             AverageTrueRange(self.atr_period),
-                            SuperTrend (self.fast_st_period, self.fast_st_multipler )
+                            SuperTrend (self.fast_st_period, self.fast_st_multipler)
                           ]
     
     # 
     
-    def getMarketData( self, p_market_name, p_length ):
+    def getMarketData(self, p_market_name, p_length):
         return
     
     # 
     
-    def getResults( self  ):
+    def getResults(self ):
         return
     
     # 
     
-    def stcScreener( self, p_market_list ):
+    def stcScreener(self, p_market_list):
         for market in p_market_list:
             signal = 0
             market_data = self.getMarketData(150, p_length)         # DataFrame
@@ -115,12 +115,12 @@ def run():
 #         initial_equity, start_date, end_date,
 #         events_queue, title=title,
 #         benchmark=tickers[1],
-#     )
+#    )
 #     results = backtest.start_trading(testing=testing)
 
     end_time = datetime.datetime.now() 
     run_time = end_time-start_time
-    print(); print( '=== End ========== '+ str(end_time) + ' ========== ' + " run time: "+ str(run_time) + ' ========== ' ) 
+    print(); print('=== End ========== '+ str(end_time) + ' ========== ' + " run time: "+ str(run_time) + ' ========== ') 
     
     return portfolio
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
 #     testing = False
 #     config = settings.from_file(
 #         settings.DEFAULT_CONFIG_FILENAME, testing
-#     )
+#    )
     markets = ["AAPL", "SPY"]
     filename = None
     run()

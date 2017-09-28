@@ -45,11 +45,11 @@ class SuperTrendCross_test(UnitTestSkyzeAbstract):
 
         # Output Headings
         self.printTestHeader(test_file, target_file, test_columns)
-        print ("    WMA period: " + str(p_wma_period) + " on column: " + p_wma_column )
-        print ("    Fast ST Multiplier: " + str(p_fast_st_multiplier) + " on period: " + str(p_fast_st_period))
-        print ("    Slow ST Multiplier: " + str(p_slow_st_multiplier) + " on period: " + str(p_slow_st_period))
-        print ("    Fat Ratio: " + str(p_fat_ratio))
-        print ("    Crossing period: " + str(p_days_since_cross))
+        print("    WMA period: " + str(p_wma_period) + " on column: " + p_wma_column)
+        print("    Fast ST Multiplier: " + str(p_fast_st_multiplier) + " on period: " + str(p_fast_st_period))
+        print("    Slow ST Multiplier: " + str(p_slow_st_multiplier) + " on period: " + str(p_slow_st_period))
+        print("    Fat Ratio: " + str(p_fat_ratio))
+        print("    Crossing period: " + str(p_days_since_cross))
 
         # Load test and result data
         mkt_data, target_data = self.getTestAndResultData(test_file,target_file,target_columns)
@@ -64,20 +64,20 @@ class SuperTrendCross_test(UnitTestSkyzeAbstract):
                                 p_slow_st_period,
                                 p_fat_ratio,
                                 p_days_since_cross
-                            )
+                           )
 
         # Calculate the strategy
         stc.calculateSignals(mkt_data)
 
         # Output the Testing Info
-        self.printTestInfo( output_info, mkt_data, target_data, stc.getName() )
+        self.printTestInfo(output_info, mkt_data, target_data, stc.getName())
 
         # Assert by series
-        self.assertBySeries( output_info, mkt_data, target_data, target_columns )
+        self.assertBySeries(output_info, mkt_data, target_data, target_columns)
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        self.dataframe_assert( "Final Results", mkt_data, target_data)
+        self.dataframe_assert("Final Results", mkt_data, target_data)
 
 
 

@@ -25,7 +25,7 @@ class TrueRange(IndicatorAbstract):
 
 
 
-    def __init__( self ):
+    def __init__(self):
         ''' Constructor '''
         
 #             raise exceptionality
@@ -42,11 +42,11 @@ class TrueRange(IndicatorAbstract):
     
     
     
-    def calculate ( self, 
+    def calculate (self, 
                     p_data        # pd dataframe series
-                  ):
+                 ):
         '''  Calculations '''
-        p_data = self.initial( p_data )
+        p_data = self.initial(p_data)
 
         p_data['H-L']   = abs(p_data['High']-p_data['Low'])
         p_data['H-PC']  = abs(p_data['High']-p_data['Close'].shift(1))
@@ -64,13 +64,13 @@ class TrueRange(IndicatorAbstract):
     
     
     
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
     
     
     
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name
     
