@@ -42,8 +42,8 @@ class Neural(IndicatorAbstract,ExceptionSkyzeAbstract):
 
 
 
-    def __init__( self
-                ):
+    def __init__(self
+               ):
         ''' Constructor '''
         
 #             raise exceptionality
@@ -60,9 +60,9 @@ class Neural(IndicatorAbstract,ExceptionSkyzeAbstract):
     
     def calculate (self, 
                    p_data        # pd dataframe series
-                     ):
+                    ):
         '''  Calculations '''
-        p_data = self.initial( p_data )
+        p_data = self.initial(p_data)
         #p_data["MA_"+str(self.ma_period)] = p_data[self.ma_column].rolling(window=self.ma_period).mean().shift(1)
                 
         #def predict_prices(dates,prices,x):
@@ -93,13 +93,13 @@ class Neural(IndicatorAbstract,ExceptionSkyzeAbstract):
     
     
     
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
     
     
     
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name
     

@@ -52,14 +52,14 @@ class Cryptopia (MarketDataSourceAbstract) :
         url_market_history      = "https://www.cryptopia.co.nz/api/GetMarketHistory/{0}/{1}"
         exchange_intervals      = ["TICK"]
         
-        super().__init__( source_name, source_dir_name, url_list_all_markets, max_start_date, 
-                          default_end_date, url_market_history, exchange_intervals )
+        super().__init__(source_name, source_dir_name, url_list_all_markets, max_start_date, 
+                          default_end_date, url_market_history, exchange_intervals)
         
         
         
     
     
-    def getAllMarkets( self, p_save_excel = False ):
+    def getAllMarkets(self, p_save_excel = False):
         """
             Returns a list of all markets (currency pairs) on the exchange
             
@@ -89,9 +89,9 @@ class Cryptopia (MarketDataSourceAbstract) :
     def formatMarketHistoryURL(self, p_market, p_interval, p_start_date, p_end_date):
             
         # calculate hours to get
-        hours_to_get = int( (p_end_date - p_start_date).total_seconds() // 3600 -9 )
+        hours_to_get = int((p_end_date - p_start_date).total_seconds() // 3600 -9)
         
-        formatted_url = self.url_market_history.format( p_market, hours_to_get )
+        formatted_url = self.url_market_history.format(p_market, hours_to_get)
         
         return formatted_url
          
@@ -99,7 +99,7 @@ class Cryptopia (MarketDataSourceAbstract) :
          
                 
     def post_process_file(self, p_market,p_interval):
-        print ("POST PROCESS FILE ... " +self.source_name + " ... " + p_market)
+        print("POST PROCESS FILE ... " +self.source_name + " ... " + p_market)
         #Get the file names
         data_file_name = self.fileName(p_market,p_interval)
         temp_file_name = self.fileName(p_market+"_TEMP",p_interval)
@@ -131,7 +131,7 @@ class Cryptopia (MarketDataSourceAbstract) :
 
 
 
-    def post_process_market_history( self, p_market_history ):
+    def post_process_market_history(self, p_market_history):
     
         # Request failures
         if p_market_history.status_code == 503:

@@ -35,7 +35,7 @@ class BackTester(object):
         
         
         
-    def getBacktestMarkets( self ):
+    def getBacktestMarkets(self):
         # TODO: implement the real code
         return self.market_strategies
         
@@ -44,7 +44,7 @@ class BackTester(object):
         
     def runBacktest(self):
         count = 0
-        total_tests = len(self.market_strategies )
+        total_tests = len(self.market_strategies)
         for market_strategy in self.market_strategies :
             count += 1
             print(str(count)+" of "+str(total_tests)+": "+market_strategy.getMarketName())

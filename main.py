@@ -69,7 +69,7 @@ if run_statistics:
     print("\n\ndescribe: \n" + str(mkt_stat.describe()))
 #    print("describe 2: " + str(mkt_stat.describe(percentiles=[.05,.1,.2,.3,.4,.5,.6,.7,.8,.9,.95])[[0,3,4]]))
 #    print(type(mkt_stat.describe(percentiles=[.05,.1,.2,.3,.4,.5,.6,.7,.8,.9,.95])[[0,3,4]]))
-    portfolio.saveStatsToExcel( mkt_stat )
+    portfolio.saveStatsToExcel(mkt_stat)
 
 
 
@@ -90,4 +90,4 @@ if run_poloniex == True:
 # Calculate and print run time
 end_time = datetime.datetime.now()
 run_time = end_time-start_time
-print(); print( '=== End ========== '+ str(end_time) + ' ========== ' + " run time: "+ str(run_time) + ' ========== ' )
+print(); print('=== End ========== '+ str(end_time) + ' ========== ' + " run time: "+ str(run_time) + ' ========== ')

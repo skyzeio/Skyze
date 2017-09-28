@@ -17,9 +17,9 @@ class BigFatCandle(IndicatorAbstract):
     '''
     name = "Big Fat Candle"
 
-    def __init__( self, 
+    def __init__(self, 
                   p_fatRatio            # how big the body (o-c) of the candle should be .. range 0 to 1
-                ):
+               ):
         ''' Constructor '''
         if p_fatRatio < 0 or p_fatRatio > 1 :
 #             raise exceptionality
@@ -35,7 +35,7 @@ class BigFatCandle(IndicatorAbstract):
     
     def calculate (self, 
                    p_data        # pd dataframe series
-                     ):
+                    ):
         '''  Calculations '''
         p_data["BigFatCandle"] = abs(p_data['Open']- p_data['Close'])/(p_data['High']-p_data['Low']) > self.fatRatio
 
@@ -45,10 +45,10 @@ class BigFatCandle(IndicatorAbstract):
     
     
     
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
     
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name
