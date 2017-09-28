@@ -22,10 +22,10 @@ class MovingAverage(IndicatorAbstract):
 
 
 
-    def __init__( self, 
+    def __init__(self, 
                   p_ma_period,  
                   p_ma_column
-                ):
+               ):
         ''' Constructor '''
         
 #             raise exceptionality
@@ -50,22 +50,22 @@ class MovingAverage(IndicatorAbstract):
     
     def calculate (self, 
                    p_data        # pd dataframe series
-                     ):
+                    ):
         '''  Calculations '''
-        p_data = self.initial( p_data )
+        p_data = self.initial(p_data)
         p_data["MA_"+str(self.ma_period)] = p_data[self.ma_column].rolling(window=self.ma_period).mean().shift(1)
 
         return p_data
     
     
     
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
     
     
     
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name
     

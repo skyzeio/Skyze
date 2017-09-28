@@ -27,13 +27,13 @@ class Crosses_test(UnitTestSkyzeAbstract):
     def test(self):
 
         # Test Parameters
-        output_info    = False
+        output_info    = True
         package_name   = "Indicators"
-        test_path      = Crosses.name + "/"+package_name + "/"
+        test_path      = package_name + "/"+ Crosses.name + "/"
         target_file    = "Results-bitcoin-Crosses"
         test_file      = "bitcoin_TEST"
-        target_columns = ["MA_15","MA_30","Crossesdiff","Crosses"]            # ["Date","MA_15","MA_30","TGT_DIFF","TGT_CROSS"]
-        test_columns   = ["MA_15","MA_30","Crossesdiff","Crosses"]
+        target_columns = ["MA_15","MA_30","Crossesdiff","Crosses","Direction"]
+        test_columns   = ["MA_15","MA_30","Crossesdiff","Crosses","Direction"]
 
         # Indicator Parameters
         slow_ma_period = 15
@@ -42,10 +42,13 @@ class Crosses_test(UnitTestSkyzeAbstract):
 
         # Output Headings
         self.printTestHeader(test_file, target_file, test_columns)
-        print ("     slow: " + str(slow_ma_period) + "   fast: " + str(fast_ma_period))
+        print("     slow: " + str(slow_ma_period) + "   fast: " + str(fast_ma_period))
 
         # Load test and result data
-        mkt_data, target_data = self.getTestAndResultData( test_path, test_file, target_file, target_columns )
+        mkt_data, target_data = self.getTestAndResultData(test_path, test_file, target_file, target_columns)
+
+        # Output the Testing Info
+        self.printTestInfo(output_info, mkt_data, target_data, Crosses.getName())
 
         # Format boolean columns
         target_data["Crosses"] = target_data["Crosses"] == 1
@@ -58,15 +61,12 @@ class Crosses_test(UnitTestSkyzeAbstract):
         crosses = Crosses("MA_15","MA_30","Up")
         mkt_data = crosses.calculate(mkt_data)
 
-        # Output the Testing Info
-        self.printTestInfo( output_info, mkt_data, target_data, crosses.getName())
-
         # Assert by series
-        self.assertBySeries( output_info, mkt_data, target_data, target_columns )
+        self.assertBySeries(output_info, mkt_data, target_data, target_columns)
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        self.dataframe_assert( "Final Results", mkt_data, target_data)
+        self.dataframe_assert("Final Results", mkt_data, target_data)
 
 
 

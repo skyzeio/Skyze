@@ -25,7 +25,7 @@ class AverageTrueRange(IndicatorAbstract):
 
 
 
-    def __init__( self, p_atr_period ):
+    def __init__(self, p_atr_period):
         ''' Constructor '''
         
 #             raise exceptionality
@@ -47,11 +47,11 @@ class AverageTrueRange(IndicatorAbstract):
     
     
     
-    def calculate ( self, 
+    def calculate (self, 
                     p_data        # pd dataframe series
-                  ):
+                 ):
         '''  Calculations '''
-        p_data = self.initial( p_data )
+        p_data = self.initial(p_data)
         true_range = TrueRange()
         p_data = true_range.calculate(p_data)
         p_data['ATR_' + str(self.atr_period)] = p_data["True_Range"].rolling(window=self.atr_period).mean().shift(1)
@@ -60,13 +60,13 @@ class AverageTrueRange(IndicatorAbstract):
     
     
     
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
     
     
     
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name
     

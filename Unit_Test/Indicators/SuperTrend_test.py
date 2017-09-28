@@ -9,8 +9,7 @@ Created on 05/09/2017
 
 
 # Our libraries - Required
-from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
-from Market import Market
+from Unit_Test.UnitTestSkyzeAbstract import *
 
 # Our libraries - Test Specific
 from Indicators.SuperTrend import SuperTrend
@@ -41,7 +40,7 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
 
         # Output Headings
         self.printTestHeader(test_file, target_file, test_columns)
-        print ("     period: " + str(st_period) + "   Multiplier: " + str(st_multiplier))
+        print("     period: " + str(st_period) + "   Multiplier: " + str(st_multiplier))
 
         # Load test and result data
         mkt_data, target_data = self.getTestAndResultData(test_file,target_file,target_columns)
@@ -51,14 +50,14 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
         mkt_data   = supertrend.calculate(mkt_data)
 
         # Output the Testing Info
-        self.printTestInfo( output_info, mkt_data, target_data, "SuperTrend" )
+        self.printTestInfo(output_info, mkt_data, target_data, "SuperTrend")
 
         # Assert by series
-        self.assertBySeries( output_info, mkt_data, target_data, target_columns )
+        self.assertBySeries(output_info, mkt_data, target_data, target_columns)
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        self.dataframe_assert( "Final Results", mkt_data, target_data)
+        self.dataframe_assert("Final Results", mkt_data, target_data)
 
 
 if __name__ == '__main__':

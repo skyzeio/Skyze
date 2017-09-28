@@ -27,9 +27,9 @@ from Market_Data.PoloniexSkyze import PoloniexSkyze
 
 
 # === Data load Switches =====
-cmc_load        = False
+cmc_load        = True
 cryptopia_load  = False
-poloniex_load   = True
+poloniex_load   = False
 
 # === Data load Type =====
 load_type       = "all"     # Laod_type Options are:
@@ -95,4 +95,4 @@ elif load_type == "custom_list" and data_load_switch:
 # Calculate and print run time
 end_time = datetime.datetime.now()
 run_time = end_time-start_time
-print(); print( '=== End ========== '+ str(end_time) + ' ========== ' + " run time: "+ str(run_time) + ' ========== ' )
+print(); print('=== End ========== '+ str(end_time) + ' ========== ' + " run time: "+ str(run_time) + ' ========== ')

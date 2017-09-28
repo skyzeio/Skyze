@@ -35,7 +35,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
 
     def __init__(self, p_source_name, p_source_dir_name, p_url_list_all_markets, p_max_start_date,
-                 p_default_end_date, p_url_market_history, p_exchange_intervals ):
+                 p_default_end_date, p_url_market_history, p_exchange_intervals):
         '''
         Constructor
         '''
@@ -77,9 +77,9 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
 
 
-    def convertMonthString( self,
+    def convertMonthString(self,
                   p_month_str       # String of 3 characters representing the month
-                  ):
+                 ):
         ''' Converts month in Jan form to 01 form
         '''
 
@@ -105,12 +105,12 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
 
     # creates the full path and file name
-    def fileName( self, p_market_name, p_interval ):
-        return os.path.join( settings.data_file_path,
-                             "%s.csv" % ( self.source_dir_name + "/"
+    def fileName(self, p_market_name, p_interval):
+        return os.path.join(settings.data_file_path,
+                             "%s.csv" % (self.source_dir_name + "/"
                                           + p_interval + "/"
                                           + p_market_name)
-                            )
+                           )
 
 
 
@@ -194,11 +194,11 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                     # Handle the case where theris only one row in the file
                     if len(q) == 2:
                         if q[1] == "\n" :
-                            file_end_date = datetime.strptime( q[0][:q[0].find(',')], "%Y-%m-%d %H:%M:%S" )
+                            file_end_date = datetime.strptime(q[0][:q[0].find(',')], "%Y-%m-%d %H:%M:%S")
                         else:
-                            file_end_date = datetime.strptime( q[1][:q[1].find(',')], "%Y-%m-%d %H:%M:%S" )
+                            file_end_date = datetime.strptime(q[1][:q[1].find(',')], "%Y-%m-%d %H:%M:%S")
                     else:
-                        file_end_date = datetime.strptime( q[0][:q[0].find(',')], "%Y-%m-%d %H:%M:%S" )
+                        file_end_date = datetime.strptime(q[0][:q[0].find(',')], "%Y-%m-%d %H:%M:%S")
 
                 # ensure correct type of interval (int) as chagnes when coming from CMC to numpy.Int64
                 interval = p_interval.Seconds
@@ -215,7 +215,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
 
 
-    def getHistoricalData( self, p_market, p_interval, p_start_date="", p_end_date="" ):
+    def getHistoricalData(self, p_market, p_interval, p_start_date="", p_end_date=""):
         ''' Calls the data source's REST API to get the historical data
         '''
         # Set dates
@@ -223,11 +223,11 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         if p_end_date == ""   :   p_end_date   = self.default_end_date
 
         # Get the URL
-        market_history_url = self.formatMarketHistoryURL( p_market, p_interval, p_start_date, p_end_date )
+        market_history_url = self.formatMarketHistoryURL(p_market, p_interval, p_start_date, p_end_date)
         print("URL: "+market_history_url)
 
         # Call the API
-        market_history = requests.get( market_history_url )    # <class 'dict'>
+        market_history = requests.get(market_history_url)    # <class 'dict'>
 
         # format the data to Skyze format
         payload = self.post_process_market_history(market_history)
@@ -258,7 +258,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
 
 
-    def updateMarketData( self, p_market_list ="all" ):
+    def updateMarketData(self, p_market_list ="all"):
         ''' Iterates through the market list and calls the exchagne API to get the historical data
             Saves the data into CSV
             Tracks errors adding the market pair name to the error list
@@ -289,7 +289,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 #             print("No Data:   "+str(len(no_data_list)))
 #             print(no_data_list)
             mkt_count += 1
-            print(); print(str(mkt_count)+" of "+download_total+". "+market )
+            print(); print(str(mkt_count)+" of "+download_total+". "+market)
 
             for index, interval in self.exchange_intervals.iterrows():
                 # Default start date if data not previously laoded
@@ -302,14 +302,14 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
                 # Print the dates
                 print()
-                print("Interval: "+interval.Directory_name + "   Seconds: " + str(interval.Seconds)+"   Load start time: "+str(datetime.now() ))
+                print("Interval: "+interval.Directory_name + "   Seconds: " + str(interval.Seconds)+"   Load start time: "+str(datetime.now()))
                 print("File: "+file_path)
                 print("File Start: "+str(file_start_date)+"   End: "+str(file_end_date))
                 print("Load Start: "+str(load_start_date)+"   End: "+str(load_end_date))
 
                 # Calls the URL
                 try:
-                    market_data = self.getHistoricalData( market, interval.Seconds, load_start_date + timedelta(hours=10), load_end_date + timedelta(hours=10) )
+                    market_data = self.getHistoricalData(market, interval.Seconds, load_start_date + timedelta(hours=10), load_end_date + timedelta(hours=10))
                 except urllib.error.HTTPError as err:
                     self.printException(inspect.currentframe().f_lineno,"ERROR: HHTP - Probably wrong file name in URL - "+str(err.args)+" --- "+str(sys.exc_info()[0]))
                     error_list = error_list.append(market)
@@ -327,7 +327,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
                         # Save the data
                         mkt = Market(market, self.source_dir_name, interval.Directory_name, market_data)
-                        mkt.saveMarketData( p_file_path = file_path )
+                        mkt.saveMarketData(p_file_path = file_path)
 
                         # exchange specific post processing
                         self.post_process_file(market,interval.Directory_name)
@@ -349,7 +349,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
 
 
-    def removeDuplicateRowsCSV( self, p_market, p_interval):
+    def removeDuplicateRowsCSV(self, p_market, p_interval):
         ''' Removes duplicate rows from a CSV file
             Opens a file, saves only unique rows to a temp file, deletes the original file and renames the temp file
         '''
@@ -384,7 +384,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
 
 
-    def processMarketDataFilesCSV( self, p_market_list ="all" ):
+    def processMarketDataFilesCSV(self, p_market_list ="all"):
         ''' Iterates through the market list, opens the data file, runs a process over it and saves it
         '''
 
@@ -407,7 +407,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         mkt_count = 0
         for market in mkt_list:
             mkt_count += 1
-            print(); print(str(mkt_count)+" of "+process_total+". "+market )
+            print(); print(str(mkt_count)+" of "+process_total+". "+market)
 
             for index, interval in self.exchange_intervals.iterrows():
 
@@ -417,7 +417,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
                 # Print the dates
                 print()
-                print("Interval: "+interval.Directory_name + "   Seconds: " + str(interval.Seconds)+"   Process start time: "+str(datetime.now() ))
+                print("Interval: "+interval.Directory_name + "   Seconds: " + str(interval.Seconds)+"   Process start time: "+str(datetime.now()))
                 print("File: "+file_path)
                 print("File Start: "+str(file_start_date)+"   End: "+str(file_end_date))
 

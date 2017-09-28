@@ -69,7 +69,7 @@ class SuperTrendCross(StrategyAbstract):
 
 
 
-    def __init__( self,
+    def __init__(self,
                   p_wma_period,
                   p_wma_column,                   # Open/High/Low/Close/Volume/etc
                   p_fast_st_multiplier,
@@ -78,7 +78,7 @@ class SuperTrendCross(StrategyAbstract):
                   p_slow_st_period,
                   p_fatRatio,
                   p_days_since_cross
-                ):
+               ):
         ''' Constructor '''
 
         # Validate parameters
@@ -147,9 +147,9 @@ class SuperTrendCross(StrategyAbstract):
 
 
 
-    def calculateSignals ( self,
+    def calculateSignals (self,
                             p_data        # pd dataframe series
-                          ):
+                         ):
         '''  Calculations '''
         # Indicators
         p_data = WeightedMovingAverage(self.wma_period, self.wma_column).calculate(p_data)                   # WMA TODO: Why is WMA not returning the result column?
@@ -173,8 +173,8 @@ class SuperTrendCross(StrategyAbstract):
         #  bullish = bull1 and bull2 and ((bull3 and bull4) or (bull31 and bull41)) and bu5summation[15](bu1 and bu2 and bu3 and bu4 and bu5)>0
         #
         #  Updated for signal at STX crossover - v02
-        p_data = Crosses("Super_Trend_Fast","Super_Trend_Slow","Up", p_col_name="Crs_Bull" ).calculate(p_data)  # Calculate crosses
-        p_data["Bull5"] = p_data["Crs_Bull"].rolling(self.days_since_cross ).sum()            # Did a cross happen in the last X bars?
+        p_data = Crosses("Super_Trend_Fast","Super_Trend_Slow","Up", p_col_name="Crs_Bull").calculate(p_data)  # Calculate crosses
+        p_data["Bull5"] = p_data["Crs_Bull"].rolling(self.days_since_cross).sum()            # Did a cross happen in the last X bars?
 
         # Set the bullish indicator if below conditions are met
         p_data["Bullish"] = p_data["Bull1"] & p_data["Bull2"] & p_data["Bull3"] & p_data["Bull31"] & p_data["Bull5"]
@@ -198,14 +198,14 @@ class SuperTrendCross(StrategyAbstract):
         # bearish = bear1 and bear2 and ((bear3 and bear4) or (bear31 and bear41)) and bu5summation[15](bu1 and bu2 and bu3 and bu4 and bu5)>0
         #
         #  Updated for signal at STX crossover - v02
-        p_data = Crosses("Super_Trend_Fast","Super_Trend_Slow","Down" , p_col_name="Crs_Bear").calculate(p_data )  # Calculate crosses
+        p_data = Crosses("Super_Trend_Fast","Super_Trend_Slow","Down" , p_col_name="Crs_Bear").calculate(p_data)  # Calculate crosses
         p_data["Bear5"] = p_data["Crs_Bear"].rolling(self.days_since_cross).sum()            # Did a cross happen in the last X bars?
 
         # Set the bearish indicator if below conditions are met
         p_data["Bearish"] = p_data["Bear1"] & p_data["Bear2"] & p_data["Bear3"] & p_data["Bear31"] & p_data["Bear5"]    #  Super trend cross is bearish
 
         #   if (bullish):  signal = 1  elif (bearish):     signal = -1
-        p_data["Signal"] = p_data[["Bullish","Bearish"]].apply(self.calc_signal, axis=1 )
+        p_data["Signal"] = p_data[["Bullish","Bearish"]].apply(self.calc_signal, axis=1)
 
         self.result = p_data
         return self.result
@@ -213,19 +213,19 @@ class SuperTrendCross(StrategyAbstract):
 
 
 
-    def getResult (self ):
+    def getResult (self):
         ''' Getter '''
         return self.result
 
 
 
-    def getName(self ):
+    def getName(self):
         ''' Getter '''
         return self.name
 
 
 
-    def getDescription(self ):
+    def getDescription(self):
         ''' Getter '''
         return self.description
 

@@ -26,7 +26,7 @@ class MarketStats:
         self.lowHighRatio    = 0
 
     # Converting to Dictionary format to then easily convert to Pandas DataFrame
-    def toDict( self ):
+    def toDict(self):
         return {
                 'market_name'       : self.market_name,
                 'days'              : self.days,
@@ -47,8 +47,8 @@ class MarketStats:
 
     # Converting to Pandas DataFrame
 
-    def toDataFrame( self ):
-        x= pd.DataFrame.from_records( self.toDict(), index=[self.toDict()['market_name']] )
+    def toDataFrame(self):
+        x= pd.DataFrame.from_records(self.toDict(), index=[self.toDict()['market_name']])
         return x
 
 
@@ -56,7 +56,7 @@ class MarketStats:
 
 
 
-    def calculateStats( self, p_mkt_name, p_mktData ):
+    def calculateStats(self, p_mkt_name, p_mktData):
         self.market_name = p_mkt_name
 #         self.days = p_mktData.count()["High"]
 #         self.startDate = p_mktData["Date"][self.days-1].strftime("%B %d, %Y")
@@ -85,7 +85,7 @@ class MarketStats:
         return
 
 
-    def printStats( self ):
+    def printStats(self):
         print("Market: "+self.market_name)
         print("From: "+str(self.startDate)+" To: "+str(self.endDate))
         print("Number of Days: "+str(self.days))

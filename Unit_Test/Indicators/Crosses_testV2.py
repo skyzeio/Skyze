@@ -47,14 +47,14 @@ class Crosses_test(UnitTestSkyzeAbstract):
         mkt_data = crosses.calculate(mkt_data)
 
         # Output the Testing Info
-        self.printTestInfo( output_info, mkt_data, target_data, "SuperTrend" )
+        self.printTestInfo(output_info, mkt_data, target_data, "SuperTrend")
 
         # Assert by series
-        self.assertBySeries( output_info, mkt_data, target_data, target_columns )
+        self.assertBySeries(output_info, mkt_data, target_data, target_columns)
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        self.dataframe_assert( "Final Results", mkt_data, target_data)
+        self.dataframe_assert("Final Results", mkt_data, target_data)
 
 
 

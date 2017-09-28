@@ -23,7 +23,7 @@ from Unit_Test.UnitTestSkyzeAbstract import UnitTestSkyzeAbstract
 
 
 
-class StrategyAbstract( UnitTestSkyzeAbstract ):
+class StrategyAbstract(UnitTestSkyzeAbstract):
     '''
     classdocs
     '''
