@@ -20,7 +20,10 @@ class Crosses(IndicatorAbstract):
         if UP then the series_cross will move from below the series_base to above it
         if DOWN then the series_cross will move from above the series_base to below it
     '''
+
+    # Static Variables
     name = "Crosses"
+    version = 1.0
 
 
 

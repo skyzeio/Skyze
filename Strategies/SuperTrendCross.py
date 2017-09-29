@@ -210,7 +210,11 @@ class SuperTrendCross(StrategyAbstract):
         self.result = p_data
         return self.result
 
+    def calculatePositionSize(self, ß):
 
+    def getStopLoss(self):
+
+    def getTakeProfit(self):
 
 
     def getResult (self):
