@@ -60,6 +60,11 @@ Draft v0.1
 5. BackTesting
 6. Trading
 7. Screener
+	1. https://finance.google.com/finance#stockscreener
+	2. https://finviz.com/futures.ashx
+	3. https://www.roburir.com/stock-screener.html
+	4. https://www.zacks.com/screening/stock-screener
+	5. https://markets.ft.com/data/equities?expandedScreener=true
 8. Alerts
 8. Visualisation
 
@@ -106,6 +111,10 @@ __Numerical Datatypes and scientific calculations__
 
 __Code quality__
 1. pylint
+
+__Visualisation__
+1. matplotlib
+2. seaborn: statistical data visualization http://seaborn.pydata.org/
 
 
 ## Virtual Environment
