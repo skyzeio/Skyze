@@ -15,58 +15,64 @@ from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 from Indicators.Crosses import Crosses
 from Indicators.MovingAverage import MovingAverage
 
-
-
 class Crosses_test(UnitTestSkyzeAbstract):
-    '''
-    classdocs
-    '''
+    """Test the Crosses class"""
 
-
-
-    def test(self):
-
+    def childSetUp(self):
+        """Preapre for testing
+            calling it 'child' so this can be moved to the parent class """
         # Test Parameters
-        output_info    = True
-        package_name   = "Indicators"
-        test_path      = package_name + "/"+ Crosses.name + "/"
-        target_file    = "Results-bitcoin-Crosses"
-        test_file      = "bitcoin_TEST"
-        target_columns = ["MA_15","MA_30","Crossesdiff","Crosses","Direction"]
-        test_columns   = ["MA_15","MA_30","Crossesdiff","Crosses","Direction"]
+        self.output_info    = True
+        self.package_name   = "Indicators"
+        self.test_path      = self.package_name + "/"+ Crosses.name + "/"
+        self.target_file    = "Results-bitcoin-Crosses"
+        self.test_file      = "bitcoin_TEST"
+        self.target_columns = ["MA_15","MA_30","Crossesdiff","Crosses","Direction"]
+        self.test_columns   = ["MA_15","MA_30","Crossesdiff","Crosses","Direction"]
 
         # Indicator Parameters
-        slow_ma_period = 15
-        fast_ma_period = 30
-
+        self.slow_ma_period = 15
+        self.fast_ma_period = 30
 
         # Output Headings
-        self.printTestHeader(test_file, target_file, test_columns)
-        print("     slow: " + str(slow_ma_period) + "   fast: " + str(fast_ma_period))
+        self.printTestHeader(self.test_file, self.target_file, self.test_columns)
+        print("     slow: " + str(self.slow_ma_period) + "   fast: " + str(self.fast_ma_period))
 
         # Load test and result data
-        mkt_data, target_data = self.getTestAndResultData(test_path, test_file, target_file, target_columns)
+        self.mkt_data, self.target_data = self.getTestAndResultData(self.test_path, self.test_file, self.target_file, self.target_columns)
 
         # Output the Testing Info
-        self.printTestInfo(output_info, mkt_data, target_data, Crosses.getName())
+        self.printTestInfo(self.output_info, self.mkt_data, self.target_data, Crosses.getName())
 
         # Format boolean columns
-        target_data["Crosses"] = target_data["Crosses"] == 1
+        self.target_data["Crosses"] = self.target_data["Crosses"] == 1
 
         # Calcualte the Input Indicators
-        mkt_data = MovingAverage(slow_ma_period,"Close").calculate(mkt_data)
-        mkt_data = MovingAverage(fast_ma_period,"Close").calculate(mkt_data)
+        self.mkt_data = MovingAverage(self.slow_ma_period,"Close").calculate(self.mkt_data)
+        self.mkt_data = MovingAverage(self.fast_ma_period,"Close").calculate(self.mkt_data)
+
+        return
+
+    def test(self):
+        """Run the primary all goes right test case"""
+        # Test Set up
+        #self.childSetUp()
 
         # Calculate the Indicator to test
         crosses = Crosses("MA_15","MA_30","Up")
-        mkt_data = crosses.calculate(mkt_data)
+        self.mkt_data = crosses.calculate(self.mkt_data)
+
+        # Output the Test run calculations
+        self.printTestRun(self.output_info, self.mkt_data)
 
         # Assert by series
-        self.assertBySeries(output_info, mkt_data, target_data, target_columns)
+        self.assertBySeries(self.output_info, self.mkt_data, self.target_data, self.target_columns)
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        self.dataframe_assert("Final Results", mkt_data, target_data)
+        self.dataframe_assert("Final Results", self.mkt_data, self.target_data)
+
+        return
 
 
 
