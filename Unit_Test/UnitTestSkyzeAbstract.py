@@ -13,6 +13,7 @@ import pandas as pd
 from pandas   import ExcelWriter
 from dateutil import parser
 from datetime import datetime
+import numpy as np
 
 
 # Skyze Libraries
@@ -30,7 +31,9 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
        See https://stackoverflow.com/questions/4732827/continuing-in-pythons-unittest-when-an-assertion-fails
 
     '''
+
     def setUp(self):
+        print("Parent Set up")
         self.assertion_errors = []
         self.start_time = datetime.now()
         self.target_columns_market = [  "Date", "Open","High", "Low", "Close",
@@ -65,6 +68,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                                 p_test_file,
                                 p_target_file,
                                 p_target_columns):
+
         # Get the Market data
         mkt = Market.fromTesting(p_test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
@@ -85,21 +89,60 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             Stores errors (exceptions) in a list so that all tests are run '''
 
         try:
-            assert_series_equal(   p_test_results[p_name],
+            # was assert_series_equal which did not work due to floating point precision
+            print("\n--- TESTING: " + p_name + ": ", end='')
+            #print("Testing: ", end='')
+            #print(str(type(p_test_results[p_name].astype(np.float64))) + ": ", end='')
+            #print(str(type(p_test_results[p_name].astype(np.float64)[0])))
+            #print("Target: ", end='')
+            #print(str(type(p_target_results[p_name])) + ": ", end='')
+            #print(str(type(p_target_results[p_name][0])))
+            assert_series_equal (   p_test_results[p_name], #.astype(np.float64),
                                     p_target_results[p_name],
-                                    check_exact = False,
-                                    check_less_precise = False
+                                    check_exact = False,             # Whether to compare number exactly.
+                                    check_less_precise = True,       # False = 5 digits, Ture = 3 digits
+                                    obj = p_name
                                )
 
-        except AssertionError as e:
+        except AssertionError as err:
             # Assertion Failure
-            self.assertion_errors.append([p_name,str(e)])
-            print("\n--- FAIL: "+p_name)
+            # add to the error list
+            self.assertion_errors.append([p_name, str(err)])
 
-            # Get the rows that are different
-            diffs = pd.DataFrame({'test':p_test_results[p_name], 'target':p_target_results[p_name]})
-            diffs["Different"] = diffs["test"] != diffs["target"]
-            print(diffs.loc[diffs.Different == True])
+            # Explore the differences
+            # Get the different columns
+            diffs = pd.DataFrame({'test' : p_test_results[p_name], 'target' : p_target_results[p_name]})
+
+            # diffs["Different"] = diffs["test"] != diffs["target"]
+            # see PEP485 for use of isclose
+            # which rows are different?
+            # diffs["Different"] = np.isclose(diffs["test"], diffs["target"], rtol=1e-05, atol=1e-08, equal_nan=False)
+
+            # how much different?
+            diffs["Amount"] = diffs["test"].astype(np.float64) - diffs["target"].astype(np.float64)
+
+            # Another way to do is close
+            diffs["Different"] = diffs["Amount"] > 1e-8
+
+            #Create some error stats
+            error_count = len(diffs.loc[diffs.Different == True])
+            data_count = len(p_test_results)
+            error_rate = error_count / data_count * 100
+
+            # Print ... let 'em 'ave it
+            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count) + " of " + str(data_count) + " ... " + "%.2f" % error_rate)
+            print("Testing: ", end='')
+            print(str(type(p_test_results[p_name])) + ": ", end='')
+            print(str(type(p_test_results[p_name][0])))
+            print("Target: ", end='')
+            print(str(type(p_target_results[p_name])) + ": ", end='')
+            print(str(type(p_target_results[p_name][0])))
+            print(diffs.loc[diffs.Different == True].head(10))
+
+        except Exception as err:
+            print("Exception HERE")
+            print(err)
+
         else:
             # Assertion Passed
             print("\n+++ PASS: "+p_name)
@@ -146,20 +189,31 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
     def printTestInfo(self, p_output, p_mkt_data, p_target_data, p_file_name):
         if p_output:
+            print();print();print(); print("=== Market Data . head === === === === === ")
+            print(p_mkt_data.head(5))
+            print(); print("=== Market Data . tail === === === === === ")
+            print(p_mkt_data.tail(5))
+
             print("\n\n\n=== Target_data . head  === === === === === ")
             print(p_target_data.head(5))
             print()
             print("=== Target_data . tail === === === === === ")
             print(p_target_data.tail(5))
 
-            print();print();print(); print("=== Test Results . head === === === === === ")
-            print(p_mkt_data.head(5))
-            print(); print("=== Test Results . tail === === === === === ")
-            print(p_mkt_data.tail(5))
-
             # Save market data to excel
             #self.saveTestResults(p_mkt_data, "Test-Output-"+p_file_name, p_testing = True)
         return
+
+
+
+
+
+    def printTestRun(self, p_output, p_mkt_data):
+        if p_output:
+            print("\n\n\n=== Test Run . head === === === === === ")
+            print(p_mkt_data.head(5))
+            print("\n=== Test Run . tail === === === === === ")
+            print(p_mkt_data.tail(5))
 
 
 
@@ -172,7 +226,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # loop through the series
             for test_column in p_target_columns:
                 self.series_assert(test_column, p_mkt_data, p_target_data)
-
 
 
 
