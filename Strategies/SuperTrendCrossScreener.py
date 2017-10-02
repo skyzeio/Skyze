@@ -52,15 +52,13 @@ from Indicators.Crosses                 import Crosses
 import ExceptionSkyzeAbstract
 
 
-
-
-class SuperTrendCross(StrategyAbstract):
+class SuperTrendCrossScreener(StrategyAbstract):
     """Class doc"""
 
     # TODO How to hide the content of confidential trading strategy files?
 
     # Static Class Variables
-    name = "SuperTrend CrossOver "
+    name = "SuperTrend CrossOver Screener"
     version = 1.0
     description = "Uses a fast and slow STC crossover combined with a long EMA and big fat candle to trigger trade signals."
 
@@ -143,7 +141,8 @@ class SuperTrendCross(StrategyAbstract):
         p_data = SuperTrend(self.slow_st_period, self.slow_st_multiplier,"Slow").calculate(p_data)           # Slow SuperTrend
 
         # -------- bull side  ----------------------------------
-        p_data["Bull1"]  = p_data["Close"] > p_data["WMA_"+str(self.wma_period)]              # Highest close for 15 dats - V01 Original code
+        p_data["Bull1"]  = p_data["Close"] > p_data["WMA_"+str(self.wma_period)]
+        # Highest high for 15 days
         p_data["Bull2"]  = p_data["High"]  > p_data["High"].rolling(self.fast_st_period,min_periods=self.fast_st_period).max().shift(1)
         p_data["Bull3"]  = p_data["Close"] > p_data["Super_Trend_Slow"]                       # Close above slow Super Trend
         p_data["Bull31"] = p_data["Close"] > p_data["Super_Trend_Fast"]
@@ -153,10 +152,9 @@ class SuperTrendCross(StrategyAbstract):
         # Set the bullish indicator if the above conditions are met
         p_data["Bullish"] = p_data["Bull1"] & p_data["Bull2"] & p_data["Bull3"] & p_data["Bull31"] & p_data["Bull5"]
 
-        print(p_data["Bullish"])
-
         # -------- sell side  ----------------------------------
         p_data["Bear1"]  = p_data["Close"] > p_data["WMA_"+str(self.wma_period)]
+        # Lowest low for 15 days
         p_data["Bear2"]  = p_data["Low"]  < p_data["Low"].rolling(self.fast_st_period,min_periods=self.fast_st_period).min().shift(1)
         p_data["Bear3"]  = p_data["Close"] < p_data["Super_Trend_Slow"]                       # Close above slow Super Trend
         p_data["Bear31"] = p_data["Close"] < p_data["Super_Trend_Fast"]
@@ -171,15 +169,6 @@ class SuperTrendCross(StrategyAbstract):
         self.result = p_data
 
         return self.result
-
-    def calculatePositionSize(self, a):
-        raise Exception("SuperTrendCross::calculatePositionSize - Not yet implimented")
-
-    def getStopLoss(self):
-        raise Exception("SuperTrendCross::getStopLoss - Not yet implimented")
-
-    def getTakeProfit(self):
-        raise Exception("SuperTrendCross::getTakeProfit - Not yet implimented")
 
     def getResult (self):
         """ Getter """
@@ -250,4 +239,4 @@ class SuperTrendCross(StrategyAbstract):
 #
 # return signal
 #
-#  [bullish] (bullish as "SuperTrend signal")
+# screener [bullish] (bullish as "SuperTrend signal")

@@ -13,22 +13,28 @@ from Market import Market
 
 # Skyze imports
 from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
-from Strategies.SuperTrendCross import SuperTrendCross
+from Strategies.SuperTrendCrossScreener import SuperTrendCrossScreener
 
 
 
-class SuperTrendCross_test(UnitTestSkyzeAbstract):
-    """Test class for the SuperTrendCross strategy"""
+class SuperTrendCrossScreener_test(UnitTestSkyzeAbstract):
+    """Test class for the SuperTrendCrossScreener strategy"""
 
     def test_signal(self):
         """ Tests Signal on the most common everything works path"""
         # Test Parameters
         output_info    = True
         package_name = "Strategies"
-        test_path = package_name + "/" + SuperTrendCross.getName() + "/"
-        target_file    = "Target-Results-SuperTrendCross-bitcoin"
+        test_path = package_name + "/" + SuperTrendCrossScreener.getName() + "/"
+        target_file    = "Target-Results-SuperTrendCrossScreener-bitcoin"
         test_file      = "bitcoin_TEST"
-        target_columns = ["ST_Signal"]
+        target_columns = ['WMA_90', 'H-L', 'H-PC', 'L-PC', 'True_Range', 'ATR_15',
+         'basic_ub_Fast', 'basic_lb_Fast', 'final_ub_Fast', 'final_lb_Fast',
+         'Super_Trend_Fast', 'basic_ub_Slow',  'basic_lb_Slow', 'final_ub_Slow',
+         'final_lb_Slow', 'Super_Trend_Slow', 'Bull1', 'Bull2', 'Bull3', 'Bull31',
+         'Crs_Bulldiff', 'Crs_Bull', 'Direction', 'Bull5', 'Bullish', 'Bear1',
+         'Bear2', 'Bear3', 'Bear31', 'Crs_Beardiff', 'Crs_Bear', 'Bear5', 'Bearish',
+         'Signal']
         test_columns   = ["ST_Signal"]
 
         # Strategy Parameters
@@ -50,13 +56,13 @@ class SuperTrendCross_test(UnitTestSkyzeAbstract):
         print("    Crossing period: " + str(p_days_since_cross))
 
         # Load test and result data
-        mkt_data, target_data = self.getTestAndResultData(test_path, test_file,target_file,target_columns)
+        mkt_data, target_data = self.getTestAndResultData(test_path, test_file, target_file, target_columns)
 
         # Output the Testing Info
-        self.printTestInfo(output_info, mkt_data, target_data, SuperTrendCross.getName())
+        self.printTestInfo(output_info, mkt_data, target_data, SuperTrendCrossScreener.getName())
 
         # Create the Strategy
-        stc = SuperTrendCross(
+        stc = SuperTrendCrossScreener(
                                 p_wma_period,
                                 p_wma_column,
                                 p_fast_st_multiplier,
@@ -73,6 +79,28 @@ class SuperTrendCross_test(UnitTestSkyzeAbstract):
         # Output the Test run calculations
         self.printTestRun(output_info, mkt_data)
 
+        # Let's have a look at the signal column
+        print("\n\n=== Columns ======")
+        print(mkt_data.columns.values)
+        print("\n\n=== Shorts ======")
+        print("Bearish count: ", end='')
+        print(len(mkt_data.loc[mkt_data.Bearish]))
+        print(mkt_data[["Close","Signal"]].loc[mkt_data.Bearish].head(10))
+        print("\nShort Signal count: ", end='')
+        print(len(mkt_data.loc[mkt_data.Signal == -1]))
+        print(mkt_data[["Close","Signal"]].loc[mkt_data.Signal == -1].head(10))
+        print("\n\n=== Longs ======")
+        print("Bullish count: ", end='')
+        print(len(mkt_data.loc[mkt_data.Bullish]))
+        print(mkt_data[["Close","Signal"]].loc[mkt_data.Bullish].head(10))
+        print("\nLong Signal count: ", end='')
+        print(len(mkt_data.loc[mkt_data.Signal == 1]))
+        print(mkt_data[["Close","Signal"]].loc[mkt_data.Signal == 1].head(10))
+
+        print("\n\n=== Describe ======")
+        print(mkt_data[["WMA_90","Bull1","Bull2","Bull3","Bull5","Bullish"]].describe())
+
+        # Commented out as there is no target file to assert with
         # Assert by series
         self.assertBySeries(output_info, mkt_data, target_data, target_columns)
 

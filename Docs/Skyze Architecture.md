@@ -136,6 +136,15 @@ __MyPy library__ http://mypy-lang.org/
 
 __Static typing in Python__  https://medium.com/@ageitgey/learn-how-to-use-static-type-checking-in-python-3-6-in-10-minutes-12c86d72677b
 
+### Performance
+#### Python function call overhead
+Function call overhead in Python is relatively high, especially compared with the execution speed of builtin functions. The overhead in Python is mainly due to the dynamic type checking of function arguments that must be performed before and after the function call. This strongly suggests that, where appropriate, functions should handle data aggregation rather than being called on a per element basis.
+
+Testing in a Jupyter notebook:
+http://localhost:8888/notebooks/Jupyter/Function%20Call%20Overhead.ipynb#Function-Call-Overhead
+
+shows 10e8 function calls took 2.4 times longer than a single call over 10e8 iteration
+
 ## Virtual Environment
 ### VE Manager
 #### pipenv
