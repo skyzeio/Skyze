@@ -33,7 +33,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
     '''
 
     def setUp(self):
-        print("Parent Set up")
         self.assertion_errors = []
         self.start_time = datetime.now()
         self.target_columns_market = [  "Date", "Open","High", "Low", "Close",
@@ -97,8 +96,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             #print("Target: ", end='')
             #print(str(type(p_target_results[p_name])) + ": ", end='')
             #print(str(type(p_target_results[p_name][0])))
-            assert_series_equal (   p_test_results[p_name], #.astype(np.float64),
-                                    p_target_results[p_name],
+            assert_series_equal (   p_test_results[p_name].round(2), #.astype(np.float64),
+                                    p_target_results[p_name].round(2),
                                     check_exact = False,             # Whether to compare number exactly.
                                     check_less_precise = True,       # False = 5 digits, Ture = 3 digits
                                     obj = p_name
@@ -149,6 +148,55 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         return
 
+    def series_assert_diffs(self, p_name, p_test_results, p_target_results):
+        """Asserts the diffs of two series are each less than 1e-8"""
+        print("\n--- TESTING: " + p_name + ": ", end='')
+
+        # Explore the differences
+        # Get the different columns
+        diffs = pd.DataFrame({'test' : p_test_results[p_name], 'target' : p_target_results[p_name]})
+
+        # how much different?
+        diffs["Amount"] = diffs["test"].astype(np.float64) - diffs["target"].astype(np.float64)
+
+        # Another way to do is close
+        diffs["Different"] = abs(diffs["Amount"]) > 5e-8
+
+        # how many differences?
+        error_count = len(diffs.loc[diffs.Different == True])
+
+        try:
+            self.assertEqual(error_count, 0)
+
+        except AssertionError as err:
+            # Assertion Failure
+            # add to the error list
+            self.assertion_errors.append([p_name, str(err)])
+
+            #Create some error stats
+            data_count = len(p_test_results)
+            error_rate = error_count / data_count * 100
+
+            # Print ... let 'em 'ave it
+            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count) + " of " + str(data_count) + " ... " + "%.2f" % error_rate)
+            print("Testing: ", end='')
+            print(str(type(p_test_results[p_name])) + ": ", end='')
+            print(str(type(p_test_results[p_name][0])))
+            print("Target: ", end='')
+            print(str(type(p_target_results[p_name])) + ": ", end='')
+            print(str(type(p_target_results[p_name][0])))
+            print(diffs.loc[diffs.Different == True].head(10))
+
+        except Exception as err:
+            print("Exception In Assert Series DIff")
+            print(err)
+
+        else:
+            # Assertion Passed
+            print("\n+++ PASS: "+p_name)
+
+        return
+
 
 
 
@@ -158,7 +206,9 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             Stores errors (exceptions) in a list so that all tests are run '''
 
         try:
-            assert_frame_equal(p_test_results, p_target_results)
+            assert_frame_equal(p_test_results, p_target_results,
+            check_exact = False,             # Whether to compare number exactly.
+            check_less_precise = True)       # False = 5 digits, Ture = 3 digits)
         except AssertionError as err:
             # Assertion Failure
             self.assertion_errors.append([p_name,str(err)])
@@ -226,6 +276,15 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # loop through the series
             for test_column in p_target_columns:
                 self.series_assert(test_column, p_mkt_data, p_target_data)
+
+    def assertBySeriesDiffs(self, p_output, p_mkt_data, p_target_data, p_target_columns):
+        if p_output:
+            print(); print()
+            print("=== Series Diff Assertion === === === === === ")
+
+            # loop through the series
+            for test_column in p_target_columns:
+                self.series_assert_diffs(test_column, p_mkt_data, p_target_data)
 
 
 
