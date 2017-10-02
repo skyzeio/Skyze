@@ -59,8 +59,18 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         print("\n\nLeft = test results ..... Right = target results")
         return
 
+    def getTestData( self,
+                     p_path,
+                     p_test_file,
+                     p_test_columns):
 
+        # Get the Market data
+        mkt = Market.fromTesting(p_test_file)
+        mkt_data = mkt.readMarketDataCSV(p_testing=True)
+        print("Rows in mkt data: "+str(len(mkt_data)))
+        print("\n\n")
 
+        return mkt_data
 
     def getTestAndResultData(  self,
                                 p_path,
@@ -197,10 +207,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         return
 
-
-
-
-
     def dataframe_assert(self, p_name, p_test_results, p_target_results):
         ''' Asserts two dataframes
             Stores errors (exceptions) in a list so that all tests are run '''
@@ -219,10 +225,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         return
 
-
-
-
-
     def printTestHeader(self, p_test_file, p_target_file, p_test_columns):
         ''' Prints the test info '''
         print("\n\n======= This is a test of SUPERTREND INDICATOR ==============")
@@ -232,10 +234,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         print("Parameters: ")
 
         return
-
-
-
-
 
     def printTestInfo(self, p_output, p_mkt_data, p_target_data, p_file_name):
         if p_output:
@@ -254,19 +252,12 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             #self.saveTestResults(p_mkt_data, "Test-Output-"+p_file_name, p_testing = True)
         return
 
-
-
-
-
     def printTestRun(self, p_output, p_mkt_data):
         if p_output:
             print("\n\n\n=== Test Run . head === === === === === ")
             print(p_mkt_data.head(5))
             print("\n=== Test Run . tail === === === === === ")
             print(p_mkt_data.tail(5))
-
-
-
 
     def assertBySeries(self, p_output, p_mkt_data, p_target_data, p_target_columns):
         if p_output:
@@ -285,8 +276,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # loop through the series
             for test_column in p_target_columns:
                 self.series_assert_diffs(test_column, p_mkt_data, p_target_data)
-
-
 
     def readTargetResults(self, p_results_file, p_column_names):
         "Opens the file and reads the data"
@@ -324,11 +313,6 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             del target_results["Date"]
 
             return target_results
-
-
-
-
-
 
     def saveTestResults (  self, p_results,
                             p_file_name,
