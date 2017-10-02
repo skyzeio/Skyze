@@ -10,3 +10,7 @@ Jupyter/.ipynb_checkpoints/*
 *.pyc
 Mongo_DB/*
 .idea/
+Strategies/SuperTrendCross.py
+Strategies/SuperTrendCrossScreener.py
+Unit_Test/Strategies/SuperTrendCross_test.py
+Unit_Test/Strategies/SuperTrendCrossScreener_test.py
