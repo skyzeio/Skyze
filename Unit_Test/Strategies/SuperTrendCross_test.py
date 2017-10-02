@@ -1,8 +1,8 @@
-'''
+"""
 Created on 05/09/2017
 
 @author: michaelnew
-'''
+"""
 
 
 # 3rd Party
@@ -18,16 +18,14 @@ from Strategies.SuperTrendCross import SuperTrendCross
 
 
 class SuperTrendCross_test(UnitTestSkyzeAbstract):
-    '''
-        Test class for the SuperTrendCross strategy
-    '''
+    """Test class for the SuperTrendCross strategy"""
 
-
-
-    def test(self):
-
+    def test_signal(self):
+        """ Tests Signal on the most common everything works path"""
         # Test Parameters
         output_info    = True
+        package_name = "Strategies"
+        test_path = package_name + "/" + SuperTrendCross.getName() + "/"
         target_file    = "Target-Results-SuperTrendCross-bitcoin"
         test_file      = "bitcoin_TEST"
         target_columns = ["ST_Signal"]
@@ -52,7 +50,10 @@ class SuperTrendCross_test(UnitTestSkyzeAbstract):
         print("    Crossing period: " + str(p_days_since_cross))
 
         # Load test and result data
-        mkt_data, target_data = self.getTestAndResultData(test_file,target_file,target_columns)
+        mkt_data, target_data = self.getTestAndResultData(test_path, test_file,target_file,target_columns)
+
+        # Output the Testing Info
+        self.printTestInfo(output_info, mkt_data, target_data, SuperTrendCross.getName())
 
         # Create the Strategy
         stc = SuperTrendCross(
@@ -69,8 +70,8 @@ class SuperTrendCross_test(UnitTestSkyzeAbstract):
         # Calculate the strategy
         stc.calculateSignals(mkt_data)
 
-        # Output the Testing Info
-        self.printTestInfo(output_info, mkt_data, target_data, stc.getName())
+        # Output the Test run calculations
+        self.printTestRun(output_info, mkt_data)
 
         # Assert by series
         self.assertBySeries(output_info, mkt_data, target_data, target_columns)
@@ -78,11 +79,6 @@ class SuperTrendCross_test(UnitTestSkyzeAbstract):
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
         self.dataframe_assert("Final Results", mkt_data, target_data)
-
-
-
-
-
 
 
 if __name__ == '__main__':
