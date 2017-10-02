@@ -9,3 +9,4 @@ Jupyter/Martin Flow Calcs.ipynb
 Jupyter/.ipynb_checkpoints/*
 *.pyc
 Mongo_DB/*
+.idea/
