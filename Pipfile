@@ -5,15 +5,20 @@ verify_ssl = true
 [packages]
 
 requests = "*"
-pathlib2 = "*"
-bs4 = "*"
+"pathlib2" = "*"
+"bs4" = "*"
 pandas = "*"
 pylint = "*"
 scipy = "*"
 arctic = "*"
-trading-ig = "*"
+"trading-ig" = "*"
 mypy = "*"
+jupyter = "*"
 [dev-packages]
-autopep8 = "*"
+
+"autopep8" = "*"
 quandl = "*"
 ystockquote = "*"
+nose = "*"
+coverage = "*"
+jupyter = "*"
