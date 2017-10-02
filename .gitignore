@@ -8,3 +8,4 @@ Jupyter/Martin Flow Calcs.ipynb
 .pydevproject
 Jupyter/.ipynb_checkpoints/
 *.pyc
+.idea/
