@@ -18,7 +18,9 @@ from Indicators.MovingAverage import MovingAverage
 class Crosses_test(UnitTestSkyzeAbstract):
     """Test the Crosses class"""
 
-    def childSetUp(self):
+    #def childSetUp(self):
+
+    def test(self):
         """Preapre for testing
             calling it 'child' so this can be moved to the parent class """
         # Test Parameters
@@ -51,9 +53,6 @@ class Crosses_test(UnitTestSkyzeAbstract):
         self.mkt_data = MovingAverage(self.slow_ma_period,"Close").calculate(self.mkt_data)
         self.mkt_data = MovingAverage(self.fast_ma_period,"Close").calculate(self.mkt_data)
 
-        return
-
-    def test(self):
         """Run the primary all goes right test case"""
         # Test Set up
         #self.childSetUp()

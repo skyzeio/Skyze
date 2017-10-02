@@ -6,6 +6,7 @@ Jupyter/Martin Flow Calcs.ipynb
 .ipynb_checkpoints
 .settings
 .pydevproject
-Jupyter/.ipynb_checkpoints/
+Jupyter/.ipynb_checkpoints/*
 *.pyc
+Mongo_DB/*
 .idea/
