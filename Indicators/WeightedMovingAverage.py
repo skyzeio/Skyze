@@ -11,10 +11,6 @@ import numpy as np
 # Our Library
 from Indicators.IndicatorAbstract import IndicatorAbstract
 
-
-
-
-
 class WeightedMovingAverage(IndicatorAbstract):
     """Weighted Moving Average
         Also known as a Linerly Weighted Moving Average
@@ -58,7 +54,7 @@ class WeightedMovingAverage(IndicatorAbstract):
         p_data = self.initial(p_data)
         # TODO: Convert next line from SMA to WMA
         # Simple Moving Average
-        #p_data["WMA_"+str(self.wma_period)] = p_data[self.wma_column].rolling(window=self.wma_period, win_type='triang').mean().shift(1)
+        p_data["WMA_"+str(self.wma_period)] = p_data[self.wma_column].rolling(window=self.wma_period, win_type='triang').mean().shift(1)
 
         # Option 1 Using Numpy Convolve
         # From https://stackoverflow.com/questions/12816011/weighted-moving-average-with-numpy-convolve
@@ -73,11 +69,13 @@ class WeightedMovingAverage(IndicatorAbstract):
         # construct the fucntion to calcualte wma for each point
         def wma(w):
             def g(x):
-                return (w*x).mean()
+                return (w/x)
             return g
 
         # apply the wma function to each pont in the series
-        p_data["WMA_"+str(self.wma_period)] = p_data[self.wma_column].rolling(window=self.wma_period).apply(wma(weights))
+        #p_data["WMA_"+str(self.wma_period)] = \
+        #    p_data[self.wma_column].rolling(window=self.wma_period) \
+        #    .apply(wma(weights))#.sum()/self.wma_period
 
         return p_data
 

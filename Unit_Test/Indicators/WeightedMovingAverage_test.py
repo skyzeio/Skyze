@@ -58,7 +58,7 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
         self.printTestRun(output_info, mkt_data)
 
         # Assert by series
-        self.assertBySeries(output_info, mkt_data, target_data, target_columns)
+        self.assertBySeriesDiffs(output_info, mkt_data, target_data, target_columns)
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")

@@ -92,6 +92,17 @@ PEP485: https://docs.python.org/3/whatsnew/3.5.html#pep-485-a-function-for-testi
 Documentation: Python: https://docs.python.org/3/library/math.html
 							 Numpy:  https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.isclose.html
 
+#### How python works with FP numbers
+Python built on C. FP numbers go from python floating point to C as a fractoin and then back to Python as floating point. These conversions are not always accurate.
+
+Numbers like 1.1 and 2.2 do not have exact representations in binary floating point. End users typically would not expect 1.1 + 2.2 to display as 3.3000000000000003 as it does with binary floating point.
+
+#### Solution - Decimal
+https://www.youtube.com/watch?v=JOGPAduCC7c
+
+a = decimal.decimal(7.6)+decimal.decimal(7.9)
+a.quantize("0.00")
+a.quantize(decimal.Decimal("0.00"), rounding=decimal.ROUND_UP)
 
 
 ## Python
@@ -116,10 +127,19 @@ __Visualisation__
 1. matplotlib
 2. seaborn: statistical data visualization http://seaborn.pydata.org/
 
+### Typing
+Dropbox, Facebook have mandated static typing for their Python projets
+
+__Dropbox Pycon Talk__  https://www.youtube.com/watch?v=7ZbwZgrXnwY&feature=youtu.be
+
+__MyPy library__ http://mypy-lang.org/
+
+__Static typing in Python__  https://medium.com/@ageitgey/learn-how-to-use-static-type-checking-in-python-3-6-in-10-minutes-12c86d72677b
 
 ## Virtual Environment
 ### VE Manager
 #### pipenv
+https://pypi.python.org/pypi/pipenv
 
 ### Development Environment
 Set up like: ....
@@ -162,6 +182,21 @@ Used by over 100,000 projects, and analyzing over 2 billion lines of code daily,
 ### Test running
 #### nose
 test runner and a great one at that. It can run tests created using unittest, py.test or doctest.
+
+##### Doc
+ http://nose.readthedocs.io/en/latest/index.html
+
+##### Install
+pipenv install nose --dev
+
+#### Test coverage
+Nose supports the coverage module:
+##### Doc
+https://coverage.readthedocs.io/en/coverage-4.4.1/
+
+##### Install
+pipenv install coverage --dev
+
 
 ### Unit Testing
 #### unittest2

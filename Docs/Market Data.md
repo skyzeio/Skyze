@@ -12,8 +12,8 @@ Draft v0.1
 		- [Mainstream Brokers](#mainstream-brokers)
 			- [IG markets](#ig-markets)
 				- [Download Package](#download-package)
+				- [How to use](#how-to-use)
 				- [Play labs](#play-labs)
-- [Skyze Architecutre](#skyze-architecutre)
 				- [Config](#config)
 		- [Crypto Exchanges](#crypto-exchanges)
 			- [Poloniex](#poloniex)
@@ -42,9 +42,20 @@ __Market Data__
 ig_trading
  https://github.com/ig-python/ig-markets-api-python-library
 
+##### How to use
+__Document directory__
+https://github.com/ig-python/ig-markets-api-python-library/tree/master/docs
+
+__REST__
+https://github.com/ig-python/ig-markets-api-python-library/blob/master/docs/source/rest.rst
+
+__STREAM__
+https://github.com/ig-python/ig-markets-api-python-library/blob/master/docs/source/stream.rst
+
+__TRADING__
+Can't find this
+
 ##### Play labs
-# Skyze Architecutre
-Draft v0.1
  http://labs.ig.com/
 
 ##### Config
