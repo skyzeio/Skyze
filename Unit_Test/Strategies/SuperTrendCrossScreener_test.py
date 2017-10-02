@@ -35,7 +35,10 @@ class SuperTrendCrossScreener_test(UnitTestSkyzeAbstract):
          'Crs_Bulldiff', 'Crs_Bull', 'Direction', 'Bull5', 'Bullish', 'Bear1',
          'Bear2', 'Bear3', 'Bear31', 'Crs_Beardiff', 'Crs_Bear', 'Bear5', 'Bearish',
          'Signal']
-        test_columns   = ["ST_Signal"]
+        boolean_columns = [ 'Bull1', 'Bull2', 'Bull3', 'Bull31','Crs_Bull',
+         'Bull5','Bullish','Bear1','Bear2', 'Bear3', 'Bear31', 'Crs_Bear',
+         'Bear5', 'Bearish']
+        test_columns   = target_columns
 
         # Strategy Parameters
         p_wma_period         = 90
@@ -56,7 +59,8 @@ class SuperTrendCrossScreener_test(UnitTestSkyzeAbstract):
         print("    Crossing period: " + str(p_days_since_cross))
 
         # Load test and result data
-        mkt_data, target_data = self.getTestAndResultData(test_path, test_file, target_file, target_columns)
+        mkt_data, target_data = self.getTestAndResultData(test_path, test_file,
+            target_file, target_columns, p_boolean_columns=boolean_columns)
 
         # Output the Testing Info
         self.printTestInfo(output_info, mkt_data, target_data, SuperTrendCrossScreener.getName())

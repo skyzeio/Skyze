@@ -1,12 +1,20 @@
 __pycache__
 Data/*
 Jupyter/Martin Flow Calcs.ipynb
+Jupyter/.ipynb_checkpoints/*
+.ipynb_checkpoints
 .DS_Store
 .externalToolBuilders
-.ipynb_checkpoints
 .settings
 .pydevproject
-Jupyter/.ipynb_checkpoints/*
 *.pyc
 Mongo_DB/*
 .idea/
+Strategies/SuperTrendCross.py
+Strategies/SuperTrendCrossScreener.py
+Unit_Test/Strategies/SuperTrendCross_test.py
+Unit_Test/Strategies/SuperTrendCrossScreener_test.py
+SuperTrendCross.py
+SuperTrendCrossScreener.py
+SuperTrendCross_test.py
+SuperTrendCrossScreener_test.py

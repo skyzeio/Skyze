@@ -1,0 +1,10 @@
+[nosetests]
+verbosity=3
+with-coverage=1
+
+/Unit_Test
+/Unit_Test/Indicators
+/Unit_Test/Strategies
+
+
+Crosses_test.py
