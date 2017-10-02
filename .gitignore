@@ -14,3 +14,7 @@ Strategies/SuperTrendCross.py
 Strategies/SuperTrendCrossScreener.py
 Unit_Test/Strategies/SuperTrendCross_test.py
 Unit_Test/Strategies/SuperTrendCrossScreener_test.py
+SuperTrendCross.py
+SuperTrendCrossScreener.py
+SuperTrendCross_test.py
+SuperTrendCrossScreener_test.py
