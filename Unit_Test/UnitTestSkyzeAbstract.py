@@ -32,6 +32,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
     '''
 
+    tolerance = 5e-7
+
     def setUp(self):
         self.assertion_errors = []
         self.start_time = datetime.now()
@@ -76,7 +78,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                                 p_path,
                                 p_test_file,
                                 p_target_file,
-                                p_target_columns):
+                                p_target_columns,
+                                p_boolean_columns=None):
 
         # Get the Market data
         mkt = Market.fromTesting(p_test_file)
@@ -89,7 +92,9 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         print("\n\n")
 
         # Format boolean columns
-        # None
+        if p_boolean_columns != None:
+            for column in p_boolean_columns:
+                target_data[column] = target_data[column] == True
 
         return mkt_data, target_data
 
@@ -131,7 +136,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             diffs["Amount"] = diffs["test"].astype(np.float64) - diffs["target"].astype(np.float64)
 
             # Another way to do is close
-            diffs["Different"] = diffs["Amount"] > 1e-8
+            diffs["Different"] = diffs["Amount"] > self.tolerance
 
             #Create some error stats
             error_count = len(diffs.loc[diffs.Different == True])
