@@ -37,7 +37,7 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
         print("Done")
 
     def test(self):
-
+        """ Tests the most common everything works path"""
         # Test Parameters
         output_info = 0
         package_name = "Indicators"
@@ -79,7 +79,7 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
 
         # Assert the data frame
         print(); print("=== DataFrame Equal === === === === === ")
-        #self.dataframe_assert("Final Results", mkt_data, target_data)
+        self.dataframe_assert("Final Results", mkt_data, target_data)
 
 
 if __name__ == '__main__':
