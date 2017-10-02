@@ -12,8 +12,7 @@ pylint = "*"
 scipy = "*"
 arctic = "*"
 "trading-ig" = "*"
-mypy = "*"
-jupyter = "*"
+
 [dev-packages]
 
 "autopep8" = "*"
@@ -22,3 +21,4 @@ ystockquote = "*"
 nose = "*"
 coverage = "*"
 jupyter = "*"
+mypy = "*"
