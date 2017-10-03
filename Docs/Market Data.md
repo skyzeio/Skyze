@@ -73,6 +73,9 @@ Skyze class to REST API
 #### Cryptopia
 Skyze class to REST API
 
+#### Bittrex
+Bittrex Python Wrapper Library: 
+https://github.com/ericsomdahl/python-bittrex
 
 
 ### Data Aggregators
