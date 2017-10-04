@@ -10,7 +10,7 @@ import unittest
 from pandas.util.testing import assert_frame_equal
 from pandas.util.testing import assert_series_equal
 import pandas as pd
-from pandas   import ExcelWriter
+from pandas import ExcelWriter
 from dateutil import parser
 from datetime import datetime
 import numpy as np
@@ -19,8 +19,6 @@ import numpy as np
 # Skyze Libraries
 import settings
 from Market import Market
-
-
 
 
 class UnitTestSkyzeAbstract(unittest.TestCase):
@@ -32,15 +30,13 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
     '''
 
-    tolerance = 5e-7
+    test_fp_diff_tolerance = 5e-7
 
     def setUp(self):
         self.assertion_errors = []
         self.start_time = datetime.now()
-        self.target_columns_market = [  "Date", "Open","High", "Low", "Close",
-                                        "Volume", "MarketCap"]
-
-
+        self.target_columns_market = ["Date", "Open", "High", "Low", "Close",
+                                      "Volume", "MarketCap"]
 
     def tearDown(self):
         print("\n\n\n")
@@ -51,7 +47,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             print("=== Test Failed === === === === === ")
             print("List of Assertion Errors:")
             for assertion_error in self.assertion_errors:
-                print("\n\n=== Name: "+assertion_error[0])
+                print("\n\n=== Name: " + assertion_error[0])
                 print(assertion_error[1])
         else:
             # Assertion Passed
@@ -61,34 +57,34 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         print("\n\nLeft = test results ..... Right = target results")
         return
 
-    def getTestData( self,
-                     p_path,
-                     p_test_file,
-                     p_test_columns):
+    def getTestData(self,
+                    p_path,
+                    p_test_file,
+                    p_test_columns):
 
         # Get the Market data
         mkt = Market.fromTesting(p_test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
-        print("Rows in mkt data: "+str(len(mkt_data)))
+        print("Rows in mkt data: " + str(len(mkt_data)))
         print("\n\n")
 
         return mkt_data
 
-    def getTestAndResultData(  self,
-                                p_path,
-                                p_test_file,
-                                p_target_file,
-                                p_target_columns,
-                                p_boolean_columns=None):
+    def getTestAndResultData(self,
+                             p_path,
+                             p_test_file,
+                             p_target_file,
+                             p_target_columns,
+                             p_boolean_columns=None):
 
         # Get the Market data
         mkt = Market.fromTesting(p_test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
-        print("Rows in mkt data: "+str(len(mkt_data)))
+        print("Rows in mkt data: " + str(len(mkt_data)))
 
         # Read in the target results
-        target_data = self.readTargetResults(   p_path + p_target_file,
-                                                p_target_columns)
+        target_data = self.readTargetResults(p_path + p_target_file,
+                                             p_target_columns)
         print("\n\n")
 
         # Format boolean columns
@@ -107,16 +103,18 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             print("\n--- TESTING: " + p_name + ": ", end='')
             #print("Testing: ", end='')
             #print(str(type(p_test_results[p_name].astype(np.float64))) + ": ", end='')
-            #print(str(type(p_test_results[p_name].astype(np.float64)[0])))
+            # print(str(type(p_test_results[p_name].astype(np.float64)[0])))
             #print("Target: ", end='')
             #print(str(type(p_target_results[p_name])) + ": ", end='')
-            #print(str(type(p_target_results[p_name][0])))
-            assert_series_equal (   p_test_results[p_name].round(2), #.astype(np.float64),
-                                    p_target_results[p_name].round(2),
-                                    check_exact = False,             # Whether to compare number exactly.
-                                    check_less_precise = True,       # False = 5 digits, Ture = 3 digits
-                                    obj = p_name
-                               )
+            # print(str(type(p_target_results[p_name][0])))
+            assert_series_equal(p_test_results[p_name].round(2),
+                                p_target_results[p_name].round(2),
+                                # Whether to compare number exactly.
+                                check_exact=False,
+                                # False = 5 digits, Ture = 3 digits
+                                check_less_precise=True,
+                                obj=p_name
+                                )
 
         except AssertionError as err:
             # Assertion Failure
@@ -125,7 +123,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
             # Explore the differences
             # Get the different columns
-            diffs = pd.DataFrame({'test' : p_test_results[p_name], 'target' : p_target_results[p_name]})
+            diffs = pd.DataFrame(
+                {'test': p_test_results[p_name], 'target': p_target_results[p_name]})
 
             # diffs["Different"] = diffs["test"] != diffs["target"]
             # see PEP485 for use of isclose
@@ -133,18 +132,21 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # diffs["Different"] = np.isclose(diffs["test"], diffs["target"], rtol=1e-05, atol=1e-08, equal_nan=False)
 
             # how much different?
-            diffs["Amount"] = diffs["test"].astype(np.float64) - diffs["target"].astype(np.float64)
+            diffs["Amount"] = diffs["test"].astype(np.float64) \
+                - diffs["target"].astype(np.float64)
 
             # Another way to do is close
-            diffs["Different"] = diffs["Amount"] > self.tolerance
+            diffs["Different"] = abs(diffs["Amount"]) \
+                > self.test_fp_diff_tolerance
 
-            #Create some error stats
+            # Create some error stats
             error_count = len(diffs.loc[diffs.Different == True])
             data_count = len(p_test_results)
             error_rate = error_count / data_count * 100
 
             # Print ... let 'em 'ave it
-            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count) + " of " + str(data_count) + " ... " + "%.2f" % error_rate)
+            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count)
+                  + " of " + str(data_count) + " ... " + "%.2f" % error_rate)
             print("Testing: ", end='')
             print(str(type(p_test_results[p_name])) + ": ", end='')
             print(str(type(p_test_results[p_name][0])))
@@ -159,7 +161,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         else:
             # Assertion Passed
-            print("\n+++ PASS: "+p_name)
+            print("\n+++ PASS: " + p_name)
 
         return
 
@@ -169,13 +171,16 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         # Explore the differences
         # Get the different columns
-        diffs = pd.DataFrame({'test' : p_test_results[p_name], 'target' : p_target_results[p_name]})
+        diffs = pd.DataFrame({'test': p_test_results[p_name],
+                              'target': p_target_results[p_name]})
 
         # how much different?
-        diffs["Amount"] = diffs["test"].astype(np.float64) - diffs["target"].astype(np.float64)
+        diffs["Amount"] = diffs["test"].astype(np.float64) \
+            - diffs["target"].astype(np.float64)
 
         # Another way to do is close
-        diffs["Different"] = abs(diffs["Amount"]) > 5e-8
+        diffs["Different"] = abs(diffs["Amount"]) \
+            > self.test_fp_diff_tolerance
 
         # how many differences?
         error_count = len(diffs.loc[diffs.Different == True])
@@ -188,12 +193,13 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # add to the error list
             self.assertion_errors.append([p_name, str(err)])
 
-            #Create some error stats
+            # Create some error stats
             data_count = len(p_test_results)
             error_rate = error_count / data_count * 100
 
             # Print ... let 'em 'ave it
-            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count) + " of " + str(data_count) + " ... " + "%.2f" % error_rate)
+            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count) +
+                  " of " + str(data_count) + " ... " + "%.2f" % error_rate)
             print("Testing: ", end='')
             print(str(type(p_test_results[p_name])) + ": ", end='')
             print(str(type(p_test_results[p_name][0])))
@@ -208,7 +214,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         else:
             # Assertion Passed
-            print("\n+++ PASS: "+p_name)
+            print("\n+++ PASS: " + p_name)
 
         return
 
@@ -218,33 +224,37 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         try:
             assert_frame_equal(p_test_results, p_target_results,
-            check_exact = False,             # Whether to compare number exactly.
-            check_less_precise = True)       # False = 5 digits, Ture = 3 digits)
+                               # Whether to compare number exactly.
+                               check_exact=False,
+                               check_less_precise=True)       # False = 5 digits, Ture = 3 digits)
         except AssertionError as err:
             # Assertion Failure
-            self.assertion_errors.append([p_name,str(err)])
-            print("DATAFRAME FAIL: "+p_name)
+            self.assertion_errors.append([p_name, str(err)])
+            print("DATAFRAME FAIL: " + p_name)
         else:
             # Assertion Passed
-            print("DATAFRAME PASS: "+p_name)
+            print("DATAFRAME PASS: " + p_name)
 
         return
 
     def printTestHeader(self, p_test_file, p_target_file, p_test_columns):
         ''' Prints the test info '''
         print("\n\n======= This is a test of SUPERTREND INDICATOR ==============")
-        print("Start time: "+str(self.start_time))
-        print("Test data: " + p_test_file + "    \nTarget data: " + p_target_file)
-        print("Columns: " + str(len(p_test_columns)) + " ... "+ str(p_test_columns))
+        print("Start time: " + str(self.start_time))
+        print("Test data: " + p_test_file +
+              "    \nTarget data: " + p_target_file)
+        print("Columns: " + str(len(p_test_columns)) +
+              " ... " + str(p_test_columns))
         print("Parameters: ")
 
         return
 
     def printTestInfo(self, p_output, p_mkt_data, p_target_data, p_file_name):
         if p_output:
-            print();print();print(); print("=== Market Data . head === === === === === ")
+            print("\n\n\n=== Market Data . head === === === === === ")
             print(p_mkt_data.head(5))
-            print(); print("=== Market Data . tail === === === === === ")
+            print()
+            print("=== Market Data . tail === === === === === ")
             print(p_mkt_data.tail(5))
 
             print("\n\n\n=== Target_data . head  === === === === === ")
@@ -260,14 +270,13 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
     def printTestRun(self, p_output, p_mkt_data):
         if p_output:
             print("\n\n\n=== Test Run . head === === === === === ")
-            print(p_mkt_data.head(5))
+            print(p_mkt_data.head(20))
             print("\n=== Test Run . tail === === === === === ")
             print(p_mkt_data.tail(5))
 
     def assertBySeries(self, p_output, p_mkt_data, p_target_data, p_target_columns):
         if p_output:
-            print(); print()
-            print("=== Series Assertion === === === === === ")
+            print("\n\n=== Series Assertion === === === === === ")
 
             # loop through the series
             for test_column in p_target_columns:
@@ -275,18 +284,19 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
     def assertBySeriesDiffs(self, p_output, p_mkt_data, p_target_data, p_target_columns):
         if p_output:
-            print(); print()
-            print("=== Series Diff Assertion === === === === === ")
+            print("\n\n=== Series Diff Assertion === === === === === ")
 
             # loop through the series
             for test_column in p_target_columns:
-                self.series_assert_diffs(test_column, p_mkt_data, p_target_data)
+                self.series_assert_diffs(
+                    test_column, p_mkt_data, p_target_data)
 
     def readTargetResults(self, p_results_file, p_column_names):
         "Opens the file and reads the data"
 
         # Create the path name
-        file_path = os.path.join(settings.results_file_path, "%s.csv" % p_results_file)
+        file_path = os.path.join(
+            settings.results_file_path, "%s.csv" % p_results_file)
 
         # Add the standard market columns to the beginning of the column list
         column_names = self.target_columns_market + p_column_names
@@ -294,15 +304,16 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         try:
             # Read the target results into a dataframe
             target_results = pd.read_csv(
-                                            file_path,
-                                            header=None ,
-                                            names = column_names,
-                                            index_col=False,
-                                            skiprows = 1
-                                       )
+                file_path,
+                header=None,
+                names=column_names,
+                index_col=False,
+                skiprows=1
+            )
         except IOError as err:
             print("File Error:   " + file_path)
-            raise IOError ("FileNotFound","EXCEPTION UnitTestSkyzeAbstract::readTargetResults .... IOError File does not exist")
+            raise IOError(
+                "FileNotFound", "EXCEPTION UnitTestSkyzeAbstract::readTargetResults .... IOError File does not exist")
             return
         except:
             print("AN EXCEPTION - UnitTestSkyzeAbstract::readTargetResults(p_market)")
@@ -314,16 +325,17 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             #target_results['Date'] = pd.to_datetime(target_results['Date'].astype(str), format='%Y%m%d')
 
             # Move the date column to the index
-            target_results.index = [parser.parse(str(d)) for d in target_results["Date"]]
+            target_results.index = [parser.parse(
+                str(d)) for d in target_results["Date"]]
             del target_results["Date"]
 
             return target_results
 
-    def saveTestResults (  self, p_results,
-                            p_file_name,
-                            p_file_path = "",
-                            p_testing = False
-                       ):
+    def saveTestResults(self, p_results,
+                        p_file_name,
+                        p_file_path="",
+                        p_testing=False
+                        ):
         ''' Export to excel file '''
 
         # set file path
@@ -335,8 +347,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                 file_path = settings.data_file_path
 
         # Write to Excel
-        print("Test Output: "+file_path+"/"+p_file_name+".xlsx")
-        writer = ExcelWriter(file_path+"/"+p_file_name+".xlsx")
+        print("Test Output: " + file_path + "/" + p_file_name + ".xlsx")
+        writer = ExcelWriter(file_path + "/" + p_file_name + ".xlsx")
         p_results.to_excel(writer, 'Results')
         writer.save()
 

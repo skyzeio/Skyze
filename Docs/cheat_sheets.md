@@ -1,16 +1,14 @@
 # CHEAT SHEETS
 
 ## ADDING ENVIORNMENT VARIABLES
-pwd
+```pwd
 ls-a
 nano .bash_profile
-
 source ~/.bash_profile
-
-printenv
+printenv```
 
 ## GIT COMMANDS
-
+```
 git commit -m 'my notes' path/to/my/file.ext, 
 git status
 git push
@@ -18,21 +16,22 @@ git stash
 
 git pull [remote] [branch] [branch]
 git pull upstream develop master
+```
 
 **For a list of files to be pushed, run:**
-git diff --stat --cached [remote/branch]
+```git diff --stat --cached [remote/branch]```
 example:
-git diff --stat --cached origin/master
+```git diff --stat --cached origin/master```
 
 **For the code diff of the files to be pushed, run:**
-git diff [remote repo/branch]
+```git diff [remote repo/branch]```
 To see full file paths of the files that will change, run:
-git diff --numstat [remote repo/branch]
+```git diff --numstat [remote repo/branch]```
 
 ## GIT WORKFLOW
 ### Pushing to Personal Repo
 1.	Commit to local Repo on the development branch
-git commit -m 'my notes' path/to/my/file.ext, 
+``` git commit -m 'my notes' path/to/my/file.ext ```
 
 2.	Check local Repo git status to ensure all files have been committed
 git status
@@ -68,3 +67,7 @@ git push origin develop master
 # Pull request in gitbut from personal to to Skyze repo
 RUN FROM SHELL
 ```
+
+## Removing confidential files from GIT
+
+https://help.github.com/articles/removing-sensitive-data-from-a-repository/
