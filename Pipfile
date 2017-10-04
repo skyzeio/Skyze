@@ -14,6 +14,7 @@ arctic = "*"
 "trading-ig" = "*"
 "python-bittrex" = {git = "https://github.com/ericsomdahl/python-bittrex.git", editable = true, ref = "0.1.3"}
 matplotlib = "*"
+rollbar = "*"
 
 [dev-packages]
 
