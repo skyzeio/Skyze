@@ -115,6 +115,10 @@ Modules are documented in pipenv file at: https://github.com/SkyzeTrading/Skyze/
 
 Key packages are:
 
+__Database__
+1. pymongo   http://api.mongodb.com/python/current/index.html
+2. AHL Artic https://github.com/manahl/arctic
+
 __Numerical Datatypes and scientific calculations__
 1. pandas
 2. numpy
