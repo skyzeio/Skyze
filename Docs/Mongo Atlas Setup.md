@@ -33,7 +33,8 @@ mongo "mongodb://skyze-1-shard-00-00-oigrk.mongodb.net:27017,skyze-1-shard-00-01
 ** Download Compass **
 https://downloads.mongodb.com/compass/mongodb-compass-1.8.2-darwin-x64.dmg
 
-
+**Connect String**
+`mongodb://articskyze:@skyze-1-shard-00-00-oigrk.mongodb.net:27017,skyze-1-shard-00-01-oigrk.mongodb.net:27017,skyze-1-shard-00-02-oigrk.mongodb.net:27017/admin?replicaSet=Skyze-1-shard-0&ssl=true`
 
 ### <span style="color:Fuchsia">Skyze</span>
 **Connection String:**
@@ -59,3 +60,8 @@ MINIMUM DRIVER VERSION(S)
 Version 3.2
 
 To connect to an Atlas M0 (Free Tier) cluster, you must use Python 2.7.9+ and use a Python driver version that supports MongoDB 3.4. For complete documentation on compatibility between the Python driver and MongoDB, see the MongoDB compatibility matrix.
+
+## Python - PyMongo library
+
+**Tutorial: **
+http://api.mongodb.com/python/current/tutorial.html
