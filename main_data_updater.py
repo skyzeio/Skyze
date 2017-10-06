@@ -34,12 +34,12 @@ rollbar.report_message(
 
 
 # === Data load Switches =====
-cmc_load = True
-cryptopia_load = False
+cmc_load = False
+cryptopia_load = True
 poloniex_load = False
 
 # === Data load Type =====
-load_type = "custom_list"     # Laod_type Options are:
+load_type = "all"     # Laod_type Options are:
 #            all             ... the exchanege will call get all markets then download all
 #            ico             ... will use the custom ICO list
 #            custom_list     ... will use the custom list
