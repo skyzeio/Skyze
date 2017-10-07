@@ -1,5 +1,77 @@
-application: Skyze-Trading-Market-Data
-version: 1
-runtime: python36
+# File contains all config options
+# https://cloud.google.com/appengine/docs/flexible/python/configuring-your-app-with-app-yaml
+runtime: python3
 api_version: 1
 threadsafe: true
+
+handlers:
+- url: /.*
+  script: main.app
+
+skip_files:
+- ^(.*/)?\.ipynb
+
+env_variables:
+  MY_VAR: 'my value'
+
+network:
+#  instance_tag: TAG_NAME
+#  name: NETWORK_NAME
+#  subnetwork_name: SUBNETWORK_NAME
+#  forwarded_ports:
+#    - PORT
+#    - HOST_PORT:CONTAINER_PORT
+#    - PORT/tcp
+#    - HOST_PORT:CONTAINER_PORT/udp
+
+# Port forwarding allows for direct connections to the Docker container on your instances. This traffic can travel over any protocol. Port forwarding is intended to help with situations where you might need to attach a debugger or profiler.
+
+resources:
+#  cpu: 2
+#  memory_gb: 2.3
+#  disk_size_gb: 10
+#  volumes:
+#  - name: ramdisk1
+#    volume_type: tmpfs
+#    size_gb: 0.5
+
+# These settings control the computing resources. App Engine assigns a machine type based on the amount of CPU and memory you've specified.
+
+health_check:
+#  enable_health_check: True
+#  check_interval_sec: 5
+#  timeout_sec: 4
+#  unhealthy_threshold: 2
+#  healthy_threshold: 2
+
+#Legacy health check requests are enabled by default with default threshold values. You can customize health checking by adding an optional health check section to your configuration file:
+
+
+ liveness_check:
+#   path: ‘/liveness_check’
+#   check_interval_sec: 30
+#   timeout_sec: 4
+#   failure_threshold: 2
+#   success_threshold: 2
+
+# Liveness checks confirm that the VM and the Docker container are running. Instances that are deemed unhealthy are restarted.
+
+readiness_check:
+#  path: ‘/readiness_check’
+#  check_interval_sec: 5
+#  timeout_sec: 4
+#  failure_threshold: 2
+#  success_threshold: 2
+#  app_start_timeout_sec: 300
+
+# Readiness checks confirm that an instance can accept incoming requests. Instances that don't pass the readiness check are not added to the pool of available instances.
+
+automatic_scaling:
+#  min_num_instances: 5
+#  max_num_instances: 20
+#  cool_down_period_sec: 120 # default value
+#  cpu_utilization:
+#    target_utilization: 0.5
+
+manual_scaling:
+#  instances: 5

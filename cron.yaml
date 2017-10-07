@@ -1,0 +1,26 @@
+cron:
+- description: daily market data update
+  url: /market_data_update/daily
+  schedule: every day 11:30
+- description: hourly market data update
+  url: /market_data_update/hourly
+  schedule: every 1 hour
+  timezone: Australia/NSW
+- description: 4 hourly screener
+  url: /screener/4_hourly
+  schedule: every 4 hours
+- description: 1 hourly screener
+  url: /screener/1_hourly
+  schedule: every 1 hours
+
+# From:
+# https://cloud.google.com/appengine/docs/flexible/python/scheduling-jobs-with-cron-yaml
+
+# Uploading
+# gcloud app deploy cron.yaml
+
+# Display job information
+# appcfg.py cron_info
+
+# Deleting cron jobs
+# To delete all cron jobs, change the cron.yaml file to just contain: cron:
