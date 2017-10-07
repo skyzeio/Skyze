@@ -49,32 +49,40 @@ Draft v0.1
 
 <!-- /TOC -->
 
-## Modular architecture
-### Functional Modules
-1. Market data
-2. Indicators
-3. Strategies
-4. Portfolios
-5. Statistics
-6. Optimizer
-5. BackTesting
+## Service architecture
+### Services - Business / Functional
+1. __Market data Updater__ - connects to external sources (exchanges, brokers and other data providers), extracts, transforms (to Skyze format) and loads data to Market data stores e.g Artic, CSV, etc - runs hourly
+2. __Market Data Store__ - Serves data to other internal services on an adhoc basis - will exract data from various stores e.g. artic, sql, csv etc...
+3. Portfolios
+4. **Statistics** - Creates _Market_ and _Portfolio_ statistics on back test results
+5. **BackTester** - runs _Strategies_ over a _Portfolio_ and collects results
+	1. Optimizer
 6. Trading
-7. Screener
+7. **Screener** - runs a screener signal on a portfolio at regular intervals and triggers notifications
+8. **Notifications** - Sends SMS, emails etc
+4. **Front End** - web and mobile, simple data entry and graphs
+
+### Services - Non-Functional
+1. **Services Registrar** - etcd (Opensource used by Kubernetes)
+2. **Messaging Bus** between services
+3. **User Data Store** - user data
+4. **Load Balancer** -
+5. **Logging** -
+6. **Load Balancer** - HA Proxy
+
+
 	1. https://finance.google.com/finance#stockscreener
 	2. https://finviz.com/futures.ashx
 	3. https://www.roburir.com/stock-screener.html
 	4. https://www.zacks.com/screening/stock-screener
 	5. https://markets.ft.com/data/equities?expandedScreener=true
-8. Alerts
-8. Visualisation
 
-### Non-Functional Modules
-1. User Management / Login
-2. Persistence
-3. Logging
-4. etc
 
 ## Class architecture
+
+2. Indicator
+3. Strategy
+4. Portfolio
 
 ## Data Types
 
