@@ -49,7 +49,57 @@ Draft v0.1
 
 <!-- /TOC -->
 
+## Design Principles
+1. Hosted cloud architecture e.g. AWS, GCS, Azure
+2. MicroService architecture
+3. Opensource - choose OS Libraries over proprietary libraries and technologies
+4. Design for flexibiity e.g. don't use hosted prop tech to avoid lock in
+5. Performance - centain componenets need high performance - e.g. the back tester ... design for performance first here e.g. may design it as a larger module rather than break it down into microservices to avoid messaging latency
+6. Free - look to use free hosting and other technologies over paid
+7. Automation of development tasks - testing, continuous-integration, code-quality, repository, etc
+
+
+
 ## Service architecture
+**MicroService Architecture**: collection of loosely coupled services, which implement business capabilities
+### Microservices goals
+A properly implemented microservices-based application can achieve the following goals:
+1. Define strong contracts between the various microservices.
+2. Allow for independent deployment cycles, including rollback.
+3. Facilitate concurrent, A/B release testing on subsystems.
+4. Minimize test automation and quality-assurance overhead.
+5. Improve clarity of logging and monitoring.
+6. Provide fine-grained cost accounting.
+7. Increase overall application scalability and reliability.
+
+### Microservices architecture Patterns used
+1. **Microservices** - http://microservices.io/patterns/microservices.html
+2. **Persistence**
+	1. Database per service - Each service has it's own database http://microservices.io/patterns/data/database-per-service.htm
+	2. SAGA - Data consistency between services is maintained using the Saga pattern. A saga is a sequence of local transactions each generating a message to trigger the next transaction. http://microservices.io/patterns/data/saga.html
+3. **Deployment**
+	1. Serverless deployment - lamda etc http://microservices.io/patterns/deployment/serverless-deployment.html
+	2. Multiple service instances per host - EC2 VM etc http://microservices.io/patterns/deployment/multiple-services-per-host.html
+	3. **Not sure where GAE fits in here**
+4. **Inter-Services Communication**
+	1. Messaging -  asynchronous messaging ... Services communicating by exchanging messages over messaging channels. http://microservices.io/patterns/communication-style/messaging.html
+2. **Service Discovery**
+		1. Service Registry - a database of services, their instances and their locations. http://microservices.io/patterns/service-registry.html
+		2. Self Registration - A service instance is responsible for registering itself on startup with the service registry http://microservices.io/patterns/self-registration.html
+		3. 3rd Party Registration - A 3rd party registrar is responsible for registering and unregistering a service instance with the service registry. http://microservices.io/patterns/3rd-party-registration.html
+6. **Cross Cutting**
+	1. Microservice Chasis - http://microservices.io/patterns/microservice-chassis.html
+2. **Health Check**
+	1. Health Check API - Sometimes a service instance can be incapable of handling requests yet still be running. A health check client - a monitoring service, service registry or load balancer - periodically invokes the endpoint to check the health of the service instance. http://microservices.io/patterns/observability/health-check-api.html
+2. **Circuit Breaker** http://microservices.io/patterns/reliability/circuit-breaker.html
+
+
+
+
+
+### Microcervices and GAE
+https://cloud.google.com/appengine/docs/standard/python/microservices-on-app-engine
+
 ### Services - Business / Functional
 1. __Market data Updater__ - connects to external sources (exchanges, brokers and other data providers), extracts, transforms (to Skyze format) and loads data to Market data stores e.g Artic, CSV, etc - runs hourly
 2. __Market Data Store__ - Serves data to other internal services on an adhoc basis - will exract data from various stores e.g. artic, sql, csv etc...
