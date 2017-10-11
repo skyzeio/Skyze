@@ -7,9 +7,33 @@ Draft v0.1
 
 - [Skyze Architecutre](#skyze-architecutre)
 	- [Contents](#contents)
+	- [Design Principles](#design-principles)
+	- [Project values](#project-values)
+	- [Service architecture](#service-architecture)
+		- [Microservices goals](#microservices-goals)
+		- [Microservices Architecture Patterns Used](#microservices-architecture-patterns-used)
+		- [MicroServices and GAE](#microservices-and-gae)
+		- [Services Design - Business / Functional](#services-design-business-functional)
+		- [Services Design - Non-Functional](#services-design-non-functional)
+		- [Services Existing Examples](#services-existing-examples)
+			- [Apps](#apps)
+			- [Screener](#screener)
+	- [Class architecture](#class-architecture)
+	- [Data Types](#data-types)
+		- [numpy floating point](#numpy-floating-point)
+			- [How python works with FP numbers](#how-python-works-with-fp-numbers)
+			- [Solution - Decimal](#solution-decimal)
 	- [Python](#python)
 		- [Language](#language)
 		- [Modules](#modules)
+		- [Typing](#typing)
+		- [Performance](#performance)
+			- [Python function call overhead](#python-function-call-overhead)
+	- [Virtual Environment](#virtual-environment)
+		- [VE Manager](#ve-manager)
+			- [pipenv](#pipenv)
+		- [Development Environment](#development-environment)
+		- [Production environment](#production-environment)
 	- [Persistence](#persistence)
 		- [Database](#database)
 			- [MongoDB](#mongodb)
@@ -25,15 +49,26 @@ Draft v0.1
 			- [PyLint](#pylint)
 		- [General code quality?](#general-code-quality)
 			- [Code Climate](#code-climate)
+			- [PyCodeStyle](#pycodestyle)
+			- [PyDocStyle](#pydocstyle)
+			- [coverage.py](#coveragepy)
 	- [Testing](#testing)
 		- [Test running](#test-running)
 			- [nose](#nose)
+				- [Doc](#doc)
+				- [Install](#install)
+			- [Test coverage](#test-coverage)
+				- [Doc](#doc)
+				- [Install](#install)
 		- [Unit Testing](#unit-testing)
 			- [unittest2](#unittest2)
 		- [Continuous Integration](#continuous-integration)
 	- [Documentation](#documentation)
 		- [Requirements](#requirements)
 		- [Solutions](#solutions)
+			- [UML and other modelling](#uml-and-other-modelling)
+				- [StarUML](#staruml)
+				- [PieNSource](#piensource)
 			- [Markdown](#markdown)
 			- [Sphynx](#sphynx)
 			- [GitWiki](#gitwiki)
@@ -41,11 +76,15 @@ Draft v0.1
 		- [Requirement Management](#requirement-management)
 			- [Trello](#trello)
 		- [Defect Management](#defect-management)
+			- [Production error reporting](#production-error-reporting)
 			- [GIT Issues](#git-issues)
 		- [Work Management](#work-management)
 			- [Trello](#trello)
 		- [Team Communications](#team-communications)
 			- [Slack](#slack)
+	- [Deployment Management](#deployment-management)
+		- [Deployment Process](#deployment-process)
+		- [Deployment Tools](#deployment-tools)
 
 <!-- /TOC -->
 
@@ -53,11 +92,20 @@ Draft v0.1
 1. Hosted cloud architecture e.g. AWS, GCS, Azure
 2. MicroService architecture
 3. Opensource - choose OS Libraries over proprietary libraries and technologies
-4. Design for flexibiity e.g. don't use hosted prop tech to avoid lock in
+4. Design for flexibility and agility e.g. don't use hosted prop tech to avoid lock in
 5. Performance - centain componenets need high performance - e.g. the back tester ... design for performance first here e.g. may design it as a larger module rather than break it down into microservices to avoid messaging latency
 6. Free - look to use free hosting and other technologies over paid
 7. Automation of development tasks - testing, continuous-integration, code-quality, repository, etc
+8. Early and continuous delivery of value
 
+## Project values
+1. Self organising teams
+2. Design and technical excellence
+3. Collaboration
+4. Open Source
+5. Passionate contributors
+6. Simplicity
+7. Social Enterprise - People, Profit and Purpose
 
 
 ## Service architecture
@@ -72,7 +120,7 @@ A properly implemented microservices-based application can achieve the following
 6. Provide fine-grained cost accounting.
 7. Increase overall application scalability and reliability.
 
-### Microservices architecture Patterns used
+### Microservices Architecture Patterns Used
 1. **Microservices** - http://microservices.io/patterns/microservices.html
 2. **Persistence**
 	1. Database per service - Each service has it's own database http://microservices.io/patterns/data/database-per-service.htm
@@ -97,30 +145,37 @@ A properly implemented microservices-based application can achieve the following
 
 
 
-### Microcervices and GAE
+### MicroServices and GAE
 https://cloud.google.com/appengine/docs/standard/python/microservices-on-app-engine
 
-### Services - Business / Functional
+### Services Design - Business / Functional
 1. __Market data Updater__ - connects to external sources (exchanges, brokers and other data providers), extracts, transforms (to Skyze format) and loads data to Market data stores e.g Artic, CSV, etc - runs hourly
 2. __Market Data Store__ - Serves data to other internal services on an adhoc basis - will exract data from various stores e.g. artic, sql, csv etc...
 3. Portfolios
 4. **Statistics** - Creates _Market_ and _Portfolio_ statistics on back test results
 5. **BackTester** - runs _Strategies_ over a _Portfolio_ and collects results
 	1. Optimizer
-6. Trading
+6. **Trading Engine** - takes real time _order_ notifications and executes them
 7. **Screener** - runs a screener signal on a portfolio at regular intervals and triggers notifications
 8. **Notifications** - Sends SMS, emails etc
 4. **Front End** - web and mobile, simple data entry and graphs
 
-### Services - Non-Functional
+### Services Design - Non-Functional
 1. **Services Registrar** - etcd (Opensource used by Kubernetes)
 2. **Messaging Bus** between services
 3. **User Data Store** - user data
 4. **Load Balancer** -
-5. **Logging** -
+5. **Logging**
+5. **Error Logging** -
+	1. Sentry https://sentry.io and Raven https://github.com/getsentry/raven-python
+	2. Rollbar www.rollbar.io
 6. **Load Balancer** - HA Proxy
 
+### Services Existing Examples
+#### Apps
+1. https://cryptotrader.org/
 
+#### Screener
 	1. https://finance.google.com/finance#stockscreener
 	2. https://finviz.com/futures.ashx
 	3. https://www.roburir.com/stock-screener.html
@@ -176,6 +231,11 @@ Key packages are:
 __Database__
 1. pymongo   http://api.mongodb.com/python/current/index.html
 2. AHL Artic https://github.com/manahl/arctic
+3. MongoEngine ODM http://mongoengine.org/
+
+__Messaging Bus__
+	1. 0MQ - http://zeromq.org/
+	2. PyZMQ - Python bindings for 0MQ https://github.com/zeromq/pyzmq, doco https://pyzmq.readthedocs.io/en/latest/
 
 __Numerical Datatypes and scientific calculations__
 1. pandas
