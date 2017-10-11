@@ -7,7 +7,6 @@
 from Screeners.ScreenerAbstract import *
 from Indicators.SimpleMovingAverage import SimpleMovingAverage
 from Indicators.Crosses import Crosses
-import ExceptionSkyzeAbstract
 
 
 class SMACrossOverScreener(ScreenerAbstract):
