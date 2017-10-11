@@ -14,6 +14,22 @@
 
 <!-- /TOC -->
 
+## Declaring and managing dependencies
+
+Dependencies for python applications are declared in a standard `requirements.txt` file. For example:
+
+`Flask==0.10.1
+python-memcached==1.54`
+
+
+## Files required
+**Git for tutorial** https://github.com/ChrisParsonsDev/googleclouddemos/tree/master/helloworld-python
+**YouTube Tutorial** https://www.youtube.com/watch?v=o8XxAWZwnOg
+1. `app.yaml`
+2. `requirements.txt`
+3. `main.py`
+
+
 ## Installing Skyze Services
 
 ### install
