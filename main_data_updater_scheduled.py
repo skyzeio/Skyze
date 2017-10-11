@@ -57,12 +57,6 @@ custom_list_cryptopia = custom_list_cryptopia_high_freq
 custom_list_poloniex = ['ETH_CVC']
 
 
-# Track runtime
-start_time = datetime.datetime.now()
-print('=== Begin Market Update SCHEDULER ========== ' +
-      str(start_time) + ' ========== \n')
-
-
 def run_update(cmc_load, cryptopia_load, poloniex_load, load_type):
     # Track runtime
     start_time = datetime.datetime.now()
@@ -114,6 +108,14 @@ def run_update(cmc_load, cryptopia_load, poloniex_load, load_type):
         # equivalent to rollbar.report_exc_info(sys.exc_info())
 
 
+def sched_notice():
+    start_time = datetime.datetime.now()
+    print('\n\n\n=== Begin Market Update SCHEDULER ========== ' +
+          str(start_time) + ' ========== \n')
+    sched.print_jobs()
+    print("\n\n")
+
+
 #----------------------------------------------------------------------------------------------------------
 #
 #    MAIN BODY
@@ -129,21 +131,24 @@ def cryptopia_hourly_update():
     print('Scheduler:: Triggering:: cryptopia_hourly_update')
     custom_list_cryptopia = custom_list_cryptopia_high_freq
     run_update(False, True, False, "custom_list")
+    sched_notice()
 
 
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=14, minute=30)
 def cmc_daily_update():
     print('Scheduler:: Triggering:: CMC all markets Daily Update at 2:30pm.')
     run_update(True, False, False, "all")
+    sched_notice()
 
 
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=10, minute=12)
 def poloniex_daily_update():
     print('Scheduler:: Triggering:: Poloniex all markets Daily Update at 10:12am')
     run_update(True, False, False, "all")
+    sched_notice()
 
 
-sched.print_jobs()
-print("\n\n")
+sched_notice()
+
 # sched.configure()
 sched.start()
