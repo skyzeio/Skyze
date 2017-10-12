@@ -33,7 +33,7 @@ import inspect
 # Skyze Libraries
 import settings
 from Skyze_Market_Data_Updater.MarketDataSourceAbstract import MarketDataSourceAbstract
-from ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Market import Market
 
 

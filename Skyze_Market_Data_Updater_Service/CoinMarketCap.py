@@ -21,8 +21,8 @@ import pandas as pd
 from collections import deque
 
 # Skyze Libraries
-from Skyze_Market_Data_Updater.MarketDataSourceAbstract import MarketDataSourceAbstract
-from ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
+from Skyze_Market_Data_Updater_Service.MarketDataSourceAbstract import MarketDataSourceAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 import settings
 from Market import Market
 
