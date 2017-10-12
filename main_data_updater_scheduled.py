@@ -14,9 +14,9 @@ Used like a comandline with switches to run various functions
 import datetime
 
 # Skyze modules
-from Market_Data.CoinMarketCap import CoinMarketCap
-from Market_Data.Cryptopia import Cryptopia
-from Market_Data.PoloniexSkyze import PoloniexSkyze
+from Skyze_Market_Data_Updater_Service.CoinMarketCap import CoinMarketCap
+from Skyze_Market_Data_Updater_Service.Cryptopia import Cryptopia
+from Skyze_Market_Data_Updater_Service.PoloniexSkyze import PoloniexSkyze
 import rollbar
 
 from apscheduler.schedulers.blocking import BlockingScheduler

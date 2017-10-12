@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 # Our Library
 from Indicators.IndicatorAbstract import IndicatorAbstract
-from ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 
 
 
