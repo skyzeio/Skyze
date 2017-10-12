@@ -28,7 +28,7 @@ import zmq
 # skyze libraries
 import settings
 from Market import Market
-from ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 # from exceptions import BaseException
 
 

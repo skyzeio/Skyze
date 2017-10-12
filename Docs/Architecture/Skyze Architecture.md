@@ -91,12 +91,15 @@ Draft v0.1
 ## Design Principles
 1. Hosted cloud architecture e.g. AWS, GCS, Azure
 2. MicroService architecture
-3. Opensource - choose OS Libraries over proprietary libraries and technologies
-4. Design for flexibility and agility e.g. don't use hosted prop tech to avoid lock in
-5. Performance - centain componenets need high performance - e.g. the back tester ... design for performance first here e.g. may design it as a larger module rather than break it down into microservices to avoid messaging latency
+3. Open Source - choose OS Libraries over proprietary libraries and technologies
+4. Flexibility and Agility e.g. don't use hosted prop tech to avoid lock in
+5. Performant - certain components need high performance - e.g. the back tester ... design for performance first here e.g. may design it as a larger module rather than break it down into micro-services to avoid messaging latency
 6. Free - look to use free hosting and other technologies over paid
 7. Automation of development tasks - testing, continuous-integration, code-quality, repository, etc
 8. Early and continuous delivery of value
+9. Maintainable
+10. Testable
+11. Pythonic - suits the idioms of the technology we are using
 
 ## Project values
 1. Self organising teams
@@ -106,6 +109,7 @@ Draft v0.1
 5. Passionate contributors
 6. Simplicity
 7. Social Enterprise - People, Profit and Purpose
+8. Agility
 
 
 ## Service architecture
@@ -167,9 +171,10 @@ https://cloud.google.com/appengine/docs/standard/python/microservices-on-app-eng
 3. __User Data Store__ - user data
 4. __Load Balancer__ -
 5. __Logging__ -
-	1. Logging of normal application activity.
+	1. Logging of normal application activity - Information, Debug, Warning.
 	2. Logging of transactions for audit and compliance
-5. __Error Logging__ -
+	3. Aggregated across services
+5. __Error Logging__ - Exceptions and Errors as they occur with debug info
 6. __Load Balancer__ - HA Proxy
 
 ### Services Existing Examples
@@ -242,8 +247,9 @@ __Messaging Bus__
 
 What is ZeroMQ? According to Wikipedia: “ZeroMQ is a high-performance asynchronous messaging library aimed at use in scalable distributed or concurrent applications. It provides a message queue, but unlike message-oriented middleware, a ØMQ system can run without a dedicated message broker. The library is designed to have a familiar socket-style API.”
 _Reading_
-1. http://nichol.as/zeromq-an-introduction
-2. https://stefan.sofa-rockers.org/2012/02/01/designing-and-testing-pyzmq-applications-part-1/
+1. http://wiki.secondlife.com/wiki/Message_Queue_Evaluation_Notes
+2. http://nichol.as/zeromq-an-introduction
+3. https://stefan.sofa-rockers.org/2012/02/01/designing-and-testing-pyzmq-applications-part-1/
 
 __Numerical Datatypes and scientific calculations__
 1. pandas

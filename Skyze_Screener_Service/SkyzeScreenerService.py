@@ -5,16 +5,17 @@
 import zmq
 
 # Skyze Imports
-import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 
-class SkyzeScreenerService(object):
+class SkyzeScreenerService(SkyzeServiceAbstract):
     """Main Class for the Skyze Screener Service"""
 
     self.__running_screeners = []
 
-    def __init__(self):
+    def __init__(self, message_bus):
         """Constructor"""
+        super.__init__(self, message_bus)
         self.__connect_to_message_bus()
         self.__listen_to_message_bus()
 

@@ -26,6 +26,13 @@ Draft v0.1
 
 <!-- /TOC -->
 
+## To Do
+1. IG markets
+2. Add Crypto Compare for multi exchange access?
+3. Get Artic working
+3. Ether Delta
+4. Bittrex
+
 ## Data store
 ### csv
 
@@ -74,13 +81,18 @@ Skyze class to REST API
 Skyze class to REST API
 
 #### Bittrex
-Bittrex Python Wrapper Library: 
+Bittrex Python Wrapper Library:
 https://github.com/ericsomdahl/python-bittrex
 
+#### EtherDelta
+https://etherdelta.com/trades.html
 
 ### Data Aggregators
 #### Coin Market Cap
 Web scraping historical EOD
+
+#### CryptoCompare
+https://www.cryptocompare.com/api/#introduction
 
 #### Quandl
 quandl downloader
