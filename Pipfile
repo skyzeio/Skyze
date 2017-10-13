@@ -16,6 +16,10 @@ arctic = "*"
 matplotlib = "*"
 rollbar = "*"
 pymongo = "*"
+pyzmq = "*"
+apscheduler = "*"
+halo = "*"
+twython = "*"
 
 [dev-packages]
 
