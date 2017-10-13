@@ -9,10 +9,10 @@ import json
 import ExceptionSkyzeAbstract
 
 
-class SkyzeServiceAbstract(ExceptionSkyzeAbstract):
+class SkyzeServiceAbstract(object):
     """Skyze Base class for services"""
 
-    def __init__(self, message_bus):
+    def __init__(self, message_bus=None):
         """Constructor"""
         self.__created = datetime.now()
         self.__message_bus = message_bus

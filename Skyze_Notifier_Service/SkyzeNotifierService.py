@@ -1,4 +1,4 @@
-"""Created on 12/10/2017
+"""Created on 13/10/2017
    @author: michaelnew"""
 
 # Third Party Imports
@@ -9,9 +9,9 @@ import json
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 
-class SkyzeMessageLogger(SkyzeServiceAbstract):
+class SkyzeNotifierService(SkyzeServiceAbstract):
     """Skyze inter-service message logger"""
 
     def __init__(self, message_bus):
         """Constructor"""
-        super.__init__(message_bus)
+        super().__init__(message_bus)

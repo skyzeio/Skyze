@@ -9,9 +9,9 @@ import json
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 
-class SkyzeMarketDataUpdater(SkyzeServiceAbstract):
+class SkyzeMessageLoggerService(SkyzeServiceAbstract):
     """Skyze inter-service message logger"""
 
     def __init__(self, message_bus):
         """Constructor"""
-        super.__init__(message_bus)
+        super().__init__(message_bus)
