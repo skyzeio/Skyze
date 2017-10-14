@@ -33,8 +33,8 @@ rollbar.report_message(
 
 # === Data load Switches =====
 cmc_load = False
-cryptopia_load = False
-poloniex_load = True
+cryptopia_load = True
+poloniex_load = False
 
 # === Data load Type =====
 load_type = "all"     # Laod_type Options are:
