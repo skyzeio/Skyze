@@ -7,7 +7,7 @@ import json
 
 # Skyze Imports
 import ExceptionSkyzeAbstract
-from Skyze_Messaging.Messages.SkyzeMessageTypes import *
+from Skyze_Messaging_Service.Messages.SkyzeMessageTypes import *
 
 
 class MessageSkyzeAbstract(object):
@@ -16,8 +16,7 @@ class MessageSkyzeAbstract(object):
     def __init__(self, message_type):
         """Constructor"""
         self.__created = str(datetime.now())
-        self.__type = str(message_type)
-        self.__message_type = str(message_type)
+        self.__message_type = message_type
 
     def getCreated(self):
         """Getter"""
@@ -35,4 +34,4 @@ class MessageSkyzeAbstract(object):
          "_MessageDataReceived__market_pair":  "BTC_USDT",
          "_MessageDataReceived__interval":     "5_min",
          "_MessageDataReceived__message_content": "Cryptopia:BTC_USDT:5_min"}"""
-        return f'{{"created": "{self.__created}", "type": "{self.__type}"'
+        return f'{{"created": "{self.__created}", "type": "{self.__message_type}"}}'

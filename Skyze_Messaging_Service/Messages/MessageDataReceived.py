@@ -4,7 +4,7 @@
 # Third Party Imports
 
 # Skyze Imports
-from Skyze_Messaging.Messages.MessageSkyzeAbstract import *
+from Skyze_Messaging_Service.Messages.MessageSkyzeAbstract import *
 
 
 class MessageDataReceived(MessageSkyzeAbstract):

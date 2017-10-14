@@ -15,3 +15,6 @@ class SkyzeMessageLoggerService(SkyzeServiceAbstract):
     def __init__(self, message_bus):
         """Constructor"""
         super().__init__(message_bus)
+
+    def log(self, message):
+        print("Logger Service: " + message.getJSON())

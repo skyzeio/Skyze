@@ -2,6 +2,7 @@
    @author: michaelnew"""
 
 # Third Party libraries
+from halo import Halo
 
 # Skyze libraries
 from Skyze_Market_Data_Cleaner_Service.SkyzeMarketDataCleanerService import *
@@ -40,6 +41,8 @@ class Skyze(object):
         """Starts all the Skyze Services and ensures the Message Serivce
            knows where all the other services are and that each Serivce
            knows where the messageing serice is"""
+
+        # Note thatthe order of serivce creation is important
         if self.__messaging_service is None:
             self.__messaging_service = SkyzeMessageBusService()
 
@@ -56,23 +59,35 @@ class Skyze(object):
                 self.__messaging_service)
 
         if self.__scheduler_service is None:
-            self.__scheduler = SkyzeSchedulerService(self.__messaging_service)
+            self.__scheduler_service = SkyzeSchedulerService(
+                self.__messaging_service)
 
         if self.__screener_service is None:
-            self.__screener = SkyzeScreenerService(self.__messaging_service)
+            self.__screener_service = SkyzeScreenerService(
+                self.__messaging_service)
 
         if self.__market_data_cleaner_service is None:
             self.__market_data_cleaner_service = SkyzeMarketDataCleanerService(
                 self.__messaging_service)
 
-        self.__messaging_service.setServices(self.__message_logger_service,
+        self.__messaging_service.setServices(self.__market_data_cleaner_service,
                                              self.__market_data_update_service,
-                                             self.__screener_service,
-                                             self.__scheduler_service
+                                             self.__message_logger_service,
+                                             self.__notifier_service,
+                                             self.__scheduler_service,
+                                             self.__screener_service
                                              )
 
         print("=== SkyZe All services started +++++++++")
 
     def run(self):
-        """Starts all Skyzes Servcies"""
+        """Starts all Skyzes Servcies then processes messages"""
+        # Start services
         self.__start_up_skyze_services()
+        # Process messages
+        spinner = Halo(
+            text='SkyZe is alive ... Processing Messages', spinner='dots')
+        spinner.start()
+        print("\n\n")
+        self.__messaging_service.process_messages()
+        spinner.stop()

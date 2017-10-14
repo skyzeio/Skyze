@@ -1,8 +1,13 @@
+# 3rd Party Libraries
 from apscheduler.schedulers.blocking import BlockingScheduler
 import datetime
+from random import randint
 
 # Skyze Imports
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
+from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRun import MessageMarketDataUpdaterRun
+from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRunAll import MessageMarketDataUpdaterRunAll
+from Skyze_Messaging_Service.Messages.MessageScreenerRun import MessageScreenerRun
 
 
 class SkyzeSchedulerService(SkyzeServiceAbstract):
@@ -10,10 +15,34 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
 
     def __init__(self, message_bus):
         """Constructor"""
+        #self.__message_bus = None
         super().__init__(message_bus)
 
+    def __sendMessage(self, message):
+        self._message_bus.publishMessage(message)
+
+    def test(self):
+        start_time = datetime.now()
+        print('=== Skyze Scheduler TEST RUN ========== ' +
+              str(start_time) + ' ========== ')
+        print()
+
+        sched = BlockingScheduler()
+
+        message_list = [
+            MessageMarketDataUpdaterRun("Poloniex", "BTCUSD", "1_Hour"),
+            MessageMarketDataUpdaterRunAll("Cryptopia"),
+            MessageScreenerRun("Mike's Screener")
+        ]
+
+        for i in range(1, 10):
+            msg_number = randint(0, 2)
+            msg = message_list[msg_number]
+            self._sendMessage(msg)
+        print("Test Messages published")
+
     def start(self):
-        start_time = datetime.datetime.now()
+        start_time = datetime.now()
         print('=== Skyze Scheduler ========== ' +
               str(start_time) + ' ========== ')
         print()
@@ -26,6 +55,7 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
             print(message)
             send_message(message)
 
+        """Fold this back into start function when ready"""
         @sched.scheduled_job('cron', day_of_week='mon-sun', hour=14, minute=30)
         def cmc_daily_update():
             message = 'Scheduler:: Triggering:: CMC all markets Daily Update at 2:30pm.'

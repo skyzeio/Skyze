@@ -39,3 +39,15 @@ class SkyzeScreenerService(SkyzeServiceAbstract):
 
     def __new_market_data_received(self, msg):
         pass
+
+    def runScreener(self, screener_name):
+        print(f"Screener Service: {screener_name}")
+
+    def receiveMessage(self, message_received):
+        """Gets the mssage from the bus and routes internally"""
+        # Route to appropriate service
+        message_type = message_received.getMessageType()
+        if message_type == SkyzeMessageType.SCREENER_RUN:
+            self.runScreener(message_received.getScreenerName())
+        else:
+            self._unknownMessageTypeError(message_received)
