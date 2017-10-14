@@ -1,6 +1,8 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
+
 
 [packages]
 
@@ -11,15 +13,16 @@ pandas = "*"
 pylint = "*"
 scipy = "*"
 arctic = "*"
-"trading-ig" = "*"
-"python-bittrex" = {git = "https://github.com/ericsomdahl/python-bittrex.git", editable = true, ref = "0.1.3"}
+trading-ig = "*"
+python-bittrex = {git = "https://github.com/ericsomdahl/python-bittrex.git", editable = true, ref = "0.1.3"}
 matplotlib = "*"
 rollbar = "*"
 pymongo = "*"
 pyzmq = "*"
 apscheduler = "*"
-halo = "*"
 twython = "*"
+halo = "*"
+
 
 [dev-packages]
 
