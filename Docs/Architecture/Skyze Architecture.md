@@ -258,6 +258,9 @@ __Numerical Datatypes and scientific calculations__
 
 http://www.scipy-lectures.org/
 
+__Financial Markets__
+1. TA Lib https://github.com/mrjbq7/ta-lib
+
 __Code quality__
 1. pylint
 
@@ -274,6 +277,13 @@ __Error Logging__
 
 __Testing__
 1. SimPy -  discrete event-simulation library for Python https://stefan.sofa-rockers.org/2013/12/03/how-simpy-works/
+
+__Notifications__
+1. Twitter - Twython https://github.com/ryanmcgrath/twython
+2. SMS - tweet to Skyze_IO, personal account subscribe to Skyze_io and
+ have twitter notification send SMS for all skyze_io tweets in personal account
+ 3. eMail - 
+
 
 
 ### Typing

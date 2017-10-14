@@ -18,7 +18,7 @@ import settings
 from Market import Market
 from MarketStats import MarketStats
 from BackTester import BackTester
-from ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 
 
 class Portfolio(DataAccess, ExceptionSkyzeAbstract):

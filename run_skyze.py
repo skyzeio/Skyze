@@ -5,8 +5,9 @@ from Skyze import *
 
 skyze = Skyze()
 skyze.run()
+print("\n\n")
 
-
+"""
 # Configuration data
 testing = False
 config = settings.from_file(
@@ -37,4 +38,4 @@ backtest = TradingSession(
     benchmark=tickers[1],
 )
 results = backtest.start_trading(testing=testing)
-return results
+return results"""

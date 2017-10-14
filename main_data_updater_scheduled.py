@@ -12,14 +12,13 @@ Used like a comandline with switches to run various functions
 
 # 3rd Party libraries
 import datetime
+import rollbar
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 # Skyze modules
 from Skyze_Market_Data_Updater_Service.CoinMarketCap import CoinMarketCap
 from Skyze_Market_Data_Updater_Service.Cryptopia import Cryptopia
 from Skyze_Market_Data_Updater_Service.PoloniexSkyze import PoloniexSkyze
-import rollbar
-
-from apscheduler.schedulers.blocking import BlockingScheduler
 
 
 #--- Rollbar Error reporting ---------------------------------------------------
@@ -41,7 +40,8 @@ cryptopia_load = True
 poloniex_load = False
 
 # === Data load Type =====
-load_type = "custom_list"     # Laod_type Options are:
+load_type = "custom_list
+"     # Laod_type Options are:
 #            all             ... the exchanege will call get all markets then download all
 #            ico             ... will use the custom ICO list
 #            custom_list     ... will use the custom list
@@ -129,6 +129,22 @@ sched = BlockingScheduler()
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23')
 def cryptopia_hourly_update():
     print('Scheduler:: Triggering:: cryptopia_hourly_update')
+    custom_list_cryptopia = custom_list_cryptopia_high_freq
+    run_update(False, True, False, "custom_list")
+    sched_notice()
+
+
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=10, minute: 10)
+def cryptopia_morning_update():
+    print('Scheduler:: Triggering:: cryptopia_morning_update')
+    custom_list_cryptopia = custom_list_cryptopia_high_freq
+    run_update(False, True, False, "custom_list")
+    sched_notice()
+
+
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=16, minute: 10)
+def cryptopia_arvo_update():
+    print('Scheduler:: Triggering:: cryptopia_arvo_update')
     custom_list_cryptopia = custom_list_cryptopia_high_freq
     run_update(False, True, False, "custom_list")
     sched_notice()

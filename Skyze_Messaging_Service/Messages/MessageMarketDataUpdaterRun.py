@@ -7,12 +7,12 @@
 from Skyze_Messaging_Service.Messages.MessageSkyzeAbstract import *
 
 
-class MessageDataReceived(MessageSkyzeAbstract):
+class MessageMarketDataUpdaterRun(MessageSkyzeAbstract):
     """Data has been fully loaded and ready for use"""
 
     def __init__(self, exchange, market_pair, interval):
         """Constructor"""
-        super().__init__(SkyzeMessageType.NEW_MARKET_DATA)
+        super().__init__(SkyzeMessageType.MARKET_DATA_UPDATER_RUN)
         self.__exchange = exchange
         self.__market_pair = market_pair
         self.__interval = interval

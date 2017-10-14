@@ -8,6 +8,7 @@ from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 
 # Skyze imports
 from Skyze_Messaging.Messages.MessageDataReceived import MessageDataReceived
+from Skyze_Messaging.Messages.SkyzeMessageTypes import *
 
 
 class MessageDataReceived_test(UnitTestSkyzeAbstract):
@@ -20,6 +21,7 @@ class MessageDataReceived_test(UnitTestSkyzeAbstract):
         exchange = "Cryptopia"
         market_pair = "BTC_USDT"
         interval = "5_min"
+        message_type = str(SkyzeMessageType.NEW_MARKET_DATA)
 
         # Create the message
         msg = MessageDataReceived(exchange, market_pair, interval)
@@ -27,11 +29,15 @@ class MessageDataReceived_test(UnitTestSkyzeAbstract):
         # Output the Test ouput data
         print("=== JSON === === === === === ")
         print(msg.getJSON())
+        print("=== Message Type === === === === === ")
+        print(msg.getMessageType())
+        print(f"test data: {message_type}")
 
         # Assert by series
         assert(exchange == msg.getExchange())
         assert(market_pair == msg.getMarketPair())
         assert(interval == msg.getInterval())
+        assert(message_type == msg.getMessageType())
         print("=== Assertions Passed === === === === === ")
 
 
