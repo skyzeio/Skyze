@@ -5,9 +5,12 @@ from random import randint
 
 # Skyze Imports
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
+# Messages
 from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRun import MessageMarketDataUpdaterRun
 from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRunAll import MessageMarketDataUpdaterRunAll
 from Skyze_Messaging_Service.Messages.MessageScreenerRun import MessageScreenerRun
+from Skyze_Messaging_Service.Messages.MessageSchedulerRun import MessageSchedulerRun
+from Skyze_Messaging_Service.Messages.MessageSchedulerTest import MessageSchedulerTest
 
 
 class SkyzeSchedulerService(SkyzeServiceAbstract):
@@ -16,7 +19,8 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     def __init__(self, message_bus):
         """Constructor"""
         #self.__message_bus = None
-        super().__init__(message_bus)
+        path_to_service = "Skyze_Scheduler_Service"
+        super().__init__(message_bus=message_bus, log_path=path_to_service)
 
     def __sendMessage(self, message):
         self._message_bus.publishMessage(message)
@@ -39,7 +43,20 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
             msg_number = randint(0, 2)
             msg = message_list[msg_number]
             self._sendMessage(msg)
-        print("Test Messages published")
+        print(f"Test Messages published")
+
+    def send_random_message(self):
+
+        message_list = [
+            MessageMarketDataUpdaterRun("Poloniex", "BTCUSD", "1_Hour"),
+            MessageMarketDataUpdaterRunAll("Cryptopia"),
+            MessageScreenerRun("Mike's Screener")
+        ]
+
+        print(f"Sending random message - {datetime.now()} - {msg.getJSON()}")
+        msg_number = randint(0, 2)
+        msg = message_list[msg_number]
+        self._sendMessage(msg)
 
     def start(self):
         start_time = datetime.now()
@@ -48,6 +65,8 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
         print()
 
         sched = BlockingScheduler()
+
+        job = sched.add_job(self.send_random_message, 'interval', minutes=1)
 
         @sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23')
         def cryptopia_hourly_update():
@@ -69,5 +88,16 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
             send_message(message)
 
         sched.print_jobs()
-        print("SCHEDULER NOT STARTED\n\n")
-        # sched.start()
+        sched.start()
+        print("SCHEDULER END OF START FUNCTION\n\n")
+
+    def receiveMessage(self, message_received):
+        """Gets the mssage from the bus and routes internally"""
+        # Route to appropriate service
+        message_type = message_received.getMessageType()
+        if message_type == SkyzeMessageType.SCHEDULER_RUN:
+            self.start()
+        elif message_type == SkyzeMessageType.SCHEDULER_TEST:
+            self.test()
+        else:
+            self._unknownMessageTypeError(message_received)
