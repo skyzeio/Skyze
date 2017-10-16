@@ -2,17 +2,15 @@
    @author: michaelnew"""
 
 # Third Party Imports
-from datetime import datetime
-import json
 
 # Skyze Imports
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 
-class SkyzeMarketDataCleanerService(SkyzeServiceAbstract):
+class SkyzeBackTesterService(SkyzeServiceAbstract):
     """Skyze inter-service message logger"""
 
     def __init__(self, message_bus):
         """Constructor"""
-        path_to_service = "Skyze_Market_Data_Cleaner_Service"
+        path_to_service = "Skyze_Back_Tester_Service"
         super().__init__(message_bus=message_bus, log_path=path_to_service)

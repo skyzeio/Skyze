@@ -84,6 +84,10 @@ class Skyze(object):
         """Starts all Skyzes Servcies then processes messages"""
         # Start services
         self.__start_up_skyze_services()
+        # Start Skyze by messaging the scheduler to invoke it's schedule
+        msg = MessageSchedulerTest()
+        msg = MessageSchedulerRun()
+        self.__messaging_service.publishMessage(msg)
         # Process messages
         spinner = Halo(
             text='SkyZe is alive ... Processing Messages', spinner='dots')
