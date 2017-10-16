@@ -14,4 +14,5 @@ class SkyzeMarketDataCleanerService(SkyzeServiceAbstract):
 
     def __init__(self, message_bus):
         """Constructor"""
-        super().__init__(message_bus)
+        path_to_service = "Skyze_Market_Data_Cleaner_Service"
+        super().__init__(message_bus=message_bus, log_path=path_to_service)

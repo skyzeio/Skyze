@@ -13,7 +13,8 @@ class SkyzeScreenerService(SkyzeServiceAbstract):
 
     def __init__(self, message_bus):
         """Constructor"""
-        super().__init__(message_bus)
+        path_to_service = "Skyze_Screener_Service"
+        super().__init__(message_bus=message_bus, log_path=path_to_service)
         self.__running_screeners = []
         self.__connect_to_message_bus()
         # self.__listen_to_message_bus()
