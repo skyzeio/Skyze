@@ -7,7 +7,7 @@ skyze = Skyze()
 skyze.run()
 print("\n\n")
 
-"""
+""" From QS Trader
 # Configuration data
 testing = False
 config = settings.from_file(
