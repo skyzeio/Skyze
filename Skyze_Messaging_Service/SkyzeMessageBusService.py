@@ -7,6 +7,7 @@ from time import sleep
 import json
 import sys
 
+# Python 2 compatibility
 PY2 = sys.version_info[0] == 2
 PY3 = (sys.version_info[0] >= 3)
 
@@ -19,7 +20,6 @@ else:  # PY3
 # Skyze Imports
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 from Skyze_Messaging_Service.Messages.SkyzeMessageTypes import *
-from Skyze_Messaging_Service.Messages.MessageSchedulerRun import MessageSchedulerRun
 
 
 class SkyzeMessageBusService(SkyzeServiceAbstract):
@@ -27,7 +27,8 @@ class SkyzeMessageBusService(SkyzeServiceAbstract):
 
     def __init__(self):
         """Constructor"""
-        super().__init__()
+        path_to_service = "Skyze_Messaging_Service"
+        super().__init__(log_path=path_to_service)
         self.__continue_processing = True
         self.__message_bus = queue.Queue()
 
@@ -73,23 +74,25 @@ class SkyzeMessageBusService(SkyzeServiceAbstract):
         message_type = message.getMessageType()
         if message_type == SkyzeMessageType.NEW_MARKET_DATA \
            or message_type == SkyzeMessageType.SCREENER_RUN:
+            # Route to the Screener Service
             self.__screener_service.receiveMessage(message)
         elif message_type == SkyzeMessageType.MARKET_DATA_UPDATER_RUN \
                 or message_type == SkyzeMessageType.MARKET_DATA_UPDATER_RUN_ALL:
+            # Route to the Market Data Updater Service
             self.__market_data_updater_service.receiveMessage(message)
         elif message_type == SkyzeMessageType.NOTIFICATION:
+            # Route to the Notifier Service
             self.__notifier_service.receiveMessage(message)
-        elif message_type == SkyzeMessageType.SCHEDULER_RUN:
-            self.__scheduler_service.test()
+        elif message_type == SkyzeMessageType.SCHEDULER_RUN \
+                or message_type == SkyzeMessageType.SCHEDULER_TEST:
+            # Route to the Scheduler Service
+            self.__scheduler_service.receiveMessage(message)
         else:
             # raise exception - Message not identified
             self._unknownMessageTypeError(message)
 
     def process_messages(self):
         """Infinite loop to process messages on the messuage bus"""
-        # Start by messaging the scheduler to invoke it's schedule
-        msg = MessageSchedulerRun()
-        self.publishMessage(msg)
 
         # Messaging handline loop
         while self.__continue_processing:
