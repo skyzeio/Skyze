@@ -5,6 +5,7 @@
 import zmq
 
 # Skyze Imports
+from Skyze_Screener_Service import settings
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 

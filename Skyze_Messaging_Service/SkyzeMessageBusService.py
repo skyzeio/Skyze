@@ -18,6 +18,7 @@ else:  # PY3
 
 
 # Skyze Imports
+from Skyze_Messaging_Service import settings
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 from Skyze_Messaging_Service.Messages.SkyzeMessageTypes import *
 
