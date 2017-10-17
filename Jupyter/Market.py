@@ -20,7 +20,7 @@ from pathlib2 import Path                       # OO File management
 from pandas   import ExcelWriter
 
 # Skyze Libraries
-import settings
+import settings_skyze
 import ExceptionSkyzeAbstract
 # import Portfolio
 
@@ -61,10 +61,10 @@ class Market():
     def constructFileName(self, p_testing):
         file_name = ""
         if p_testing:
-            file_name = os.path.join(settings.testing_file_path, "%s.csv" % self.market_name)
+            file_name = os.path.join(settings_skyze.testing_file_path, "%s.csv" % self.market_name)
         else:
-            file_name = os.path.join(settings.data_file_path,
-                                      "%s.csv" % (settings.exchanges.get_value(self.exchange,"Directory_name") + "/"
+            file_name = os.path.join(settings_skyze.data_file_path,
+                                      "%s.csv" % (settings_skyze.exchanges.get_value(self.exchange,"Directory_name") + "/"
                                                   + self.interval + "/"
                                                   + self.market_name)
                                    )
@@ -179,9 +179,9 @@ class Market():
         file_path = p_file_path
         if p_file_path == "":
             if p_testing:
-                file_path = settings.testing_file_path
+                file_path = settings_skyze.testing_file_path
             else:
-                file_path = settings.data_file_path
+                file_path = settings_skyze.data_file_path
 
         # Set file name
         file_name = p_file_name

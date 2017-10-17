@@ -4,6 +4,7 @@
 # Third Party Imports
 
 # Skyze Imports
+from Skyze_Back_Tester_Service import settings
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 

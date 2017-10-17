@@ -132,8 +132,8 @@ if __name__ == "__main__":
     
     # Configuration data
 #     testing = False
-#     config = settings.from_file(
-#         settings.DEFAULT_CONFIG_FILENAME, testing
+#     config = settings_skyze.from_file(
+#         settings_skyze.DEFAULT_CONFIG_FILENAME, testing
 #    )
     markets = ["AAPL", "SPY"]
     filename = None

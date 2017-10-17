@@ -5,6 +5,7 @@
 from halo import Halo
 
 # Skyze libraries
+import settings_skyze
 from Skyze_Market_Data_Cleaner_Service.SkyzeMarketDataCleanerService import *
 from Skyze_Market_Data_Updater_Service.SkyzeMarketDataUpdaterService import *
 from Skyze_Message_Logger_Service.SkyzeMessageLoggerService import *
@@ -36,6 +37,17 @@ class Skyze(object):
         self.__screener_service = screener_service
         self.__message_logger_service = message_logger
         print("\n\n=== SkyZe Starting +++++++++")
+
+        # Rollbar Error reporting
+        run_env = f"{settings_skyze.run_environment} - {self.getType()}"
+        rollbar_on = False
+        if rollbar_on:
+            rollbar.init(settings_skyze.rollbar_access_token, run_env)
+            rollbar.report_message(
+                f"{run_env} - Rollbar is configured correctly")
+
+    def getType(self):
+        return self.__class__.__name__
 
     def __start_up_skyze_services(self):
         """Starts all the Skyze Services and ensures the Message Serivce
@@ -80,15 +92,33 @@ class Skyze(object):
 
         print("=== SkyZe All services started +++++++++")
 
+    def __send_market_message(self):
+        market_list = ['ETH_BTC', 'LTC_BTC', 'HSR_BTC',
+                       'PAC_DOGE', 'SPR_BTC', 'ODN_BTC']
+
+        msg = MessageMarketDataUpdaterRun("Cryptopia", market_list, "Tick")
+        print(
+            f"Sending Cryptopia Update message - {datetime.now()} - {msg.getJSON()}")
+        self.__messaging_service.publishMessage(msg)
+
     def run(self):
         """Starts all Skyzes Servcies then processes messages"""
         # Start services
         self.__start_up_skyze_services()
+
+        # Test batches of messages
+        if False:
+            self.__send_market_message()
+        if False:
+            msg = MessageSchedulerTest()
+            self.__messaging_service.publishMessage(msg)
+
         # Start Skyze by messaging the scheduler to invoke it's schedule
-        msg = MessageSchedulerTest()
         msg = MessageSchedulerRun()
         self.__messaging_service.publishMessage(msg)
-        # Process messages
+
+        # Process messages - invokes the messaging service to infinitely
+        # loop looking for messages to route
         spinner = Halo(
             text='SkyZe is alive ... Processing Messages', spinner='dots')
         spinner.start()

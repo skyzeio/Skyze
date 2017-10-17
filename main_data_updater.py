@@ -13,16 +13,26 @@ from halo import Halo
 import rollbar
 
 # Skyze modules
+# Data Sources
 from Skyze_Market_Data_Updater_Service.CoinMarketCap import CoinMarketCap
 from Skyze_Market_Data_Updater_Service.Cryptopia import Cryptopia
 from Skyze_Market_Data_Updater_Service.PoloniexSkyze import PoloniexSkyze
-
+# other
+import settings_skyze
+from Skyze_Standard_Library.SkyzeLogger import SkyzeLogger
 
 #--- Rollbar Error reporting ---------------------------------------------------
-rollbar.init('8f67acbc427a4d6ba80c31516bd355da',
-             'Mike Laptop')  # access_token, environment
-rollbar.report_message(
-    'main_data_updater.py - Rollbar is configured correctly')
+rollbar_on = False
+if rollbar_on:
+    rollbar.init('8f67acbc427a4d6ba80c31516bd355da',
+                 'Mike Laptop')  # access_token, environment
+    rollbar.report_message(
+        'main_data_updater.py - Rollbar is configured correctly')
+
+#--- Set up the Skyze Logger ---------------------------------------------------
+logger_class_name = "main"
+log_path = settings_skyze.log_file_path
+logger = SkyzeLogger(logger_class_name, "")
 
 #-------------------------------------------------------------------------------
 #
@@ -37,7 +47,7 @@ cryptopia_load = True
 poloniex_load = False
 
 # === Data load Type =====
-load_type = "all"     # Laod_type Options are:
+load_type = "custom_list"     # Laod_type Options are:
 #            all             ... the exchanege will call get all markets then download all
 #            ico             ... will use the custom ICO list
 #            custom_list     ... will use the custom list
@@ -93,20 +103,23 @@ try:
     elif load_type == "custom_list" and data_load_switch:
         if cmc_load:
             print("=== UPDATE MARKET DATA - CUSTOM ===")
-            cmc = CoinMarketCap()
+            cmc = CoinMarketCap(logger=logger)
             cmc.updateMarketData(custom_list_cmc)
         if cryptopia_load:
-            crypt = Cryptopia()
+            crypt = Cryptopia(logger=logger)
             crypt.updateMarketData(custom_list_cryptopia)
         if poloniex_load:
-            poloniex = PoloniexSkyze()
+            poloniex = PoloniexSkyze(logger=logger)
             poloniex.updateMarketData(custom_list_poloniex)
-except:
+except e:
     # Catch all exceptions
-    rollbar.report_exc_info()
-    # equivalent to rollbar.report_exc_info(sys.exc_info())
+    if rollbar_on:
+        rollbar.report_exc_info()
+    else:
+        print(f"Unexpected ERROR: {sys.exc_info()[0]}")
+        raise Excpetion
 
-    # Calculate and print run time
+# Calculate and print run time
 end_time = datetime.datetime.now()
 run_time = end_time - start_time
 print(); print('=== End ========== ' + str(end_time) +

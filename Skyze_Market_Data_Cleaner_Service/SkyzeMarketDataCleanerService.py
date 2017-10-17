@@ -6,6 +6,7 @@ from datetime import datetime
 import json
 
 # Skyze Imports
+from Skyze_Market_Data_Cleaner_Service import settings
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 

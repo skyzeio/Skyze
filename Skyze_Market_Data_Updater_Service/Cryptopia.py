@@ -29,7 +29,7 @@ from inspect import stack
 import inspect
 
 # Skyze Libraries
-import settings
+import settings_skyze
 from Skyze_Market_Data_Updater_Service.MarketDataSourceAbstract import MarketDataSourceAbstract
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Market import Market
@@ -37,7 +37,7 @@ from Market import Market
 
 class Cryptopia (MarketDataSourceAbstract):
 
-    def __init__(self):
+    def __init__(self, message_bus=None, logger=None):
         source_name = "Cryptopia"
         source_dir_name = "Cryptopia"
         url_list_all_markets = "https://www.cryptopia.co.nz/api/GetTradePairs"
@@ -46,8 +46,9 @@ class Cryptopia (MarketDataSourceAbstract):
         url_market_history = "https://www.cryptopia.co.nz/api/GetMarketHistory/{0}/{1}"
         exchange_intervals = ["TICK"]
 
-        super().__init__(source_name, source_dir_name, url_list_all_markets, max_start_date,
-                         default_end_date, url_market_history, exchange_intervals)
+        super().__init__(source_name, source_dir_name, url_list_all_markets,
+                         max_start_date, default_end_date, url_market_history,
+                         exchange_intervals, message_bus, logger)
 
     def getAllMarkets(self, p_save_excel=False):
         """
@@ -70,7 +71,7 @@ class Cryptopia (MarketDataSourceAbstract):
         payload = pd.DataFrame(list(all_markets.Data))
 
         if p_save_excel:
-            payload.to_excel(settings.data_file_path +
+            payload.to_excel(settings_skyze.data_file_path +
                              '/Cryptopia_Markets.xlsx', index=False)
 
         return payload.Label

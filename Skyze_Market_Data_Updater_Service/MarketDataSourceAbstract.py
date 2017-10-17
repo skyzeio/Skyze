@@ -26,9 +26,11 @@ import zmq
 
 
 # skyze libraries
-import settings
+import settings_skyze
 from Market import Market
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
+# Messages
+from Skyze_Messaging_Service.Messages.MessageDataReceived import MessageDataReceived
 # from exceptions import BaseException
 
 
@@ -38,7 +40,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
     '''
 
     def __init__(self, p_source_name, p_source_dir_name, p_url_list_all_markets, p_max_start_date,
-                 p_default_end_date, p_url_market_history, p_exchange_intervals):
+                 p_default_end_date, p_url_market_history, p_exchange_intervals, message_bus=None, logger=None):
         '''
         Constructor
         '''
@@ -55,12 +57,18 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
             raise ExceptionSkyzeAbstract(
                 "MarketDataSource Init - exchagne interval parameter required")
 
-        self.exchange_intervals = settings.intervals.ix[p_exchange_intervals]
+        self.exchange_intervals = settings_skyze.intervals.ix[p_exchange_intervals]
+
+        self._message_bus = message_bus
+        self._logger = logger
 
         # Set up message Queue ZMQ
         #self.context = zmq.Context()
         #self.socket = self.context.socket(zmq.PUB)
         # self.socket.bind("tcp://127.0.0.1:4999")
+
+    def getType(self):
+        return self.__class__.__name__
 
     def getMarketsForCurrency(self):
         '''
@@ -110,7 +118,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
     # creates the full path and file name
     def fileName(self, p_market_name, p_interval):
-        return os.path.join(settings.data_file_path,
+        return os.path.join(settings_skyze.data_file_path,
                             "%s.csv" % (self.source_dir_name + "/"
                                         + p_interval + "/"
                                         + p_market_name)
@@ -256,16 +264,19 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         # TODO at the end of processing below, try again on the error list ... as often the
         #      error is due to internet connectivity. Maybe pause five then run on the error list
 
+        # Set the market list
         if p_market_list == "all":
-            mkt_list = self.getAllMarkets()  # TODO .Label for poloniex or cmc? Move to subclass
+            mkt_list = self.getAllMarkets()
         else:
             mkt_list = p_market_list
 
+        # Log header info
         download_total = str(len(mkt_list))
         interval_total = len(self.exchange_intervals)
-        print("Markets to downlaod: " + download_total +
-              "    ... each market has " + str(interval_total) + " intervals")
-        print("List of Markets: " + str(list((mkt_list))))
+        log_msg = f"Markets to downlaod: {download_total}  ... each market has "
+        log_msg += f"{interval_total} intervals"
+        log_msg += f"\nList of Markets: {list((mkt_list))}"
+        self._logger.log_info(log_msg)
 
         # convert market format from / to _
         mkt_list = [w.replace('/', '_') for w in mkt_list]
@@ -278,8 +289,8 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
             #             print("No Data:   "+str(len(no_data_list)))
             #             print(no_data_list)
             mkt_count += 1
-            print()
-            print(str(mkt_count) + " of " + download_total + ". " + market)
+            log_msg = f"\n\n{mkt_count} of {download_total} . {market}"
+            self._logger.log_info(log_msg)
 
             for index, interval in self.exchange_intervals.iterrows():
                 # Default start date if data not previously laoded
@@ -292,22 +303,23 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                     market, interval, load_start_date, file_path)
 
                 # Print the dates
-                print()
-                print("Interval: " + interval.Directory_name + "   Seconds: " +
-                      str(interval.Seconds) + "   Load start time: " + str(datetime.now()))
-                print("File: " + file_path)
-                print("File Start: " + str(file_start_date) +
-                      "   End: " + str(file_end_date))
-                print("Load Start: " + str(load_start_date) +
-                      "   End: " + str(load_end_date))
+                log_msg = f"Interval: {interval.Directory_name}   Seconds: "
+                log_msg += f"{interval.Seconds}   Load start time: {datetime.now()}"
+                log_msg += f"\nFile: {file_path}"
+                log_msg += f"\nFile Start: {file_start_date}   End: {file_end_date}"
+                log_msg += f"\nLoad Start: {load_start_date}   End: {load_end_date}"
+                self._logger.log_info(log_msg)
 
                 # Calls the URL
                 try:
                     market_data = self.getHistoricalData(
-                        market, interval.Seconds, load_start_date + timedelta(hours=10), load_end_date + timedelta(hours=10))
+                        market, interval.Seconds,
+                        load_start_date + timedelta(hours=10),
+                        load_end_date + timedelta(hours=10))
                 except urllib.error.HTTPError as err:
-                    self.printException(inspect.currentframe(
-                    ).f_lineno, "ERROR: HHTP - Probably wrong file name in URL - " + str(err.args) + " --- " + str(sys.exc_info()[0]))
+                    self.printException(inspect.currentframe().f_lineno,
+                                        "ERROR: HHTP - Probably wrong file name in URL - "
+                                        + str(err.args) + " --- " + str(sys.exc_info()[0]))
                     error_list = error_list.append(market)
                 except:
                     self.printException(
@@ -316,12 +328,13 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                 else:
                     # Check for no data message
                     if len(market_data) == 0:
-                        print("No data found for this market.")
+                        log_msg = "No data found for this market."
+                        self._logger.log_info(log_msg)
                     else:
 
-                        # Format the date column
-                        print("Number of Rows imported: " +
-                              str(len(market_data)))
+                        # Log
+                        log_msg = f"Number of Rows imported: {len(market_data)}"
+                        self._logger.log_info(log_msg)
 
                         # Save the data
                         mkt = Market(market, self.source_dir_name,
@@ -331,25 +344,19 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                         # exchange specific post processing
                         self.post_process_file(market, interval.Directory_name)
 
-                        # compose the message
-                        msg = "{0}-{1} ...added: {2}".format(
-                            market, interval.Directory_name, len(market_data))
+                        # send the message
+                        if self._message_bus != None:
+                            # Send a message if we are attached to the bus
+                            # Don't send if not attached
+                            msg = MessageDataReceived(
+                                self.getType(), market, interval.Directory_name)
+                            self._message_bus.publishMessage(msg)
 
-                        print("Sending Message: {0}".format(msg))
-
-                        # send the message ZMQ
-                        # self.socket.send_string(msg)
-
-        print()
-        print()
-        print()
-        print("Success: " + str(len(mkt_list)))  # -len(error_list)))
-        #-str(len(no_data_list))
-        print("Error:   " + str(len(error_list)))
-        print(error_list)
-        print("No Data:   NOT IMPLEMENTED ... " + str(len(no_data_list)))
-        print(no_data_list)
-        print("List of Markets: " + str(list((mkt_list))))
+        end_log_msg = f"\n\n\nSuccess: {len(mkt_list)}"
+        end_log_msg += f"\nError:   {len(error_list)}\n{error_list}"
+        end_log_msg += f"\nNo Data:   NOT IMP ... {len(no_data_list)}\n{no_data_list}"
+        end_log_msg += f"\nList of Markets: \n{list((mkt_list))}"
+        self._logger.log_info(end_log_msg)
 
     def removeDuplicateRowsCSV(self, p_market, p_interval):
         ''' Removes duplicate rows from a CSV file

@@ -5,7 +5,7 @@
 #----------------------------------------------------------------------------------------------------------
 
 import os
-import settings
+import settings_skyze
 
 
 class DataAccess:
@@ -18,7 +18,7 @@ class DataAccess:
     # creates the full path and file name
     
     def fileName(self, p_market_name, p_extension):
-        return os.path.join(settings.data_file_path, "%(name)s.%(extension)s" % {"name":p_market_name, "extension":p_extension})
+        return os.path.join(settings_skyze.data_file_path, "%(name)s.%(extension)s" % {"name":p_market_name, "extension":p_extension})
     
     
        
