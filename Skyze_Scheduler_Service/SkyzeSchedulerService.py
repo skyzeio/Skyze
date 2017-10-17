@@ -4,6 +4,7 @@ import datetime
 from random import randint
 
 # Skyze Imports
+from Skyze_Scheduler_Service import settings
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 # Messages
 from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRun import MessageMarketDataUpdaterRun
@@ -22,9 +23,6 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
         path_to_service = "Skyze_Scheduler_Service"
         super().__init__(message_bus=message_bus, log_path=path_to_service)
 
-    def __sendMessage(self, message):
-        self._message_bus.publishMessage(message)
-
     def test(self):
         start_time = datetime.now()
         print('=== Skyze Scheduler TEST RUN ========== ' +
@@ -32,10 +30,11 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
         print()
 
         sched = BlockingScheduler()
-
+        market_list = ['ETH_BTC', 'LTC_BTC', 'HSR_BTC',
+                       'PAC_DOGE', 'SPR_BTC', 'ODN_BTC']
         message_list = [
-            MessageMarketDataUpdaterRun("Poloniex", "BTCUSD", "1_Hour"),
-            MessageMarketDataUpdaterRunAll("Cryptopia"),
+            MessageMarketDataUpdaterRun("Cryptopia", market_list, "Tick"),
+            MessageMarketDataUpdaterRunAll("Poloniex"),
             MessageScreenerRun("Mike's Screener")
         ]
 
@@ -46,10 +45,12 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
         print(f"Test Messages published")
 
     def send_random_message(self):
+        market_list = ['ETH_BTC', 'LTC_BTC', 'HSR_BTC',
+                       'PAC_DOGE', 'SPR_BTC', 'ODN_BTC']
 
         message_list = [
-            MessageMarketDataUpdaterRun("Poloniex", "BTCUSD", "1_Hour"),
-            MessageMarketDataUpdaterRunAll("Cryptopia"),
+            MessageMarketDataUpdaterRun("Cryptopia", market_list, "Tick"),
+            MessageMarketDataUpdaterRunAll("Poloniex"),
             MessageScreenerRun("Mike's Screener")
         ]
 
@@ -67,26 +68,26 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
 
         sched = BlockingScheduler()
 
-        job = sched.add_job(self.send_random_message, 'interval', minutes=1)
+        #job = sched.add_job(self.send_random_message, 'interval', minutes=1)
 
         @sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23')
         def cryptopia_hourly_update():
-            message = 'Scheduler:: Triggering:: cryptopia_hourly_update'
-            print(message)
-            send_message(message)
+            message = MessageMarketDataUpdaterRun(
+                "Cryptopia", "Tick", market_pairs=None)
+            print(message.getJSON())
+            self._sendMessage(message)
 
-        """Fold this back into start function when ready"""
         @sched.scheduled_job('cron', day_of_week='mon-sun', hour=14, minute=30)
         def cmc_daily_update():
             message = 'Scheduler:: Triggering:: CMC all markets Daily Update at 2:30pm.'
             print(message)
-            send_message(message)
+            self._sendMessage(message)
 
         @sched.scheduled_job('cron', day_of_week='mon-sun', hour=10, minute=12)
         def poloniex_daily_update():
             message = 'Scheduler:: Triggering:: Poloniex all markets Daily Update at 10:12am'
             print(message)
-            send_message(message)
+            self._sendMessage(message)
 
         sched.print_jobs()
         sched.start()

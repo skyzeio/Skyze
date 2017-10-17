@@ -37,7 +37,7 @@ from Market import Market
 
 class Cryptopia (MarketDataSourceAbstract):
 
-    def __init__(self):
+    def __init__(self, message_bus=None, logger=None):
         source_name = "Cryptopia"
         source_dir_name = "Cryptopia"
         url_list_all_markets = "https://www.cryptopia.co.nz/api/GetTradePairs"
@@ -46,8 +46,9 @@ class Cryptopia (MarketDataSourceAbstract):
         url_market_history = "https://www.cryptopia.co.nz/api/GetMarketHistory/{0}/{1}"
         exchange_intervals = ["TICK"]
 
-        super().__init__(source_name, source_dir_name, url_list_all_markets, max_start_date,
-                         default_end_date, url_market_history, exchange_intervals)
+        super().__init__(source_name, source_dir_name, url_list_all_markets,
+                         max_start_date, default_end_date, url_market_history,
+                         exchange_intervals, message_bus, logger)
 
     def getAllMarkets(self, p_save_excel=False):
         """

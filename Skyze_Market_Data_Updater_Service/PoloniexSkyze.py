@@ -50,7 +50,7 @@ the date range for the data returned. Sample output:
 
 class PoloniexSkyze (MarketDataSourceAbstract, ExceptionSkyzeAbstract):
 
-    def __init__(self):
+    def __init__(self, message_bus=None, logger=None):
         source_name = "Poloniex"
         source_dir_name = "Poloniex"
         url_list_all_markets = "https://poloniex.com/public?command=returnTicker"
@@ -60,8 +60,9 @@ class PoloniexSkyze (MarketDataSourceAbstract, ExceptionSkyzeAbstract):
         exchange_intervals = ["DAY_1", "HOUR_4", "HOUR_2", "MIN_5"]
 #         exchange_intervals      = ["MIN_5"]
 
-        super().__init__(source_name, source_dir_name, url_list_all_markets, max_start_date,
-                         default_end_date, url_market_history, exchange_intervals)
+        super().__init__(source_name, source_dir_name, url_list_all_markets,
+                         max_start_date, default_end_date, url_market_history,
+                         exchange_intervals, message_bus, logger)
 
     def getAllMarkets(self, p_save_excel=False):
         """

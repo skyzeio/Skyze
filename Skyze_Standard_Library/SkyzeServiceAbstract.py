@@ -5,8 +5,10 @@
 from datetime import datetime
 import json
 import logging
+import rollbar
 
 # Skyze Imports
+import settings_skyze
 import ExceptionSkyzeAbstract
 from Skyze_Standard_Library.SkyzeLogger import *
 from Skyze_Messaging_Service.Messages.SkyzeMessageTypes import *

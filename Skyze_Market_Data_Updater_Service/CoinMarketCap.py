@@ -29,7 +29,7 @@ from Market import Market
 
 class CoinMarketCap (MarketDataSourceAbstract):
 
-    def __init__(self):
+    def __init__(self, message_bus=None, logger=None):
         source_name = "Coin Market Cap"
         source_dir_name = "CMC"
         url_list_all_markets = ""
@@ -38,8 +38,9 @@ class CoinMarketCap (MarketDataSourceAbstract):
         url_market_history = ""
         exchange_intervals = ["DAY_1"]
 
-        super().__init__(source_name, source_dir_name, url_list_all_markets, max_start_date,
-                         default_end_date, url_market_history, exchange_intervals)
+        super().__init__(source_name, source_dir_name, url_list_all_markets,
+                         max_start_date, default_end_date, url_market_history,
+                         exchange_intervals, message_bus, logger)
 
     def constructScrapeURL(self, marketStr, p_start_date, p_end_date):
         start_date = p_start_date.strftime('%Y%m%d')

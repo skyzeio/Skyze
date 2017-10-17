@@ -1,8 +1,12 @@
 # IMPORTS
 import pandas as pd
 
+# RUN ENVIRONMENT
+run_environment = "Mike's Laptop"
+
 # PATHS
 data_file_path = "Data/Trading/"
+log_file_path = "Logs/"
 testing_file_path = "Unit_Test/Test_Data/"
 results_file_path = "Unit_Test/Test_Data/"
 
@@ -46,3 +50,6 @@ exchanges = pd.DataFrame(exch_list)
 exchanges = exchanges.set_index('Name')
 
 # access by:   exchanges.get_value("Cryptopia","Directory_name")
+
+# ROLLBAR ERROR LOGGING
+rollbar_access_token = '8f67acbc427a4d6ba80c31516bd355da'
