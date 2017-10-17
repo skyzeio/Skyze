@@ -18,11 +18,13 @@ class SkyzeMarketDataUpdaterService(SkyzeServiceAbstract):
         super().__init__(message_bus=message_bus, log_path=path_to_service)
 
     def run_update(self, exchange, market_pair, interval):
-        print(
-            f"Mkt Data Updater Serivce: run_update {exchange},{market_pair},{interval}")
+        log_message = f"Mkt Data Updater Serivce: run_update \
+                            {exchange},{market_pair},{interval}"
+        self._logger.log_info(log_message, self._print_log)
 
     def run_update_all(self):
-        print(f"Mkt Data Updater Serivce: run_update all")
+        self._logger.log_info(
+            "Mkt Data Updater Serivce: run_update all", self._print_log)
 
     def receiveMessage(self, message_received):
         """Gets the mssage from the bus and routes internally"""

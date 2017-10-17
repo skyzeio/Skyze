@@ -37,7 +37,7 @@ cryptopia_load = True
 poloniex_load = False
 
 # === Data load Type =====
-load_type = "all"     # Laod_type Options are:
+load_type = "custom_list"     # Laod_type Options are:
 #            all             ... the exchanege will call get all markets then download all
 #            ico             ... will use the custom ICO list
 #            custom_list     ... will use the custom list

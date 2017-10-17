@@ -29,7 +29,7 @@ from inspect import stack
 import inspect
 
 # Skyze Libraries
-import settings
+import settings_skyze
 from Skyze_Market_Data_Updater_Service.MarketDataSourceAbstract import MarketDataSourceAbstract
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Market import Market
@@ -70,7 +70,7 @@ class Cryptopia (MarketDataSourceAbstract):
         payload = pd.DataFrame(list(all_markets.Data))
 
         if p_save_excel:
-            payload.to_excel(settings.data_file_path +
+            payload.to_excel(settings_skyze.data_file_path +
                              '/Cryptopia_Markets.xlsx', index=False)
 
         return payload.Label

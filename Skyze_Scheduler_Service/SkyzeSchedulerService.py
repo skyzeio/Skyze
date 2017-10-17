@@ -53,9 +53,10 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
             MessageScreenerRun("Mike's Screener")
         ]
 
-        print(f"Sending random message - {datetime.now()} - {msg.getJSON()}")
         msg_number = randint(0, 2)
         msg = message_list[msg_number]
+        logger_message = f"Sending random message - {datetime.now()} - {msg.getJSON()}"
+        self._logger.log_info(logger_message)
         self._sendMessage(msg)
 
     def start(self):

@@ -23,7 +23,7 @@ from collections import deque
 # Skyze Libraries
 from Skyze_Market_Data_Updater_Service.MarketDataSourceAbstract import MarketDataSourceAbstract
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
-import settings
+import settings_skyze
 from Market import Market
 
 
@@ -186,7 +186,7 @@ class CoinMarketCap (MarketDataSourceAbstract):
 
         # Save to CSV
         file_path = os.path.join(
-            settings.data_file_path, "CoinMarketCapMarkets.csv")
+            settings_skyze.data_file_path, "CoinMarketCapMarkets.csv")
         p_markets.to_csv(file_path, header=False,
                          date_format='%Y-%m-%d %H:%M:%S')
         return
@@ -247,7 +247,7 @@ class CoinMarketCap (MarketDataSourceAbstract):
 #                                ):
 #
 #         # Save to CSV
-#         file_path = os.path.join(settings.data_file_path, "%s.csv" % p_market_name)
+#         file_path = os.path.join(settings_skyze.data_file_path, "%s.csv" % p_market_name)
 #         print(p_market_data)
 #         #p_market_data.to_csv(file_path,header=False, date_format='%Y-%m-%d %H:%M:%S')
 #

@@ -86,6 +86,7 @@ class Skyze(object):
         self.__start_up_skyze_services()
         # Start Skyze by messaging the scheduler to invoke it's schedule
         msg = MessageSchedulerTest()
+        self.__messaging_service.publishMessage(msg)
         msg = MessageSchedulerRun()
         self.__messaging_service.publishMessage(msg)
         # Process messages

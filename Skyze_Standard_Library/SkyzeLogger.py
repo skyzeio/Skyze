@@ -32,5 +32,7 @@ class SkyzeLogger(object):
         self._logger.addHandler(fileHandler)
         self._logger.addHandler(streamHandler)
 
-    def log_info(self, log_message):
+    def log_info(self, log_message, print_log=True):
+        if print_log:
+            print(f"\n{log_message}")
         self._logger.info(f"Log: {log_message}")

@@ -17,7 +17,7 @@ import numpy as np
 
 
 # Skyze Libraries
-import settings
+import settings_skyze
 from Market import Market
 
 
@@ -296,7 +296,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         # Create the path name
         file_path = os.path.join(
-            settings.results_file_path, "%s.csv" % p_results_file)
+            settings_skyze.results_file_path, "%s.csv" % p_results_file)
 
         # Add the standard market columns to the beginning of the column list
         column_names = self.target_columns_market + p_column_names
@@ -342,9 +342,9 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         file_path = p_file_path
         if p_file_path == "":
             if p_testing:
-                file_path = settings.testing_file_path
+                file_path = settings_skyze.testing_file_path
             else:
-                file_path = settings.data_file_path
+                file_path = settings_skyze.data_file_path
 
         # Write to Excel
         print("Test Output: " + file_path + "/" + p_file_name + ".xlsx")

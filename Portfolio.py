@@ -14,7 +14,7 @@ import inspect
 
 # --- Our Imports -------------------
 from DataAccess import DataAccess
-import settings
+import settings_skyze
 from Market import Market
 from MarketStats import MarketStats
 from BackTester import BackTester

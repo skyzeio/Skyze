@@ -26,7 +26,7 @@ import zmq
 
 
 # skyze libraries
-import settings
+import settings_skyze
 from Market import Market
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 # from exceptions import BaseException
@@ -55,7 +55,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
             raise ExceptionSkyzeAbstract(
                 "MarketDataSource Init - exchagne interval parameter required")
 
-        self.exchange_intervals = settings.intervals.ix[p_exchange_intervals]
+        self.exchange_intervals = settings_skyze.intervals.ix[p_exchange_intervals]
 
         # Set up message Queue ZMQ
         #self.context = zmq.Context()
@@ -110,7 +110,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
 
     # creates the full path and file name
     def fileName(self, p_market_name, p_interval):
-        return os.path.join(settings.data_file_path,
+        return os.path.join(settings_skyze.data_file_path,
                             "%s.csv" % (self.source_dir_name + "/"
                                         + p_interval + "/"
                                         + p_market_name)
