@@ -121,7 +121,7 @@ class Skyze(object):
         # loop looking for messages to route
         spinner = Halo(
             text='SkyZe is alive ... Processing Messages', spinner='dots')
-        spinner.start()
+        # spinner.start()
         print("\n\n")
         self.__messaging_service.process_messages()
-        spinner.stop()
+        # spinner.stop()

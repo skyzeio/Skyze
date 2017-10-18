@@ -64,13 +64,15 @@ class SkyzeMessageBusService(SkyzeServiceAbstract):
 
     def publishMessage(self, published_message):
         """Publishes Messages"""
+        # puts the message onto the queue
         self.__message_bus.put(published_message)
 
     def __route_message(self, message):
         """Sends message to apprpriate receiver"""
         # All messages are logged
-        self.__message_logger_service.log(message)
-
+        log_msg = "Message Bus Service::__route_message::" + message.getJSON()
+        self.__message_logger_service.log(log_msg)
+        print("route message")
         # Route to appropriate service
         message_type = message.getMessageType()
         if message_type == SkyzeMessageType.NEW_MARKET_DATA \
@@ -96,8 +98,10 @@ class SkyzeMessageBusService(SkyzeServiceAbstract):
         """Infinite loop to process messages on the messuage bus"""
 
         # Messaging handline loop
+        print("try get next message from infinite loop")
         while self.__continue_processing:
             try:
+                print('.', end='')
                 # get next message off message bus
                 next_message = self.__message_bus.get(False)
             except queue.Empty:
@@ -106,4 +110,5 @@ class SkyzeMessageBusService(SkyzeServiceAbstract):
                 # and sleep in between
                 sleep(5)
             else:
+                print("routing from infinite loop")
                 self.__route_message(next_message)

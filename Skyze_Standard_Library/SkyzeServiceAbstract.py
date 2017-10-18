@@ -27,8 +27,8 @@ class SkyzeServiceAbstract(object):
         # Create Logger
         logger_class_name = self.getType()
         self._logger = SkyzeLogger(logger_class_name, log_path)
-        log_message = f"Log: {self.getType()} Started"
-        self._logger.log_info(log_message, self._print_log)
+        log_message = f"{self.getType()}::__init__::Started"
+        self._logger.log_info(log_message, False)
 
     def getType(self):
         return self.__class__.__name__
@@ -40,10 +40,12 @@ class SkyzeServiceAbstract(object):
         self._print_log = print_log
 
     def _sendMessage(self, message):
+        log_msg = f"{self.getType()}::Send Msg::{message.getJSON()}"
+        self._logger.log_info(log_msg)
         self._message_bus.publishMessage(message)
 
     def _unknownMessageTypeError(self, message):
-        print(f"{self.__class__.__name__} Unknown Message Type {message.getJSON()}")
-        print("message ... Message type: " + str(message_type))
-        print(" type: " + str(type(message_type)))
+        log_msg = f"{self.__class__.__name__}::Unknown Message Type Error"
+        log_msg += f"\ntype: {type(message)}\n{message.getJSON()}"
+        self._logger.log_info(log_msg)
         raise IOError

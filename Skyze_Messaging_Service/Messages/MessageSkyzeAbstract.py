@@ -34,4 +34,4 @@ class MessageSkyzeAbstract(object):
          "_MessageDataReceived__market_pair":  "BTC_USDT",
          "_MessageDataReceived__interval":     "5_min",
          "_MessageDataReceived__message_content": "Cryptopia:BTC_USDT:5_min"}"""
-        return f'{{"created": "{self.__created}", "type": "{self.__message_type}"}}'
+        return f'{{"created": "{self.__created}", "type": "{self.__message_type}"'

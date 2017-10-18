@@ -1,5 +1,6 @@
 # 3rd Party Libraries
-from apscheduler.schedulers.blocking import BlockingScheduler
+#from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 from random import randint
 
@@ -18,10 +19,19 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     """Skyze inter-service message logger"""
 
     def __init__(self, message_bus):
-        """Constructor"""
+        """Constructor
+           Scheduler doco: http://apscheduler.readthedocs.io/en/latest/userguide.html"""
         #self.__message_bus = None
         path_to_service = "Skyze_Scheduler_Service"
         super().__init__(message_bus=message_bus, log_path=path_to_service)
+
+        # Create Scheduler
+        # BlockingScheduler: use when the scheduler is the only thing
+        #                    running in your process
+        # BackgroundScheduler: use when you’re not using any of the
+        #             frameworks below, and want the scheduler to run
+        #             in the background inside your application
+        self._sched = BackgroundScheduler()
 
     def test(self):
         start_time = datetime.now()
@@ -29,7 +39,6 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
               str(start_time) + ' ========== ')
         print()
 
-        sched = BlockingScheduler()
         market_list = ['ETH_BTC', 'LTC_BTC', 'HSR_BTC',
                        'PAC_DOGE', 'SPR_BTC', 'ODN_BTC']
         message_list = [
@@ -56,42 +65,70 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
 
         msg_number = randint(0, 2)
         msg = message_list[msg_number]
-        logger_message = f"Sending random message - {datetime.now()} - {msg.getJSON()}"
-        self._logger.log_info(logger_message)
+        log_msg = f"Scheduler Service::send_random_message - {datetime.now()} - {msg.getJSON()}"
+        self._logger.log_info(log_msg)
         self._sendMessage(msg)
 
+    # ========================================================================
+    # ----- Jobs to Schedule =================================================
+    # ========================================================================
+    #@sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23', minute=1)
+    def cryptopia_hourly_update(self, market_pairs=None):
+        log_msg = 'Scheduler:: Triggering:: Cryptopia Hourly Update'
+        self._logger.log_info(log_msg)
+        hourly_pairs = ['ETH_BTC', 'LTC_BTC',
+                        'HSR_BTC', 'PAC_DOGE', 'SPR_BTC', 'ODN_BTC']
+        message = MessageMarketDataUpdaterRun(
+            "Cryptopia", "Tick", market_pairs=hourly_pairs)
+        self._sendMessage(message)
+
+    def cryptopia_daily_update(self, market_pairs=None):
+        log_msg = 'Scheduler:: Triggering:: Cryptopia Hourly Update'
+        self._logger.log_info(log_msg)
+        message = MessageMarketDataUpdaterRun(
+            "Cryptopia", "Tick", market_pairs=None)
+        self._sendMessage(message)
+
+    #@sched.scheduled_job('cron', day_of_week='mon-sun', hour=14, minute=30)
+    def cmc_daily_update(self, market_pairs=None):
+        log_msg = 'Scheduler:: Triggering: : CMC all markets Daily Update at 2: 30pm.'
+        self._logger.log_info(log_msg)
+        message = MessageMarketDataUpdaterRun(
+            "CoinMarketCap", "Daily", market_pairs=None)
+        self._sendMessage(message)
+
+    #@sched.scheduled_job('cron', day_of_week='mon-sun', hour=10, minute=12)
+    def poloniex_daily_update(self, market_pairs=None):
+        log_msg = 'Scheduler:: Triggering:: Poloniex all markets Daily Update at 10:12am'
+        self._logger.log_info(log_msg)
+        message = MessageMarketDataUpdaterRun(
+            "Poloniex", "All", market_pairs=None)
+        self._sendMessage(message)
+
+    # ========================================================================
+    # ====== Start the Scheduler =============================================
+    # ========================================================================
     def start(self):
         start_time = datetime.now()
         print('=== Skyze Scheduler ========== ' +
               str(start_time) + ' ========== ')
         print()
 
-        sched = BlockingScheduler()
-
         #job = sched.add_job(self.send_random_message, 'interval', minutes=1)
+        job = self._sched.add_job(self.cryptopia_hourly_update,
+                                  'interval', hours=1)
+        job = self._sched.add_job(self.poloniex_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=10, minute=12)
+        job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=10, minute=35)
+        job = self._sched.add_job(self.cmc_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=14, minute=30)
+        job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=16, minute=30)
 
-        @sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23')
-        def cryptopia_hourly_update():
-            message = MessageMarketDataUpdaterRun(
-                "Cryptopia", "Tick", market_pairs=None)
-            print(message.getJSON())
-            self._sendMessage(message)
-
-        @sched.scheduled_job('cron', day_of_week='mon-sun', hour=14, minute=30)
-        def cmc_daily_update():
-            message = 'Scheduler:: Triggering:: CMC all markets Daily Update at 2:30pm.'
-            print(message)
-            self._sendMessage(message)
-
-        @sched.scheduled_job('cron', day_of_week='mon-sun', hour=10, minute=12)
-        def poloniex_daily_update():
-            message = 'Scheduler:: Triggering:: Poloniex all markets Daily Update at 10:12am'
-            print(message)
-            self._sendMessage(message)
-
-        sched.print_jobs()
-        sched.start()
-        print("SCHEDULER END OF START FUNCTION\n\n")
+        # Print the list of jobs and start the scheduler
+        self._sched.print_jobs()
+        self._sched.start()
 
     def receiveMessage(self, message_received):
         """Gets the mssage from the bus and routes internally"""
