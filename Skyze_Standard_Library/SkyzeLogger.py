@@ -34,5 +34,5 @@ class SkyzeLogger(object):
 
     def log_info(self, log_message, print_log=True):
         if print_log:
-            print(f"\n{log_message}")
+            print(f"{log_message}")
         self._logger.info(f"Log: {log_message}")

@@ -276,7 +276,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         log_msg = f"Markets to downlaod: {download_total}  ... each market has "
         log_msg += f"{interval_total} intervals"
         log_msg += f"\nList of Markets: {list((mkt_list))}"
-        self._logger.log_info(log_msg)
+        self._logger.log_info(log_msg, False)
 
         # convert market format from / to _
         mkt_list = [w.replace('/', '_') for w in mkt_list]
@@ -290,7 +290,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
             #             print(no_data_list)
             mkt_count += 1
             log_msg = f"\n\n{mkt_count} of {download_total} . {market}"
-            self._logger.log_info(log_msg)
+            self._logger.log_info(log_msg, False)
 
             for index, interval in self.exchange_intervals.iterrows():
                 # Default start date if data not previously laoded
@@ -308,7 +308,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                 log_msg += f"\nFile: {file_path}"
                 log_msg += f"\nFile Start: {file_start_date}   End: {file_end_date}"
                 log_msg += f"\nLoad Start: {load_start_date}   End: {load_end_date}"
-                self._logger.log_info(log_msg)
+                self._logger.log_info(log_msg, False)
 
                 # Calls the URL
                 try:
@@ -329,12 +329,12 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
                     # Check for no data message
                     if len(market_data) == 0:
                         log_msg = "No data found for this market."
-                        self._logger.log_info(log_msg)
+                        self._logger.log_info(log_msg, False)
                     else:
 
                         # Log
                         log_msg = f"Number of Rows imported: {len(market_data)}"
-                        self._logger.log_info(log_msg)
+                        self._logger.log_info(log_msg, False)
 
                         # Save the data
                         mkt = Market(market, self.source_dir_name,
@@ -356,7 +356,7 @@ class MarketDataSourceAbstract(ExceptionSkyzeAbstract):
         end_log_msg += f"\nError:   {len(error_list)}\n{error_list}"
         end_log_msg += f"\nNo Data:   NOT IMP ... {len(no_data_list)}\n{no_data_list}"
         end_log_msg += f"\nList of Markets: \n{list((mkt_list))}"
-        self._logger.log_info(end_log_msg)
+        self._logger.log_info(end_log_msg, False)
 
     def removeDuplicateRowsCSV(self, p_market, p_interval):
         ''' Removes duplicate rows from a CSV file

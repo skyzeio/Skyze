@@ -19,4 +19,5 @@ class SkyzeMessageLoggerService(SkyzeServiceAbstract):
         super().__init__(log_path=path_to_service)
 
     def log(self, message):
-        print("Logger Service: " + message.getJSON())
+        log_message = "Logger Service::log:: " + message
+        self._logger.log_info(log_message, self._print_log)

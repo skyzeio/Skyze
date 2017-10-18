@@ -37,7 +37,7 @@ class SkyzeMarketDataUpdaterService(SkyzeServiceAbstract):
 
     def run_update(self, exchange_name, market_pairs, interval):
         # log
-        log_message = f"Mkt Data Updater Serivce: run_update \
+        log_message = f"Mkt Data Updater Serivce::run_update \
                             {exchange_name},{market_pairs},{interval}"
         self._logger.log_info(log_message, self._print_log)
 
@@ -76,11 +76,14 @@ class SkyzeMarketDataUpdaterService(SkyzeServiceAbstract):
             exchange.updateMarketData(market_pairs)
 
     def run_update_all(self):
-        self._logger.log_info(
-            "Mkt Data Updater Serivce: run_update all", self._print_log)
+        log_msg = "Mkt Data Updater Serivce::run_update_all - DO NOTHING"
+        self._logger.log_info(log_msg, self._print_log)
 
     def receiveMessage(self, message_received):
         """Gets the mssage from the bus and routes internally"""
+        log_msg = "Mkt Data Updater Serivce::receiveMessage::" \
+            + message_received.getJSON()
+        self._logger.log_info(log_msg)
         # Route to appropriate service
         message_type = message_received.getMessageType()
         if message_type == SkyzeMessageType.MARKET_DATA_UPDATER_RUN:

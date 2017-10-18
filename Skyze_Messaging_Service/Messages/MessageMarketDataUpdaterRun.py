@@ -36,4 +36,7 @@ class MessageMarketDataUpdaterRun(MessageSkyzeAbstract):
 
     def getJSON(self):
         """Return object as JSON"""
-        return super().getJSON()  # json.dumps(self.__dict__)
+        text = super().getJSON() + f', "exchange": "{self.__exchange}"'
+        text += f', "market pair": "{self.__market_pairs}"'
+        text += f', "interval": "{self.__interval}"}}'
+        return text
