@@ -96,7 +96,8 @@ class Skyze(object):
         market_list = ['ETH_BTC', 'LTC_BTC', 'HSR_BTC',
                        'PAC_DOGE', 'SPR_BTC', 'ODN_BTC']
 
-        msg = MessageMarketDataUpdaterRun("Cryptopia", market_list, "Tick")
+        msg = MessageMarketDataUpdaterRun(
+            "Cryptopia", "Tick", market_pairs=market_list)
         print(
             f"Sending Cryptopia Update message - {datetime.now()} - {msg.getJSON()}")
         self.__messaging_service.publishMessage(msg)
