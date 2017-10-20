@@ -83,7 +83,8 @@ class SkyzeMessageBusService(SkyzeServiceAbstract):
                 or message_type == SkyzeMessageType.MARKET_DATA_UPDATER_RUN_ALL:
             # Route to the Market Data Updater Service
             self.__market_data_updater_service.receiveMessage(message)
-        elif message_type == SkyzeMessageType.NOTIFICATION:
+        elif message_type == SkyzeMessageType.NOTIFICATION\
+                or message_type == SkyzeMessageType.MARKET_DATA_UPDATER_RUN_COMPLETE:
             # Route to the Notifier Service
             self.__notifier_service.receiveMessage(message)
         elif message_type == SkyzeMessageType.SCHEDULER_RUN \
