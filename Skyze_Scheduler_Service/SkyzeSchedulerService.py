@@ -142,6 +142,8 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
 
     def receiveMessage(self, message_received):
         """Gets the messages from the bus, unpacks any data and routes internally"""
+        # Parent class processing
+        super().__init__(message_received)
         # Route to appropriate service
         message_type = message_received.getMessageType()
         if message_type == SkyzeMessageType.SCHEDULER_RUN:

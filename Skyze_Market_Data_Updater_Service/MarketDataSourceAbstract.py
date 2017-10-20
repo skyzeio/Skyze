@@ -373,6 +373,7 @@ class MarketDataSourceAbstract(object):
             self.source_name, self.exchange_intervals, len(error_list),
             error_list, market_pairs=mkt_list)
         self._message_bus.publishMessage(end_run_msg)
+        self._logger.log_info(end_run_msg.getJSON(), print_log=False)
 
     def removeDuplicateRowsCSV(self, p_market, p_interval):
         ''' Removes duplicate rows from a CSV file

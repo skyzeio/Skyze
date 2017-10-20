@@ -318,7 +318,8 @@ class CoinMarketCap (MarketDataSourceAbstract):
                 print(
                     "UNKNOWN ERROR: CoinMarketCap::updateMarketData ... market_data = self.scrapeHistoricalData")
                 print(sys.exc_info()[0])
-                error_list = market + error_list
+                error_list = [market
+] + error_list
             else:
                 # Check for no data message
                 if market_data[0] == ['No data was found for the selected time period.']:
