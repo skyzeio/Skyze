@@ -4,7 +4,7 @@
 # Third Party Imports
 
 # Skyze Imports
-import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 
 
 class ScreenerAbstract(ExceptionSkyzeAbstract):
