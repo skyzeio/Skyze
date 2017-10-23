@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2fa8e6b25311b81232ac62e8b558fcf00f17fc4a23f1e2956e09e888284f0560"
+            "sha256": "d910e057b5578fde143615cdcd0d3ea2484a96772cec8ecc29bf093424e1dced"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -30,16 +30,10 @@
     "default": {
         "arctic": {
             "hashes": [
-                "sha256:5ca3c23b1ac06a71f5441ad4c95beefedf975b2d927c7fb7b50c601f8e40a09a",
-                "sha256:1bfc94e17ed3dfcfce34e6414ca7d05504b545c1596f06b4893856b7acfe5a66",
-                "sha256:073a90d5abeb5cb53dd5d32c30440224209c77e2afdfd38ae4a44eea7063c805",
-                "sha256:f794aff4f01ec0cdf72dc73ccc46eb25eb6a3486126e48eb2edabcbc89e74b3e",
-                "sha256:7c0836e6b1b68e5a316655ccc517cd83aed819dd0fc4f9748917f1d53e025e06",
-                "sha256:83981c6e137e5739391061f6a93355507f27446faa255c67cacb57d7d4366669",
-                "sha256:adaaceb83cfb5a10e61e25af9ddf8e840dfceee120954841f53c4355897881e1",
-                "sha256:e5d28a0784a14598fe87e497f80e3ffab521e2c6c4648da4cad5130504b31b1f"
+                "sha256:e5d5868d9ce87b75e1447f2142060452c76c8f7393fe1352386581613a05f13c",
+                "sha256:acd3a5c19cc43aa9d06d7313af3e94cc2fa522a99773508bf999fa73c03c13ff"
             ],
-            "version": "==1.53.0"
+            "version": "==1.54.0"
         },
         "astroid": {
             "hashes": [
@@ -394,9 +388,9 @@
         },
         "rollbar": {
             "hashes": [
-                "sha256:41c1b3e5a07592517371188b96ca8a40b7c4f4c7e27acb7f91cf358470c5037b"
+                "sha256:e0360b8dc74b1ea2eb6882ff93fef2d3eac1d505eed19d16d88658791c36b9e5"
             ],
-            "version": "==0.13.13"
+            "version": "==0.13.16"
         },
         "scipy": {
             "hashes": [
@@ -465,6 +459,9 @@
         }
     },
     "develop": {
+        "279e797": {
+            "path": "/Users/michaelnew/Dropbox/Aptana_Workspace/Skyze/jupyter"
+        },
         "autopep8": {
             "hashes": [
                 "sha256:ff787bffb812818c3071784b5ce9a35f8c481a0de7ea0ce4f8b68b8788a12f30"
@@ -571,10 +568,10 @@
         },
         "mypy": {
             "hashes": [
-                "sha256:0a2af68bf354716da180e6b6334289872817f547f47dc2f299ca5a6cbc455c87",
-                "sha256:f94b4600b3ed3daa8da17648f08d29d6336b9da0bb1709d260bb4d14f20a9343"
+                "sha256:e4ca0831f435b6c4b7d977a4435f16d3be68146d87393d59aebb8f12321033aa",
+                "sha256:5d82f51e228a88e5de6ac1d6699dd09e250ce7de217a5ff1256e317266e738ec"
             ],
-            "version": "==0.530"
+            "version": "==0.540"
         },
         "nose": {
             "hashes": [

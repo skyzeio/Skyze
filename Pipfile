@@ -35,3 +35,4 @@ coverage = "*"
 jupyter = "*"
 mypy = "*"
 docker = "*"
+"279e797" = {path = "/Users/michaelnew/Dropbox/Aptana_Workspace/Skyze/jupyter"}
