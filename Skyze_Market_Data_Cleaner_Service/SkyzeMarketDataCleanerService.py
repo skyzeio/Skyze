@@ -21,7 +21,7 @@ class SkyzeMarketDataCleanerService(SkyzeServiceAbstract):
     def receiveMessage(self, message_received):
         """Gets the mssage from the bus and routes internally"""
         # Parent class processing
-        super().__init__(message_received)
+        super().receiveMessage(message_received)
         # Route to appropriate service
         message_type = message_received.getMessageType()
         print("SkyzeMarketDataCleanerService::receiveMessage::NOT IMPLEMENTED")

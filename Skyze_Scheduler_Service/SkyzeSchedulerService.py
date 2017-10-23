@@ -121,20 +121,20 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
 
         # Cryptopia Daily - hourly for high volume markets
         job = self._sched.add_job(self.cryptopia_hourly_update,
-                                  'cron', day_of_week='mon-sun', hour='0-23')
+                                  'cron', day_of_week='mon-sun', hour='0-23')  #
         #                          'interval', hours=1)
         # Poloniex only needs daily update - as can request that much history
         job = self._sched.add_job(self.poloniex_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=11, minute=12)
+                                  day_of_week='mon-sun', hour=14, minute=32)  # 10:12
         # Cryptopia Daily run 1 - twice a day for low volume markets
         job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=10, minute=35)
+                                  day_of_week='mon-sun', hour=13, minute=35)  # 10:35
         # CoinMarketCap Daily update - as can request that much history
         job = self._sched.add_job(self.cmc_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=15, minute=8)
+                                  day_of_week='mon-sun', hour=14, minute=8)  # 14:08
         # Cryptopia Daily run 2 - twice a day for low volume markets
         job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=16, minute=30)
+                                  day_of_week='mon-sun', hour=16, minute=30)  # 16:30
 
         # === Print the list of jobs and start the scheduler
         self._sched.print_jobs()
@@ -143,7 +143,7 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     def receiveMessage(self, message_received):
         """Gets the messages from the bus, unpacks any data and routes internally"""
         # Parent class processing
-        super().__init__(message_received)
+        super().receiveMessage(message_received)
         # Route to appropriate service
         message_type = message_received.getMessageType()
         if message_type == SkyzeMessageType.SCHEDULER_RUN:
