@@ -13,6 +13,7 @@ SkyzeMessageType = Enum("MessageType",
                         MARKET_DATA_UPDATER_RUN_COMPLETE \
                         NOTIFICATION \
                         SCHEDULER_RUN \
-                        SCHEDULER_TEST SIGNAL")
+                        SCHEDULER_TEST SIGNAL \
+                        SERVICE_STATUS")
 
 # Future order types: ORDER FILL SENTIMENT NULL
