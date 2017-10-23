@@ -10,7 +10,7 @@ from Market import Market
 
 # Skyze imports
 from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
-from Indicators.MovingAverage import MovingAverage
+from Skyze_Indicators_Library.MovingAverage import MovingAverage
 
 
 class MovingAverage_test(UnitTestSkyzeAbstract):
@@ -36,7 +36,8 @@ class MovingAverage_test(UnitTestSkyzeAbstract):
 
         # Output Headings
         self.printTestHeader(test_file, target_file, test_columns)
-        print("    MA period: " + str(p_ma_period) + " on column: " + p_ma_column)
+        print("    MA period: " + str(p_ma_period) +
+              " on column: " + p_ma_column)
 
         # Load test and result data
         mkt_data, target_data = self.getTestAndResultData(

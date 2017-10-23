@@ -12,7 +12,7 @@ from Market import Market
 
 # Skyze imports
 from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
-from Indicators.WeightedMovingAverage import WeightedMovingAverage
+from Skyze_Indicators_Library.WeightedMovingAverage import WeightedMovingAverage
 
 class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
     """Test class for the WeightedMovingAverage Indicator"""
