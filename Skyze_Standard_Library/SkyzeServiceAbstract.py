@@ -14,6 +14,7 @@ from Skyze_Standard_Library.SkyzeLogger import *
 # Skyze Messages
 from Skyze_Messaging_Service.Messages.SkyzeMessageTypes import *
 from Skyze_Messaging_Service.Messages.MessageSchedulerRun import MessageSchedulerRun
+from Skyze_Messaging_Service.Messages.MessageServiceStatus import MessageServiceStatus
 
 
 class SkyzeServiceAbstract(object):
@@ -30,6 +31,9 @@ class SkyzeServiceAbstract(object):
         self._logger = SkyzeLogger(logger_class_name, log_path)
         log_message = f"{self.getType()}::__init__::Started"
         self._logger.log_info(log_message, False)
+        if self._message_bus != None:
+            status_message = MessageServiceStatus(self.getType(), "Started")
+            self._message_bus.publishMessage(status_message)
 
     def getType(self):
         return self.__class__.__name__
