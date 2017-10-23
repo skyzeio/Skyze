@@ -59,8 +59,8 @@ import pandas as pd
 import numpy as np
 
 # Our Library
-from Indicators.IndicatorAbstract import IndicatorAbstract
-from Indicators.AverageTrueRange import AverageTrueRange
+from Skyze_Indicators_Library.IndicatorAbstract import IndicatorAbstract
+from Skyze_Indicators_Library.AverageTrueRange import AverageTrueRange
 
 
 # CLASS DEFINITION =========================

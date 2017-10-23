@@ -12,7 +12,7 @@ Created on 05/09/2017
 from Unit_Test.UnitTestSkyzeAbstract import *
 
 # Our libraries - Test Specific
-from Indicators.SuperTrend import SuperTrend
+from Skyze_Indicators_Library.SuperTrend import SuperTrend
 
 
 class SuperTrend_test(UnitTestSkyzeAbstract):

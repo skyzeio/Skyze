@@ -7,7 +7,7 @@ Created on 02/09/2017
 import pandas as pd
 
 # Skyze Imports
-from Indicators.IndicatorAbstract import IndicatorAbstract
+from Skyze_Indicators_Library.IndicatorAbstract import IndicatorAbstract
 
 
 
