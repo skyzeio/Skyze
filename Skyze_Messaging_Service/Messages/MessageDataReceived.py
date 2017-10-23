@@ -36,4 +36,4 @@ class MessageDataReceived(MessageSkyzeAbstract):
 
     def getJSON(self):
         """Return object as JSON"""
-        return super().getJSON()  # json.dumps(self.__dict__)
+        return super().getJSON() + "}"  # json.dumps(self.__dict__)

@@ -23,3 +23,7 @@ class MessageMarketDataUpdaterRunAll(MessageSkyzeAbstract):
     def getMessageContent(self):
         """Getter"""
         return self.__message_content
+
+    def getJSON(self):
+        """Return object as JSON"""
+        return super().getJSON() + "}" 
