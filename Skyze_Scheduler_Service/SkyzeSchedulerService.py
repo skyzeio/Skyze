@@ -8,8 +8,10 @@ from random import randint
 from Skyze_Scheduler_Service import settings
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 # Messages
-from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRun import MessageMarketDataUpdaterRun
-from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRunAll import MessageMarketDataUpdaterRunAll
+from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRun \
+    import MessageMarketDataUpdaterRun
+from Skyze_Messaging_Service.Messages.MessageMarketDataUpdaterRunAll \
+    import MessageMarketDataUpdaterRunAll
 from Skyze_Messaging_Service.Messages.MessageScreenerRun import MessageScreenerRun
 from Skyze_Messaging_Service.Messages.MessageSchedulerRun import MessageSchedulerRun
 from Skyze_Messaging_Service.Messages.MessageSchedulerTest import MessageSchedulerTest
@@ -109,29 +111,39 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     # ====== Start the Scheduler =============================================
     # ========================================================================
     def start(self):
+        """Schedules the jobs and starts the scheduler"""
         start_time = datetime.now()
         print('=== Skyze Scheduler ========== ' +
-              str(start_time) + ' ========== ')
-        print()
+              str(start_time) + ' ==========\n')
 
+        # === Create the scheduled jobs
         #job = sched.add_job(self.send_random_message, 'interval', minutes=1)
-        job = self._sched.add_job(self.cryptopia_hourly_update,
-                                  'interval', hours=1)
-        job = self._sched.add_job(self.poloniex_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=10, minute=12)
-        job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=10, minute=35)
-        job = self._sched.add_job(self.cmc_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=14, minute=30)
-        job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
-                                  day_of_week='mon-sun', hour=16, minute=30)
 
-        # Print the list of jobs and start the scheduler
+        # Cryptopia Daily - hourly for high volume markets
+        job = self._sched.add_job(self.cryptopia_hourly_update,
+                                  'cron', day_of_week='mon-sun', hour='0-23')  #
+        #                          'interval', hours=1)
+        # Poloniex only needs daily update - as can request that much history
+        job = self._sched.add_job(self.poloniex_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=14, minute=32)  # 10:12
+        # Cryptopia Daily run 1 - twice a day for low volume markets
+        job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=13, minute=35)  # 10:35
+        # CoinMarketCap Daily update - as can request that much history
+        job = self._sched.add_job(self.cmc_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=14, minute=8)  # 14:08
+        # Cryptopia Daily run 2 - twice a day for low volume markets
+        job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
+                                  day_of_week='mon-sun', hour=16, minute=30)  # 16:30
+
+        # === Print the list of jobs and start the scheduler
         self._sched.print_jobs()
         self._sched.start()
 
     def receiveMessage(self, message_received):
-        """Gets the mssage from the bus and routes internally"""
+        """Gets the messages from the bus, unpacks any data and routes internally"""
+        # Parent class processing
+        super().receiveMessage(message_received)
         # Route to appropriate service
         message_type = message_received.getMessageType()
         if message_type == SkyzeMessageType.SCHEDULER_RUN:

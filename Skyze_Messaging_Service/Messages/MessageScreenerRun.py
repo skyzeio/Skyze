@@ -23,3 +23,10 @@ class MessageScreenerRun(MessageSkyzeAbstract):
     def getMessageContent(self):
         """Getter"""
         return self.__message_content
+
+    def getJSON(self):
+        """Return object as JSON"""
+        text = super().getJSON()
+        text += f', "screener name": "{self.__screener_name}"'
+        text += '}'
+        return text

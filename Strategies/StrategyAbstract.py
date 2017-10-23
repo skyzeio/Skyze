@@ -11,7 +11,7 @@ import pandas as pd
 
 # Our Library
 from Unit_Test.UnitTestSkyzeAbstract import UnitTestSkyzeAbstract
-import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 
 
 # https://stackoverflow.com/questions/11254553/double-inheritance-causes-metaclass-conflict

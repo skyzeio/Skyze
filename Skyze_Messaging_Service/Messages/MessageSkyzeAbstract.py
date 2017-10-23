@@ -6,7 +6,7 @@ from datetime import datetime
 import json
 
 # Skyze Imports
-import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Skyze_Messaging_Service.Messages.SkyzeMessageTypes import *
 
 

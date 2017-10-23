@@ -81,9 +81,8 @@ class SkyzeMarketDataUpdaterService(SkyzeServiceAbstract):
 
     def receiveMessage(self, message_received):
         """Gets the mssage from the bus and routes internally"""
-        log_msg = "Mkt Data Updater Serivce::receiveMessage::" \
-            + message_received.getJSON()
-        self._logger.log_info(log_msg)
+        # Parent class processing
+        super().receiveMessage(message_received)
         # Route to appropriate service
         message_type = message_received.getMessageType()
         if message_type == SkyzeMessageType.MARKET_DATA_UPDATER_RUN:

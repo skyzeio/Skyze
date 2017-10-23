@@ -9,10 +9,12 @@ import rollbar
 
 # Skyze Imports
 import settings_skyze
-import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Skyze_Standard_Library.SkyzeLogger import *
+# Skyze Messages
 from Skyze_Messaging_Service.Messages.SkyzeMessageTypes import *
 from Skyze_Messaging_Service.Messages.MessageSchedulerRun import MessageSchedulerRun
+from Skyze_Messaging_Service.Messages.MessageServiceStatus import MessageServiceStatus
 
 
 class SkyzeServiceAbstract(object):
@@ -29,6 +31,9 @@ class SkyzeServiceAbstract(object):
         self._logger = SkyzeLogger(logger_class_name, log_path)
         log_message = f"{self.getType()}::__init__::Started"
         self._logger.log_info(log_message, False)
+        if self._message_bus != None:
+            status_message = MessageServiceStatus(self.getType(), "Started")
+            self._message_bus.publishMessage(status_message)
 
     def getType(self):
         return self.__class__.__name__
@@ -49,3 +54,7 @@ class SkyzeServiceAbstract(object):
         log_msg += f"\ntype: {type(message)}\n{message.getJSON()}"
         self._logger.log_info(log_msg)
         raise IOError
+
+    def receiveMessage(self, message):
+        log_msg = f"{self.getType()}::receiveMessage::{message.getJSON()}"
+        self._logger.log_info(log_msg)
