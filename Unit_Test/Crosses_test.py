@@ -9,7 +9,7 @@ Created on 05/09/2017
 
 
 # Our libraries - Required
-from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
+from Skyze_Standard_Library.Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 
 # Our libraries - Test Specific
 from Skyze_Indicators_Library.Crosses import Crosses
@@ -26,8 +26,8 @@ class Crosses_test(UnitTestSkyzeAbstract):
             calling it 'child' so this can be moved to the parent class """
         # Test Parameters
         self.output_info = True
-        self.package_name = "Indicators"
-        self.test_path = self.package_name + "/" + Crosses.name + "/"
+        self.package_name = "Skyze_Indicators_Library"
+        self.test_path = Crosses.name + "/"
         self.target_file = "Results-bitcoin-Crosses"
         self.test_file = "bitcoin_TEST"
         self.target_columns = ["MA_15", "MA_30",
@@ -47,7 +47,8 @@ class Crosses_test(UnitTestSkyzeAbstract):
 
         # Load test and result data
         self.mkt_data, self.target_data = self.getTestAndResultData(
-            self.test_path, self.test_file, self.target_file, self.target_columns)
+            self.package_name, self.test_path, self.test_file,
+            self.target_file, self.target_columns)
 
         # Output the Testing Info
         self.printTestInfo(self.output_info, self.mkt_data,

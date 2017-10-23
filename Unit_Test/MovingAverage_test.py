@@ -9,7 +9,7 @@
 from Market import Market
 
 # Skyze imports
-from Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
+from Skyze_Standard_Library.Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 from Skyze_Indicators_Library.MovingAverage import MovingAverage
 
 
@@ -20,9 +20,9 @@ class MovingAverage_test(UnitTestSkyzeAbstract):
         """Main positive test case"""
         # Test Parameters
         output_info = True
-        package_name = "Indicators"
+        package_name = "Skyze_Indicators_Library"
         target_file = "Target-Results-MovingAverage-bitcoin"
-        test_path = package_name + "/" + MovingAverage.getName() + "/"
+        test_path = MovingAverage.getName() + "/"
         test_file = "bitcoin_TEST"
         target_columns = ["MA_15"]
         test_columns = ["MA_15"]
@@ -41,7 +41,8 @@ class MovingAverage_test(UnitTestSkyzeAbstract):
 
         # Load test and result data
         mkt_data, target_data = self.getTestAndResultData(
-            test_path, test_file, target_file, target_columns)
+            package_name, test_path, test_file,
+            target_file, target_columns)
 
         # Output the Testing Info
         self.printTestInfo(output_info, mkt_data,
