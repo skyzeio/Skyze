@@ -22,13 +22,11 @@ from Market import Market
 
 
 class UnitTestSkyzeAbstract(unittest.TestCase):
-    '''
-    classdocs
+    """classdocs
 
-    1. Creates a list of assertion errors rather than stopping after each error.
-       See https://stackoverflow.com/questions/4732827/continuing-in-pythons-unittest-when-an-assertion-fails
-
-    '''
+     1. Creates a list of assertion errors rather than stopping after each error.
+        See https://stackoverflow.com/questions/4732827/continuing-in-pythons-unittest-when-an-assertion-fails
+    """
 
     test_fp_diff_tolerance = 5e-7
 
@@ -103,12 +101,12 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         return mkt_data, target_data
 
     def series_assert(self, p_name, p_test_results, p_target_results):
-        ''' Asserts two series on the same column name
-            Stores errors (exceptions) in a list so that all tests are run '''
+        """Asserts two series on the same column name
+            Stores errors (as exceptions) in a list so that all tests are run"""
 
         try:
             # was assert_series_equal which did not work due to floating point precision
-            print("\n--- TESTING: " + p_name + ": ", end='')
+            print("--- TESTING: " + p_name + ": ", end='')
             # print("Testing: ", end='')
             # print(str(type(p_test_results[p_name].astype(np.float64))) + ": ", end='')
             # print(str(type(p_test_results[p_name].astype(np.float64)[0])))
@@ -131,8 +129,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
             # Explore the differences
             # Get the different columns
-            diffs = pd.DataFrame(
-                {'test': p_test_results[p_name], 'target': p_target_results[p_name]})
+            diffs = pd.DataFrame({'test': p_test_results[p_name],
+                                  'target': p_target_results[p_name]})
 
             # diffs["Different"] = diffs["test"] != diffs["target"]
             # see PEP485 for use of isclose
@@ -140,8 +138,10 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # diffs["Different"] = np.isclose(diffs["test"], diffs["target"], rtol=1e-05, atol=1e-08, equal_nan=False)
 
             # how much different?
-            diffs["Amount"] = diffs["test"].astype(np.float64) \
-                - diffs["target"].astype(np.float64)
+            diffs["Amount"] = diffs["test"] - diffs["target"]
+            # used to have the np float64 cast ...
+            #diffs["Amount"] = diffs["test"].astype(np.float64) \
+            #    - diffs["target"].astype(np.float64)
 
             # Another way to do is close
             diffs["Different"] = abs(diffs["Amount"]) \
@@ -153,14 +153,15 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             error_rate = error_count / data_count * 100
 
             # Print ... let 'em 'ave it
-            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count)
+            print("--- FAIL: " + p_name + "  errors: " + str(error_count)
                   + " of " + str(data_count) + " ... " + "%.2f" % error_rate)
-            print("Testing: ", end='')
+            print("Testing Type: ", end='')
             print(str(type(p_test_results[p_name])) + ": ", end='')
             print(str(type(p_test_results[p_name][0])))
-            print("Target: ", end='')
+            print("Target Type: ", end='')
             print(str(type(p_target_results[p_name])) + ": ", end='')
             print(str(type(p_target_results[p_name][0])))
+            print("Differences: ", end='')
             print(diffs.loc[diffs.Different == True].head(10))
 
         except Exception as err:
@@ -169,13 +170,13 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         else:
             # Assertion Passed
-            print("\n+++ PASS: " + p_name)
+            print(" +++ PASS: " + p_name)
 
         return
 
     def series_assert_diffs(self, p_name, p_test_results, p_target_results):
         """Asserts the diffs of two series are each less than 1e-8"""
-        print("\n--- TESTING: " + p_name + ": ", end='')
+        print("--- TESTING: " + p_name + ": ", end='')
 
         # Explore the differences
         # Get the different columns
@@ -206,7 +207,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             error_rate = error_count / data_count * 100
 
             # Print ... let 'em 'ave it
-            print("\n--- FAIL: " + p_name + "  errors: " + str(error_count) +
+            print("--- FAIL: " + p_name + "  errors: " + str(error_count) +
                   " of " + str(data_count) + " ... " + "%.2f" % error_rate)
             print("Testing: ", end='')
             print(str(type(p_test_results[p_name])) + ": ", end='')
@@ -222,13 +223,13 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         else:
             # Assertion Passed
-            print("\n+++ PASS: " + p_name)
+            print("+++ PASS: " + p_name)
 
         return
 
     def dataframe_assert(self, p_name, p_test_results, p_target_results):
-        ''' Asserts two dataframes
-            Stores errors (exceptions) in a list so that all tests are run '''
+        """Asserts two dataframes
+            Stores errors (exceptions) in a list so that all tests are run"""
 
         try:
             assert_frame_equal(p_test_results, p_target_results,
@@ -246,7 +247,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         return
 
     def printTestHeader(self, p_test_file, p_target_file, p_test_columns):
-        ''' Prints the test info '''
+        """Prints the test info"""
         print("\n\n======= This is a test of SUPERTREND INDICATOR ==============")
         print("Start time: " + str(self.start_time))
         print("Test data: " + p_test_file +
@@ -283,6 +284,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             print(p_mkt_data.tail(5))
 
     def assertBySeries(self, p_output, p_mkt_data, p_target_data, p_target_columns):
+        """Uses standard assert on each of the two corresponding series
+            in the dataframes"""
         if p_output:
             print("\n\n=== Series Assertion === === === === === ")
 
@@ -291,6 +294,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                 self.series_assert(test_column, p_mkt_data, p_target_data)
 
     def assertBySeriesDiffs(self, p_output, p_mkt_data, p_target_data, p_target_columns):
+        """Uses assert on the diffs of each of the two corresponding series
+            in the dataframes"""
         if p_output:
             print("\n\n=== Series Diff Assertion === === === === === ")
 
@@ -300,7 +305,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                     test_column, p_mkt_data, p_target_data)
 
     def readTargetResults(self, p_results_file, p_column_names):
-        "Opens the file and reads the data"
+        """Opens the file and reads the data"""
 
         # Add the standard market columns to the beginning of the column list
         column_names = self.target_columns_market + p_column_names
@@ -321,7 +326,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                 "EXCEPTION UnitTestSkyzeAbstract::readTargetResults .... IOError File does not exist: " + p_results_file)
             return
         except:
-            print("AN EXCEPTION - UnitTestSkyzeAbstract::readTargetResults(p_market)")
+            print(
+                "AN EXCEPTION - UnitTestSkyzeAbstract::readTargetResults(p_market)")
             print("File path:   " + p_results_file)
             print(sys.exc_info())
             return
@@ -341,7 +347,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
                         p_file_path="",
                         p_testing=False
                         ):
-        ''' Export to excel file '''
+        """Export Test results to an excel file"""
 
         # set file path
         file_path = p_file_path
