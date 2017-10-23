@@ -38,7 +38,7 @@ class SkyzeNotifierService(SkyzeServiceAbstract):
     def receiveMessage(self, message_received):
         """Gets the mssage from the bus and routes internally"""
         # Parent class processing
-        super().message(message_received)
+        super().receiveMessage(message_received)
         # Route to appropriate service
         message_type = message_received.getMessageType()
         if message_type == SkyzeMessageType.NOTIFICATION:
