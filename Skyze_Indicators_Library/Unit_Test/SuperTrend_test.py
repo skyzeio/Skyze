@@ -9,7 +9,7 @@ Created on 05/09/2017
 
 
 # Our libraries - Required
-from Unit_Test.UnitTestSkyzeAbstract import *
+from Skyze_Standard_Library.Unit_Test.UnitTestSkyzeAbstract import *
 
 # Our libraries - Test Specific
 from Skyze_Indicators_Library.SuperTrend import SuperTrend
@@ -39,14 +39,16 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
         """ Tests the most common everything works path"""
         # Test Parameters
         output_info = True
-        package_name = "Indicators"
-        test_path = package_name + "/" + SuperTrend.name + "/"
+        package_name = "Skyze_Indicators_Library"
+        test_path = SuperTrend.name + "/"
         target_file = "Target-Results-SuperTrend-bitcoin"
         test_file = "bitcoin_TEST"
         target_columns = ["H-L", "H-PC", "L-PC", "True_Range", "ATR_15",
-                          "basic_ub", "basic_lb", "final_ub", "final_lb", "Super_Trend"]
+                          "basic_ub", "basic_lb", "final_ub", "final_lb",
+                          "Super_Trend"]
         test_columns = ["H-L", "H-PC", "L-PC", "True_Range", "ATR_15",
-                        "basic_ub", "basic_lb", "final_ub", "final_lb", "Super_Trend"]
+                        "basic_ub", "basic_lb", "final_ub", "final_lb",
+                        "Super_Trend"]
 
         # Indicator Parameters
         st_period = 15
@@ -60,7 +62,8 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
 
         # Load test and result data
         mkt_data, target_data = self.getTestAndResultData(
-            test_path, test_file, target_file, target_columns)
+            package_name, test_path, test_file,
+            target_file, target_columns)
 
         # Could parse the data to 10e8 int
         # didn't work as python kernal kept crashing

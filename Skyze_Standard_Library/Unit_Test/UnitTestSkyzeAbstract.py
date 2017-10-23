@@ -71,6 +71,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         return mkt_data
 
     def getTestAndResultData(self,
+                             package_name,
                              p_path,
                              p_test_file,
                              p_target_file,
@@ -83,7 +84,14 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         print("Rows in mkt data: " + str(len(mkt_data)))
 
         # Read in the target results
-        target_data = self.readTargetResults(p_path + p_target_file,
+        print("package_name " + package_name)
+        print("settings " + settings_skyze.results_file_path)
+        print("path " + p_path)
+        print("target file " + p_target_file)
+        file_path = os.path.join(package_name + "/" +
+                                 settings_skyze.results_file_path,
+                                 "%s.csv" % (p_path + p_target_file))
+        target_data = self.readTargetResults(file_path,
                                              p_target_columns)
         print("\n\n")
 
@@ -101,11 +109,11 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         try:
             # was assert_series_equal which did not work due to floating point precision
             print("\n--- TESTING: " + p_name + ": ", end='')
-            #print("Testing: ", end='')
-            #print(str(type(p_test_results[p_name].astype(np.float64))) + ": ", end='')
+            # print("Testing: ", end='')
+            # print(str(type(p_test_results[p_name].astype(np.float64))) + ": ", end='')
             # print(str(type(p_test_results[p_name].astype(np.float64)[0])))
-            #print("Target: ", end='')
-            #print(str(type(p_target_results[p_name])) + ": ", end='')
+            # print("Target: ", end='')
+            # print(str(type(p_target_results[p_name])) + ": ", end='')
             # print(str(type(p_target_results[p_name][0])))
             assert_series_equal(p_test_results[p_name].round(2),
                                 p_target_results[p_name].round(2),
@@ -264,7 +272,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             print(p_target_data.tail(5))
 
             # Save market data to excel
-            #self.saveTestResults(p_mkt_data, "Test-Output-"+p_file_name, p_testing = True)
+            # self.saveTestResults(p_mkt_data, "Test-Output-"+p_file_name, p_testing = True)
         return
 
     def printTestRun(self, p_output, p_mkt_data):
@@ -294,35 +302,32 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
     def readTargetResults(self, p_results_file, p_column_names):
         "Opens the file and reads the data"
 
-        # Create the path name
-        file_path = os.path.join(
-            settings_skyze.results_file_path, "%s.csv" % p_results_file)
-
         # Add the standard market columns to the beginning of the column list
         column_names = self.target_columns_market + p_column_names
         print(column_names)
         try:
             # Read the target results into a dataframe
             target_results = pd.read_csv(
-                file_path,
+                p_results_file,
                 header=None,
                 names=column_names,
                 index_col=False,
                 skiprows=1
             )
         except IOError as err:
-            print("File Error:   " + file_path)
+            print("File Error:   " + p_results_file)
             raise IOError(
-                "FileNotFound", "EXCEPTION UnitTestSkyzeAbstract::readTargetResults .... IOError File does not exist")
+                "FileNotFound",
+                "EXCEPTION UnitTestSkyzeAbstract::readTargetResults .... IOError File does not exist: " + p_results_file)
             return
         except:
             print("AN EXCEPTION - UnitTestSkyzeAbstract::readTargetResults(p_market)")
-            print("File path:   " + file_path)
+            print("File path:   " + p_results_file)
             print(sys.exc_info())
             return
         else:
             # Convert the date column to a date ! ...... Not needed now date is the index
-            #target_results['Date'] = pd.to_datetime(target_results['Date'].astype(str), format='%Y%m%d')
+            # target_results['Date'] = pd.to_datetime(target_results['Date'].astype(str), format='%Y%m%d')
 
             # Move the date column to the index
             target_results.index = [parser.parse(
