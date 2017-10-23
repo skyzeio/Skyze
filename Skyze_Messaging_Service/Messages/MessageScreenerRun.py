@@ -28,5 +28,5 @@ class MessageScreenerRun(MessageSkyzeAbstract):
         """Return object as JSON"""
         text = super().getJSON()
         text += f', "screener name": "{self.__screener_name}"'
-        text += f'}'
+        text += '}'
         return text
