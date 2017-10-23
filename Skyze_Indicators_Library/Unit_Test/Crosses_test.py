@@ -27,7 +27,7 @@ class Crosses_test(UnitTestSkyzeAbstract):
         # Test Parameters
         self.output_info = True
         self.package_name = "Skyze_Indicators_Library"
-        self.test_path = Crosses.name + "/"
+        self.test_path = Crosses.getName() + "/"
         self.target_file = "Results-bitcoin-Crosses"
         self.test_file = "bitcoin_TEST"
         self.target_columns = ["MA_15", "MA_30",
@@ -63,10 +63,6 @@ class Crosses_test(UnitTestSkyzeAbstract):
         self.mkt_data = MovingAverage(
             self.fast_ma_period, "Close").calculate(self.mkt_data)
 
-        """Run the primary all goes right test case"""
-        # Test Set up
-        # self.childSetUp()
-
         # Calculate the Indicator to test
         crosses = Crosses("MA_15", "MA_30", "Up")
         self.mkt_data = crosses.calculate(self.mkt_data)
@@ -74,13 +70,19 @@ class Crosses_test(UnitTestSkyzeAbstract):
         # Output the Test run calculations
         self.printTestRun(self.output_info, self.mkt_data)
 
+        # Output summary stats into the test run
+        print("\n=== Test Run Stats === === === === === ")
+        print(self.mkt_data.loc[self.mkt_data.Crosses == True].head(10))
+        print("Number of crosses: " +
+              str(len(self.mkt_data.loc[self.mkt_data.Crosses == True])) +
+              " of " + str(len(self.mkt_data)))
+
         # Assert by series
-        self.assertBySeries(self.output_info, self.mkt_data,
-                            self.target_data, self.target_columns)
+        self.assertBySeriesDiffs(self.output_info, self.mkt_data,
+                                 self.target_data, self.target_columns)
 
         # Assert the data frame
-        print()
-        print("=== DataFrame Equal === === === === === ")
+        print("\n=== DataFrame Equal === === === === === ")
         self.dataframe_assert("Final Results", self.mkt_data, self.target_data)
 
         return
