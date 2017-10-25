@@ -59,8 +59,8 @@ import pandas as pd
 import numpy as np
 
 # Our Library
-from Indicators.IndicatorAbstract import IndicatorAbstract
-from Indicators.AverageTrueRange import AverageTrueRange
+from Skyze_Indicators_Library.IndicatorAbstract import IndicatorAbstract
+from Skyze_Indicators_Library.AverageTrueRange import AverageTrueRange
 
 
 # CLASS DEFINITION =========================
@@ -124,7 +124,7 @@ class SuperTrend(IndicatorAbstract):
 
         # Calculate the AverageTrueRange
         atr = AverageTrueRange(self.st_period)
-        # converting to np.float64 to avoid type miscasts later
+        # converting to np.float64 to avoid type miscasts later - now not needed
         p_data = atr.calculate(p_data)
 
         # calculate Basic bounds
@@ -145,10 +145,10 @@ class SuperTrend(IndicatorAbstract):
                 p_data.set_value(index, st_name, 0.00)
             else:
                 # Get values for the calcuations
-                curr_basic_ub = p_data.get_value(index, bub_name)
-                prev_final_ub = p_data.get_value(prev_index, fub_name)
                 curr_close = p_data.get_value(index, 'Close')
                 prev_close = p_data.get_value(prev_index, 'Close')
+                curr_basic_ub = p_data.get_value(index, bub_name)
+                prev_final_ub = p_data.get_value(prev_index, fub_name)
                 curr_basic_lb = p_data.get_value(index, blb_name)
                 prev_final_lb = p_data.get_value(prev_index, flb_name)
                 prev_supertrend = p_data.get_value(prev_index, st_name)
@@ -170,18 +170,19 @@ class SuperTrend(IndicatorAbstract):
                                      and prev_close < prev_final_lb)
                                     or (i == self.st_period))
                                 else prev_final_lb)
-                # Add final bands to the dataframe
-                p_data.set_value(index, fub_name, final_ub)
-                p_data.set_value(index, flb_name, final_lb)
 
-                # Calculate Super Trend
-                curr_final_ub = p_data.get_value(index, fub_name)
-                curr_final_lb = p_data.get_value(index, flb_name)
-                super_trend = (final_ub
-                               if curr_close <= curr_final_ub
-                               else curr_final_lb)
-                p_data.set_value(index, st_name,
-                                 super_trend)
+                    # Add final bands to the dataframe
+                    p_data.set_value(index, fub_name, final_ub)
+                    p_data.set_value(index, flb_name, final_lb)
+
+                    # Calculate Super Trend
+                    curr_final_ub = p_data.get_value(index, fub_name)
+                    curr_final_lb = p_data.get_value(index, flb_name)
+                    super_trend = (final_ub
+                                   if curr_close <= curr_final_ub
+                                   else curr_final_lb)
+                    p_data.set_value(index, st_name,
+                                     super_trend)
 
             # Remember the previous index for the next iteration
             prev_index = index

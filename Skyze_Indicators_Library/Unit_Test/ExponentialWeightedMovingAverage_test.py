@@ -12,34 +12,34 @@ from Market import Market
 
 # Skyze imports
 from Skyze_Standard_Library.Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
-from Skyze_Indicators_Library.WeightedMovingAverage import WeightedMovingAverage
+from Skyze_Indicators_Library.ExponentialMovingAverage import ExponentialMovingAverage
 
 
-class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
-    """Test class for the WeightedMovingAverage Indicator"""
+class ExponentialMovingAverage_test(UnitTestSkyzeAbstract):
+    """Test class for the ExponentialMovingAverage Indicator"""
 
     def test(self):
         """Main positive test case"""
         # Test Parameters
         output_info = True
         package_name = "Skyze_Indicators_Library"
-        target_file = "Target-Results-WeightedMovingAverage-bitcoin"
-        test_path = WeightedMovingAverage.getName() + "/"
+        target_file = "Target-Results-ExponentialMovingAverage-bitcoin"
+        test_path = ExponentialMovingAverage.getName() + "/"
         test_file = "bitcoin_TEST"
-        target_columns = ["WMA_15"]
-        test_columns = ["WMA_15"]
+        target_columns = ["ewma_15"]
+        test_columns = ["ewma_15"]
 
         # Remove spaces etc from test path
         test_path = test_path.replace(" ", "")
 
         # Strategy Parameters
-        p_wma_period = 15
-        p_wma_column = "Close"
+        p_ewma_period = 15
+        p_ewma_column = "Close"
 
         # Output Headings
         self.printTestHeader(test_file, target_file, test_columns)
-        print("    WMA period: " + str(p_wma_period) +
-              " on column: " + p_wma_column)
+        print("    ewma period: " + str(p_ewma_period) +
+              " on column: " + p_ewma_column)
 
         # Load test and result data
         mkt_data, target_data = self.getTestAndResultData(
@@ -48,22 +48,22 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
 
         # Output the Testing Info
         self.printTestInfo(output_info, mkt_data, target_data,
-                           WeightedMovingAverage.getName())
+                           ExponentialMovingAverage.getName())
 
         # Create the Strategy
-        wma = WeightedMovingAverage(
-            p_wma_period,
-            p_wma_column
+        ewma = ExponentialMovingAverage(
+            p_ewma_period,
+            p_ewma_column
         )
 
         # Calculate the strategy
-        wma.calculate(mkt_data)
+        ewma.calculate(mkt_data)
 
         # Output the Test run calculations
         self.printTestRun(output_info, mkt_data)
 
         # Assert by series
-        self.assertBySeries(
+        self.assertBySeriesDiffs(
             output_info, mkt_data, target_data, ["Close"] + target_columns)
 
         # Assert the data frame
