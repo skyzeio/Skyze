@@ -26,7 +26,7 @@ import pylab
 
 import datetime as dt
 
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 
 class GraphCandlestick2(object):
     '''

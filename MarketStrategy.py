@@ -6,7 +6,7 @@ Created on 02/09/2017
 
 import sys
 
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 # from StrategyAbstract import StrategyAbstract
 import pandas as pd
 

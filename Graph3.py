@@ -18,7 +18,7 @@ import matplotlib.ticker as ticker
 # fix the no backend issue
 import matplotlib as mpl
 
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 
 
 class GraphCandlestick3(object):
