@@ -24,7 +24,7 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
         output_info = True
         package_name = "Skyze_Indicators_Library"
         target_file = "Target-Results-WeightedMovingAverage-bitcoin"
-        test_path = WeightedMovingAverage.name + "/"
+        test_path = WeightedMovingAverage.getName() + "/"
         test_file = "bitcoin_TEST"
         target_columns = ["WMA_15"]
         test_columns = ["WMA_15"]
@@ -63,8 +63,8 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
         self.printTestRun(output_info, mkt_data)
 
         # Assert by series
-        self.assertBySeriesDiffs(
-            output_info, mkt_data, target_data, target_columns)
+        self.assertBySeries(
+            output_info, mkt_data, target_data, ["Close"] + target_columns)
 
         # Assert the data frame
         print()
