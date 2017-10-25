@@ -1,38 +1,7 @@
 # SkyZe.io
 
-## SkyZe Business Models
-
-### SkyZe Trading Fund
-SkyZe Trading Fund offers a range of managed funds. Each fund consists selected crypto and traditional market assets traded by algorithmic trading bot. Key combine technical, fundamental and sentiment analysis to develop automated strategies for market selection, trading strategy and portfolio optimisation using cutting edge data science and machine learning approaches.
-_**Revenue model**_: Fund admin and performance fees.
-
-**_Potential_** for an ICO and create a cryptocurrency indexed to the performance of the funds to facilitate easy investment in the fund.
-
-### SkyZe Strategy Hire
-Publish details of trading strategies. Allow users to apply the strategies to their own assets.
-_**Revenue model:**_ Rental of trading strategies or performance fee
-
-### SkyZe Market Information
-Publishing market analysis produced by bots.
-_**Revenue model:**_ user subscriptions e.g. $80/month/user  advertising
-
-### SkyZe Hosted Trading engine
-SkyZe trading engine hosted on the web for personal / organisational users.
-_**Revenue model:**_ user subscriptions e.g. $40/month/user and advertising
-
-### SkyZe In-House Trading engine
-Traders can implement SkyZe trading engine for personal or organisational trading use for free.
-_**Revenue model:**_ Skyze.io is via professional services consulting and training
-
-## Current Status
-SkyZe is currently in early stage development with the base architecture and core components being implemented.
-
-## Contact
-Mike New
-
-m: 0400 957 179
-
-e: mikenew16@gmail.com
+## Project Status
+This project is in early development stage.
 
 ## SkyZe trading engine
 
