@@ -60,7 +60,7 @@ class WeightedMovingAverage(IndicatorAbstract):
         # Weight array is in descending order
         weights_vector = pd.Series(range(self._wma_period, 0, -1))
         weights_vector /= weights_vector.sum()
-        print("\nWeights Vector: \n" + str(weights_vector))
+        #print("\nWeights Vector: \n" + str(weights_vector))
         p_data[wma_result_column] = np.convolve(p_data[self._wma_column],
                                                 weights_vector, 'same')
         # Mode ‘same’ returns output of length
