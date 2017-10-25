@@ -27,7 +27,7 @@ import zmq
 
 # skyze libraries
 import settings_skyze
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 # Messages
 from Skyze_Messaging_Service.Messages.MessageDataReceived import MessageDataReceived

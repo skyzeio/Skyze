@@ -24,7 +24,7 @@ from collections import deque
 from Skyze_Market_Data_Updater_Service.MarketDataSourceAbstract import MarketDataSourceAbstract
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 import settings_skyze
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 
 
 class CoinMarketCap (MarketDataSourceAbstract):

@@ -18,7 +18,8 @@ import numpy as np
 
 # Skyze Libraries
 import settings_skyze
-from Market import Market
+from Skyze_Standard_Library.Market import *
+from Skyze_Standard_Library.Skyze_Utility import removeSpaces
 
 
 class UnitTestSkyzeAbstract(unittest.TestCase):
@@ -82,6 +83,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         print("Rows in mkt data: " + str(len(mkt_data)))
 
         # Read in the target results
+        p_path = removeSpaces(p_path)
         print("package_name " + package_name)
         print("settings " + settings_skyze.results_file_path)
         print("path " + p_path)

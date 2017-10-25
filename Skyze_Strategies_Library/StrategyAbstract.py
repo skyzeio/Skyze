@@ -1,17 +1,14 @@
-'''
-Created on 08/09/2017
-
-@author: michaelnew
-'''
+"""Created on 08/09/2017
+@author: michaelnew"""
 
 
 # Library Imports
 # 3rd parties
 import pandas as pd
 
-# Our Library
-from Unit_Test.UnitTestSkyzeAbstract import UnitTestSkyzeAbstract
+# Skyze Imports
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
+from Skyze_Standard_Library.SkyzeLogger import SkyzeLogger
 
 
 # https://stackoverflow.com/questions/11254553/double-inheritance-causes-metaclass-conflict
@@ -19,22 +16,18 @@ from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 #    pass
 
 
-class StrategyAbstract(UnitTestSkyzeAbstract):
-    '''
-    classdocs
-    '''
+class StrategyAbstract(object):
+    """classdocs"""
 #    __metaclass__=CombinedMeta
 
     # Static Class Variables
-    name = "StrategyAbstract v01"
-    description = "Parent class for all strategies."
-    buy_signal = 1
-    sell_signal = -1
+    _name = "StrategyAbstract v01"
+    _description = "Parent class for all strategies."
+    _buy_signal = 1
+    _sell_signal = -1
 
     def __init__(self):
-        '''
-        Constructor
-        '''
+        """Constructor"""
 
-    def saveToExcel(self, p_df):
+    def saveToExcel(self, df):
         pass

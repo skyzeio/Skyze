@@ -68,6 +68,18 @@ git push origin develop master
 RUN FROM SHELL
 ```
 
+## GIT Stuff
+
+```git log``` ..... look at the last few commits
+
+### GIT stash
+https://www.tutorialspoint.com/git/git_stash_operation.htm
+```git stash```
+
+`git stash list`
+
+`git stash pop`
+
 ## Removing confidential files from GIT
 
 https://help.github.com/articles/removing-sensitive-data-from-a-repository/

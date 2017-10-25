@@ -16,7 +16,7 @@ from matplotlib.finance import candlestick_ohlc
 import numpy as np
 import datetime as dt
 
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 
 class GraphCandlestick(object):
     '''

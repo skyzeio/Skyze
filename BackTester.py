@@ -5,7 +5,7 @@ Created on 02/09/2017
 '''
 
 import pandas as pd
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 from MarketStrategy import MarketStrategy
 from datetime import datetime
 

@@ -8,7 +8,7 @@ Created on 05/09/2017
 # 3rd Party
 
 # Our libraries - Required
-from Market import Market
+from Skyze_Standard_Library.Market import Market
 
 # Skyze imports
 from Skyze_Standard_Library.Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
