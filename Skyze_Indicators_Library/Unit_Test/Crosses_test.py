@@ -31,9 +31,9 @@ class Crosses_test(UnitTestSkyzeAbstract):
         self.target_file = "Results-bitcoin-Crosses"
         self.test_file = "bitcoin_TEST"
         self.target_columns = ["MA_15", "MA_30",
-                               "Crossesdiff", "Crosses", "Direction"]
+                               "Crossesdiff", "Crosses", "Crosses_direction"]
         self.test_columns = ["MA_15", "MA_30",
-                             "Crossesdiff", "Crosses", "Direction"]
+                             "Crossesdiff", "Crosses", "Crosses_direction"]
 
         # Indicator Parameters
         self.slow_ma_period = 15
