@@ -21,3 +21,4 @@ SuperTrendCrossScreener_test.py
 *SuperTrendCross*.*
 google-cloud-sdk/*
 *.log
+~*.xlsx
