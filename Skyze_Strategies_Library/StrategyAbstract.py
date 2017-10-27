@@ -5,8 +5,10 @@
 # Library Imports
 # 3rd parties
 import pandas as pd
+from datetime import datetime
 
 # Skyze Imports
+import settings_skyze
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Skyze_Standard_Library.SkyzeLogger import SkyzeLogger
 
@@ -28,6 +30,18 @@ class StrategyAbstract(object):
 
     def __init__(self):
         """Constructor"""
+        # Standard member variables
+        self._signals = pd.DataFrame()
+        self._error = []
 
-    def saveToExcel(self, df):
-        pass
+    def _saveToExcel(self, df, append_date=True):
+        # Construct the file name
+        file_name = settings_skyze.results_file_path + '/' + self._name
+        if append_date:
+            file_name += "-" + str(datetime.now())
+        file_name += '.xlsx'
+        # Save to excel
+        df.to_excel(file_name, index=True)
+
+    def saveToExcelSignals(self, append_date=True):
+        self._saveToExcel(self._signals)

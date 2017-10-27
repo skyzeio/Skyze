@@ -154,35 +154,34 @@ class SuperTrend(IndicatorAbstract):
                 prev_supertrend = p_data.get_value(prev_index, st_name)
 
                 # Calculate Final Bands
+
+                # Calculate Final Upper Band
+                curr_final_ub = (curr_basic_ub
+                                 if ((curr_basic_ub < prev_final_ub
+                                      and prev_close > prev_final_ub))
+                                 else prev_final_ub)
+                # Calculate Final Lower Band
+                curr_final_lb = (curr_basic_lb  # Bar's lowerbound
+                                 if ((curr_basic_lb > prev_final_lb
+                                      and prev_close < prev_final_lb)
+                                     or (i == self.st_period))
+                                 else prev_final_lb)
+
+                # Special case FUB AND FLB
                 if (i == self.st_period + 1):
                     # Set the initial value (calc is different)
-                    final_ub = curr_basic_ub
-                    final_lb = curr_basic_lb
-                else:
-                    # Calculate Final Upper Band
-                    final_ub = (curr_basic_ub
-                                if ((curr_basic_ub < prev_final_ub
-                                     and prev_close > prev_final_ub))
-                                else prev_final_ub)
-                    # Calculate Final Lower Band
-                    final_lb = (curr_basic_lb  # Bar's lowerbound
-                                if ((curr_basic_lb > prev_final_lb
-                                     and prev_close < prev_final_lb)
-                                    or (i == self.st_period))
-                                else prev_final_lb)
+                    curr_final_ub = curr_basic_ub
+                    curr_final_lb = curr_basic_lb
 
-                    # Add final bands to the dataframe
-                    p_data.set_value(index, fub_name, final_ub)
-                    p_data.set_value(index, flb_name, final_lb)
+                # Calculate Super Trend
+                super_trend = (curr_final_ub
+                               if curr_close <= curr_final_ub
+                               else curr_final_lb)
 
-                    # Calculate Super Trend
-                    curr_final_ub = p_data.get_value(index, fub_name)
-                    curr_final_lb = p_data.get_value(index, flb_name)
-                    super_trend = (final_ub
-                                   if curr_close <= curr_final_ub
-                                   else curr_final_lb)
-                    p_data.set_value(index, st_name,
-                                     super_trend)
+                # Add final bands and ST to the dataframe
+                p_data.set_value(index, fub_name, curr_final_ub)
+                p_data.set_value(index, flb_name, curr_final_lb)
+                p_data.set_value(index, st_name, super_trend)
 
             # Remember the previous index for the next iteration
             prev_index = index

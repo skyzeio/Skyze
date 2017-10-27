@@ -77,7 +77,7 @@ class Market():
 
         # set the file path
         file_path = self.constructFileName(p_testing)
-        print("File Path: " + file_path)
+        print("Mkt Data File Path:\t" + file_path)
 
         try:
             # df is type <class 'pandas.core.frame.DataFrame'>
