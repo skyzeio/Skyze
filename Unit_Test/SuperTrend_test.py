@@ -39,6 +39,7 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
         """ Tests the most common everything works path"""
         # Test Parameters
         output_info = True
+        save_test_run_to_excel = True
         package_name = "Skyze_Indicators_Library"
         test_path = SuperTrend.name + "/"
         target_file = "Target-Results-SuperTrend-bitcoin"
@@ -49,6 +50,7 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
         test_columns = ["H-L", "H-PC", "L-PC", "True_Range", "ATR_15",
                         "basic_ub", "basic_lb", "final_ub", "final_lb",
                         "Super_Trend"]
+        column_sets = []
 
         # Indicator Parameters
         st_period = 15
@@ -56,7 +58,8 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
         st_name_extension = ""
 
         # Output Headings
-        self.printTestHeader(test_file, target_file, test_columns)
+        self.printTestHeader(package_name, SuperTrend.getName()
+                             + " Strategy", test_file, target_file, test_columns)
         print("     period: " + str(st_period) + "   Multiplier: "
               + str(st_multiplier))
 
@@ -77,16 +80,19 @@ class SuperTrend_test(UnitTestSkyzeAbstract):
         supertrend = SuperTrend(st_period, st_multiplier, st_name_extension)
         mkt_data = supertrend.calculate(mkt_data)
 
+        # Save Test Results to Excel
+        if save_test_run_to_excel:
+            self.saveTestResults(mkt_data, SuperTrend.name, p_testing=True)
+
         # Output the Test run calculations
-        self.printTestRun(output_info, mkt_data)
+        self.printTestRun(output_info, mkt_data, column_sets)
 
         # Assert by series
         self.assertBySeriesDiffs(output_info, mkt_data,
                                  target_data, target_columns)
 
         # Assert the data frame
-        print()
-        print("=== DataFrame Equal === === === === === ")
+        print("\n=== DataFrame Equal === === === === === ")
         self.dataframe_assert("Final Results", mkt_data, target_data)
 
 
