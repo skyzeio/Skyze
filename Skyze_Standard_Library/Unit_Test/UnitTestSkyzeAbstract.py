@@ -64,8 +64,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         # Get the Market data
         mkt = Market.fromTesting(p_test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
-        print("Rows in mkt data: " + str(len(mkt_data)))
-        print("\n\n")
+        print("Rows in mkt data:\t" + str(len(mkt_data)) + "\n\n")
 
         return mkt_data
 
@@ -80,14 +79,13 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         # Get the Market data
         mkt = Market.fromTesting(p_test_file)
         mkt_data = mkt.readMarketDataCSV(p_testing=True)
-        print("Rows in mkt data: " + str(len(mkt_data)))
+        print("Rows in mkt data:\t" + str(len(mkt_data)) + "\n")
 
         # Read in the target results
         p_path = removeSpaces(p_path)
-        print("package_name " + package_name)
-        print("settings " + settings_skyze.results_file_path)
-        print("path " + p_path)
-        print("target file " + p_target_file)
+        print("Settings results path:\t" + settings_skyze.results_file_path)
+        print("Path:\t" + p_path)
+        print("\nTarget Data:\t" + p_target_file)
         file_path = os.path.join(package_name + "/" +
                                  settings_skyze.results_file_path,
                                  "%s.csv" % (p_path + p_target_file))
@@ -209,7 +207,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             error_rate = error_count / data_count * 100
 
             # Print ... let 'em 'ave it
-            print("--- FAIL: " + p_name + "  errors: " + str(error_count) +
+            print("--- FAIL:\tErrors: " + str(error_count) +
                   " of " + str(data_count) + " ... " + "%.2f" % error_rate)
             print("Testing: ", end='')
             print(str(type(p_test_results[p_name])) + ": ", end='')
@@ -248,15 +246,16 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         return
 
-    def printTestHeader(self, p_test_file, p_target_file, p_test_columns):
+    def printTestHeader(self, package_name, test_name, p_test_file,
+                        p_target_file, p_test_columns):
         """Prints the test info"""
-        print("\n\n======= This is a test of SUPERTREND INDICATOR ==============")
-        print("Start time: " + str(self.start_time))
-        print("Test data: " + p_test_file +
-              "    \nTarget data: " + p_target_file)
-        print("Columns: " + str(len(p_test_columns)) +
-              " ... " + str(p_test_columns))
-        print("Parameters: ")
+        print("\n\n======= This is a test of " + test_name + " ==============")
+        print("Start time:\t" + str(self.start_time))
+        print("\nPackage_name:\t" + package_name)
+        print("\nTest data:\t" + p_test_file)
+        print("Test Columns:\t" + str(len(p_test_columns)))
+        print(str(p_test_columns))
+        print("\nTest Parameters:\t")
 
         return
 
@@ -278,12 +277,17 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # self.saveTestResults(p_mkt_data, "Test-Output-"+p_file_name, p_testing = True)
         return
 
-    def printTestRun(self, p_output, p_mkt_data):
+    def printTestRun(self, p_output, p_mkt_data, column_sets):
         if p_output:
             print("\n\n\n=== Test Run . head === === === === === ")
             print(p_mkt_data.head(20))
             print("\n=== Test Run . tail === === === === === ")
             print(p_mkt_data.tail(5))
+            for set in column_sets:
+                print("\n=== Head: === ===")
+                print(p_mkt_data[set].head(5))
+                print("\n=== Tail: === ===")
+                print(p_mkt_data[set].tail(5))
 
     def assertBySeries(self, p_output, p_mkt_data, p_target_data, p_target_columns):
         """Uses standard assert on each of the two corresponding series
@@ -311,6 +315,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         # Add the standard market columns to the beginning of the column list
         column_names = self.target_columns_market + p_column_names
+        print("Target Columns:\t" + str(len(column_names)))
         print(column_names)
         try:
             # Read the target results into a dataframe
@@ -338,16 +343,18 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # target_results['Date'] = pd.to_datetime(target_results['Date'].astype(str), format='%Y%m%d')
 
             # Move the date column to the index
-            target_results.index = [parser.parse(
-                str(d)) for d in target_results["Date"]]
+            target_results.index = [parser.parse(str(d))
+                                    for d in target_results["Date"]]
             del target_results["Date"]
 
             return target_results
 
-    def saveTestResults(self, p_results,
+    def saveTestResults(self,
+                        p_results,
                         p_file_name,
                         p_file_path="",
-                        p_testing=False
+                        p_testing=False,
+                        append_date=True
                         ):
         """Export Test results to an excel file"""
 
@@ -359,9 +366,14 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             else:
                 file_path = settings_skyze.data_file_path
 
+        file_name = file_path + '/' + p_file_name
+        if append_date:
+            file_name += "-" + str(datetime.now())
+        file_name += '.xlsx'
+
         # Write to Excel
-        print("Test Output: " + file_path + "/" + p_file_name + ".xlsx")
-        writer = ExcelWriter(file_path + "/" + p_file_name + ".xlsx")
+        print("Save to Excel: " + file_name)
+        writer = ExcelWriter(file_name)
         p_results.to_excel(writer, 'Results')
         writer.save()
 
