@@ -34,14 +34,16 @@ class Crosses_test(UnitTestSkyzeAbstract):
                                "Crossesdiff", "Crosses", "Crosses_direction"]
         self.test_columns = ["MA_15", "MA_30",
                              "Crossesdiff", "Crosses", "Crosses_direction"]
+        self.column_sets = []
 
         # Indicator Parameters
         self.slow_ma_period = 15
         self.fast_ma_period = 30
 
         # Output Headings
-        self.printTestHeader(
-            self.test_file, self.target_file, self.test_columns)
+        self.printTestHeader(self.package_name, Crosses.getName()
+                             + " Indicator", self.test_file, self.target_file,
+                             self.test_columns)
         print("     slow: " + str(self.slow_ma_period) +
               "   fast: " + str(self.fast_ma_period))
 
@@ -68,7 +70,7 @@ class Crosses_test(UnitTestSkyzeAbstract):
         self.mkt_data = crosses.calculate(self.mkt_data)
 
         # Output the Test run calculations
-        self.printTestRun(self.output_info, self.mkt_data)
+        self.printTestRun(self.output_info, self.mkt_data, self.column_sets)
 
         # Output summary stats into the test run
         print("\n=== Test Run Stats === === === === === ")
