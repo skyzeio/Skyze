@@ -5,7 +5,7 @@ import pandas as pd
 data_file_path    = "Data/Trading/"
 test_data_file_path = "Unit_Test/Test_Data/"
 target_results_file_path = "Unit_Test/Test_Data/"
-test_target_results_file_path = "Unit_Test/Test_Results/"
+test_results_file_path = "Unit_Test/Test_Results/"
 
 # INTERVALS
 dict_list = [
