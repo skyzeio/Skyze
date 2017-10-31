@@ -117,6 +117,7 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
               str(start_time) + ' ==========\n')
 
         # === Create the scheduled jobs
+        # TODO Get list of jobs from settings file
         #job = sched.add_job(self.send_random_message, 'interval', minutes=1)
 
         # Cryptopia Daily - hourly for high volume markets

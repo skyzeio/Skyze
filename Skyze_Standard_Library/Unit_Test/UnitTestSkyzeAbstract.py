@@ -83,11 +83,12 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         # Read in the target results
         p_path = removeSpaces(p_path)
-        print("Settings results path:\t" + settings_skyze.results_file_path)
+        print("Settings results path:\t" +
+              settings_skyze.target_results_file_path)
         print("Path:\t" + p_path)
         print("\nTarget Data:\t" + p_target_file)
         file_path = os.path.join(package_name + "/" +
-                                 settings_skyze.results_file_path,
+                                 settings_skyze.target_results_file_path,
                                  "%s.csv" % (p_path + p_target_file))
         target_data = self.readTargetResults(file_path,
                                              p_target_columns)
@@ -140,7 +141,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             # how much different?
             diffs["Amount"] = diffs["test"] - diffs["target"]
             # used to have the np float64 cast ...
-            #diffs["Amount"] = diffs["test"].astype(np.float64) \
+            # diffs["Amount"] = diffs["test"].astype(np.float64) \
             #    - diffs["target"].astype(np.float64)
 
             # Another way to do is close
@@ -174,22 +175,36 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         return
 
-    def series_assert_diffs(self, p_name, p_test_results, p_target_results):
+    def series_assert_diffs(self, p_name, p_test_results,
+                            p_target_results, p_boolean_list=[]):
         """Asserts the diffs of two series are each less than 1e-8"""
         print("--- TESTING: " + p_name + ": ", end='')
 
         # Explore the differences
-        # Get the different columns
+        # Get the different columns into a new "diffs" dataframe
         diffs = pd.DataFrame({'test': p_test_results[p_name],
                               'target': p_target_results[p_name]})
 
         # how much different?
-        diffs["Amount"] = diffs["test"].astype(np.float64) \
-            - diffs["target"].astype(np.float64)
+        if p_name in p_boolean_list:
+            # treat as boolean
+            # if diffs["test"] == np.NaN or diffs["target"] == np.NaN:
+                # Another way to do is close
+            #    diffs["Different"] = diffs["Amount"] = False
+            # else:
+            diffs["Amount"] = diffs["test"].astype(np.bool) \
+                != diffs["target"].astype(np.bool)
 
-        # Another way to do is close
-        diffs["Different"] = abs(diffs["Amount"]) \
-            > self.test_fp_diff_tolerance
+            # Another way to do is close
+            diffs["Different"] = diffs["Amount"]
+        else:
+            # Treat it as a numpy.float64
+            diffs["Amount"] = diffs["test"].astype(np.float64) \
+                - diffs["target"].astype(np.float64)
+
+            # Another way to do is close
+            diffs["Different"] = abs(diffs["Amount"]) \
+                > self.test_fp_diff_tolerance
 
         # how many differences?
         error_count = len(diffs.loc[diffs.Different == True])
@@ -224,6 +239,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         else:
             # Assertion Passed
             print("+++ PASS: " + p_name)
+            # print(diffs.head(10))
 
         return
 
@@ -259,35 +275,28 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         return
 
-    def printTestInfo(self, p_output, p_mkt_data, p_target_data, p_file_name):
+    def printTestInfo(self, p_output, p_mkt_data, p_target_data,
+                      p_file_name, column_sets):
         if p_output:
-            print("\n\n\n=== Market Data . head === === === === === ")
-            print(p_mkt_data.head(5))
-            print()
-            print("=== Market Data . tail === === === === === ")
-            print(p_mkt_data.tail(5))
-
-            print("\n\n\n=== Target_data . head  === === === === === ")
-            print(p_target_data.head(5))
-            print()
-            print("=== Target_data . tail === === === === === ")
-            print(p_target_data.tail(5))
+            self.printDataSets("Market Data", p_output, p_mkt_data, [])
+            self.printDataSets("Target Data", p_output,
+                               p_target_data, column_sets)
 
             # Save market data to excel
             # self.saveTestResults(p_mkt_data, "Test-Output-"+p_file_name, p_testing = True)
         return
 
-    def printTestRun(self, p_output, p_mkt_data, column_sets):
+    def printDataSets(self, data_type, p_output, p_data, column_sets):
         if p_output:
-            print("\n\n\n=== Test Run . head === === === === === ")
-            print(p_mkt_data.head(20))
-            print("\n=== Test Run . tail === === === === === ")
-            print(p_mkt_data.tail(5))
+            print("\n\n\n=== " + data_type + " . head === === === === === ")
+            print(p_data.head(20))
+            print("\n=== " + data_type + " . tail === === === === === ")
+            print(p_data.tail(5))
             for set in column_sets:
-                print("\n=== Head: === ===")
-                print(p_mkt_data[set].head(5))
-                print("\n=== Tail: === ===")
-                print(p_mkt_data[set].tail(5))
+                print("\n=== " + data_type + " Head: === ===")
+                print(p_data[set].head(5))
+                print("\n=== " + data_type + " Tail: === ===")
+                print(p_data[set].tail(5))
 
     def assertBySeries(self, p_output, p_mkt_data, p_target_data, p_target_columns):
         """Uses standard assert on each of the two corresponding series
@@ -299,7 +308,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
             for test_column in p_target_columns:
                 self.series_assert(test_column, p_mkt_data, p_target_data)
 
-    def assertBySeriesDiffs(self, p_output, p_mkt_data, p_target_data, p_target_columns):
+    def assertBySeriesDiffs(self, p_output, p_mkt_data, p_target_data,
+                            p_target_columns, p_boolean_list=[]):
         """Uses assert on the diffs of each of the two corresponding series
             in the dataframes"""
         if p_output:
@@ -307,8 +317,8 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
             # loop through the series
             for test_column in p_target_columns:
-                self.series_assert_diffs(
-                    test_column, p_mkt_data, p_target_data)
+                self.series_assert_diffs(test_column, p_mkt_data,
+                                         p_target_data, p_boolean_list)
 
     def readTargetResults(self, p_results_file, p_column_names):
         """Opens the file and reads the data"""
@@ -362,7 +372,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         file_path = p_file_path
         if p_file_path == "":
             if p_testing:
-                file_path = settings_skyze.testing_file_path
+                file_path = settings_skyze.test_data_file_path
             else:
                 file_path = settings_skyze.data_file_path
 

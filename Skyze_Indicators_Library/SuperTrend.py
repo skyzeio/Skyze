@@ -31,28 +31,7 @@
 
     ==== Python Code can be found at
     https://stackoverflow.com/questions/44935269/supertrend-code-using-pandas-python
-    END
-
-    === Keeping this in case it is needed
-
-    super_trend = (final_ub
-         if ((prev_supertrend == prev_final_ub)
-              and (curr_close <= curr_final_ub))
-         else (curr_final_lb
-               if ( (prev_supertrend == prev_final_ub)
-                    and (curr_close > curr_final_ub))
-               else (curr_final_lb
-                     if ((prev_supertrend == prev_final_lb)
-                          and (curr_close >= curr_final_lb))
-                     else (curr_final_ub
-                           if ((prev_supertrend
-                                    == prev_final_lb)
-                                and (curr_close < curr_final_lb))
-                           else 0.00
-                           )
-                     )
-                )
-             )"""
+    END"""
 
 # 3rd parties
 import pandas as pd
@@ -138,11 +117,11 @@ class SuperTrend(IndicatorAbstract):
         # for i, row in p_data.iterrows():    # pre date as the index
         for i, (index, row) in enumerate(p_data.iterrows()):
             if i < self.st_period + 1:
-                p_data.set_value(index, bub_name, 0.00)
-                p_data.set_value(index, blb_name, 0.00)
-                p_data.set_value(index, fub_name, 0.00)
-                p_data.set_value(index, flb_name, 0.00)
-                p_data.set_value(index, st_name, 0.00)
+                p_data.set_value(index, bub_name, np.NaN)
+                p_data.set_value(index, blb_name, np.NaN)
+                p_data.set_value(index, fub_name, np.NaN)
+                p_data.set_value(index, flb_name, np.NaN)
+                p_data.set_value(index, st_name, np.NaN)
             else:
                 # Get values for the calcuations
                 curr_close = p_data.get_value(index, 'Close')
@@ -156,15 +135,23 @@ class SuperTrend(IndicatorAbstract):
                 # Calculate Final Bands
 
                 # Calculate Final Upper Band
+                # alternative layout of below calculation
+                #curr_final_ub = 0
+                # if (curr_basic_ub < prev_final_ub)
+                #        and (prev_close > prev_final_ub):
+                #    curr_final_ub = curr_basic_ub
+                # else:
+                #    curr_final_ub = prev_final_ub
+
                 curr_final_ub = (curr_basic_ub
                                  if ((curr_basic_ub < prev_final_ub
-                                      and prev_close > prev_final_ub))
+                                      or prev_close > prev_final_ub))
                                  else prev_final_ub)
+
                 # Calculate Final Lower Band
-                curr_final_lb = (curr_basic_lb  # Bar's lowerbound
+                curr_final_lb = (curr_basic_lb
                                  if ((curr_basic_lb > prev_final_lb
-                                      and prev_close < prev_final_lb)
-                                     or (i == self.st_period))
+                                      or prev_close < prev_final_lb))
                                  else prev_final_lb)
 
                 # Special case FUB AND FLB

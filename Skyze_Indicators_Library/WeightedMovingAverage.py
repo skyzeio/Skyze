@@ -85,13 +85,13 @@ class WeightedMovingAverage(IndicatorAbstract):
         # Option 2 using Pandas Rolling
         # https://stackoverflow.com/questions/39742797/calculating-weighted-moving-average-using-pandas-rolling-method
         # construct thet weights array
-        weights = np.arange(1, self._wma_period + 1)
+        #weights = np.arange(1, self._wma_period + 1)
 
         # construct the fucntion to calcualte wma for each point
-        def wma(w):
-            def g(x):
-                return (w / x)
-            return g
+        # def wma(w):
+        #    def g(x):
+        #        return (w / x)
+        #    return g
 
         # apply the wma function to each pont in the series
         # p_data["WMA_"+str(self._wma_period)] = \

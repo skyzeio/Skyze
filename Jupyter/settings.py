@@ -3,8 +3,9 @@ import pandas as pd
 
 # PATHS
 data_file_path    = "Data/Trading/"
-testing_file_path = "Unit_Test/Test_Data/"
-results_file_path = "Unit_Test/Test_Data/"
+test_data_file_path = "Unit_Test/Test_Data/"
+target_results_file_path = "Unit_Test/Test_Data/"
+test_results_file_path = "Unit_Test/Test_Results/"
 
 # INTERVALS
 dict_list = [
