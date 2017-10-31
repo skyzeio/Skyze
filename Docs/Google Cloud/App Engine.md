@@ -116,3 +116,9 @@ For more information on how to get started, please visit:
  https://cloud.google.com/sdk/docs/quickstarts
 
 ### gcloud init --skip-diagnostics
+
+## Storage
+from: https://console.cloud.google.com/appengine/settings?project=skyze-market-data-updater&authuser=1&serviceId=default&versionId=20171007t093717
+Default Cloud Storage Bucket
+
+Up to 5GB of Cloud Storage may be used with App Engine applications without enabling billing. Learn more
