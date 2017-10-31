@@ -2,6 +2,10 @@
 @author: michaelnew"""
 
 
+import settings_skyze
+from datetime import datetime
+
+
 class IndicatorAbstract(object):
     """Class Docs"""
 
