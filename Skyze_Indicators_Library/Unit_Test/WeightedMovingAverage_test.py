@@ -22,12 +22,14 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
         """Main positive test case"""
         # Test Parameters
         output_info = True
+        save_test_run_to_excel = True
         package_name = "Skyze_Indicators_Library"
         target_file = "Target-Results-WeightedMovingAverage-bitcoin"
         test_path = WeightedMovingAverage.getName() + "/"
         test_file = "bitcoin_TEST"
         target_columns = ["WMA_15"]
         test_columns = ["WMA_15"]
+        column_sets = []
 
         # Remove spaces etc from test path
         test_path = test_path.replace(" ", "")
@@ -37,7 +39,8 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
         p_wma_column = "Close"
 
         # Output Headings
-        self.printTestHeader(test_file, target_file, test_columns)
+        self.printTestHeader(package_name, WeightedMovingAverage.getName()
+                             + " Indicator", test_file, target_file, test_columns)
         print("    WMA period: " + str(p_wma_period) +
               " on column: " + p_wma_column)
 
@@ -48,7 +51,7 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
 
         # Output the Testing Info
         self.printTestInfo(output_info, mkt_data, target_data,
-                           WeightedMovingAverage.getName())
+                           WeightedMovingAverage.getName(), column_sets)
 
         # Create the Strategy
         wma = WeightedMovingAverage(
@@ -59,8 +62,13 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
         # Calculate the strategy
         wma.calculate(mkt_data)
 
+        # Save Test Results to Excel
+        if save_test_run_to_excel:
+            print("Saving to Excel:")
+            wma._saveToExcel(mkt_data)
+
         # Output the Test run calculations
-        self.printTestRun(output_info, mkt_data)
+        self.printDataSets("Test Run", output_info, mkt_data, column_sets)
 
         # Assert by series
         self.assertBySeries(
