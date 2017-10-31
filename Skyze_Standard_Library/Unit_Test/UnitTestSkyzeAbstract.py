@@ -83,11 +83,12 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
 
         # Read in the target results
         p_path = removeSpaces(p_path)
-        print("Settings results path:\t" + settings_skyze.results_file_path)
+        print("Settings results path:\t" +
+              settings_skyze.target_results_file_path)
         print("Path:\t" + p_path)
         print("\nTarget Data:\t" + p_target_file)
         file_path = os.path.join(package_name + "/" +
-                                 settings_skyze.results_file_path,
+                                 settings_skyze.target_results_file_path,
                                  "%s.csv" % (p_path + p_target_file))
         target_data = self.readTargetResults(file_path,
                                              p_target_columns)
@@ -371,7 +372,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
         file_path = p_file_path
         if p_file_path == "":
             if p_testing:
-                file_path = settings_skyze.testing_file_path
+                file_path = settings_skyze.test_data_file_path
             else:
                 file_path = settings_skyze.data_file_path
 

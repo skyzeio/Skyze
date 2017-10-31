@@ -3,5 +3,6 @@
 # PATHS
 data_file_path = "../Data/Trading/"
 log_file_path = "Logs/"
-testing_file_path = "Unit_Test/Test_Data/"
-results_file_path = "Unit_Test/Test_Data/"
+test_data_file_path = "Unit_Test/Test_Data/"
+target_results_file_path = "Unit_Test/Test_Data/"
+test_target_results_file_path = "Unit_Test/Test_Results/"
