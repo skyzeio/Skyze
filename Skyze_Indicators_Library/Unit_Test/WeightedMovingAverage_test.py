@@ -65,7 +65,7 @@ class WeightedMovingAverage_test(UnitTestSkyzeAbstract):
         # Save Test Results to Excel
         if save_test_run_to_excel:
             print("Saving to Excel:")
-            wma._saveToExcel(mkt_data)
+            wma._saveToExcel(mkt_data, settings_skyze.test_results_file_path)
 
         # Output the Test run calculations
         self.printDataSets("Test Run", output_info, mkt_data, column_sets)
