@@ -20,6 +20,7 @@ SuperTrendCrossScreener.py
 SuperTrendCross_test.py
 SuperTrendCrossScreener_test.py
 *SuperTrendCross*.*
+StrategySTC.py
 google-cloud-sdk/*
 *.log
 ~*.xlsx
