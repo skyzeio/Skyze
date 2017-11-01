@@ -1,0 +1,3 @@
+[submodule "Skyze_Analyzer_Service/Libraries/Pyfolio"]
+	path = Skyze_Analyzer_Service/Libraries/Pyfolio
+	url = https://github.com/skyzeio/pyfolio
