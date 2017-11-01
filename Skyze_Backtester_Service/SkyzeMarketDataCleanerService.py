@@ -8,7 +8,8 @@ from Skyze_Back_Tester_Service import settings
 from Skyze_Standard_Library.SkyzeServiceAbstract import *
 
 
-class SkyzeBackTesterService(SkyzeServiceAbstract):
+class SkyzeMarketDataCleanerService
+(SkyzeServiceAbstract):
     """Skyze inter-service message logger"""
 
     def __init__(self, message_bus):
@@ -22,4 +23,4 @@ class SkyzeBackTesterService(SkyzeServiceAbstract):
         super().receiveMessage(message_received)
         # Route to appropriate service
         message_type = message_received.getMessageType()
-        print("SkyzeBackTesterService::receiveMessage::NOT IMPLEMENTED")
+        print("SkyzeMarketDataCleanerService::receiveMessage::NOT IMPLEMENTED")
