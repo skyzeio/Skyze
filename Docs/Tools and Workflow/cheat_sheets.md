@@ -68,6 +68,9 @@ git push origin develop master
 RUN FROM SHELL
 ```
 
+## GIT Submodules
+https://chrisjean.com/git-submodules-adding-using-removing-and-updating/
+
 ## GIT Stuff
 
 ```git log``` ..... look at the last few commits
