@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c0e09a75b153931f210324d643bce8ab0e2799dfa8fb7f0b0cdd7aa64f810b83"
+            "sha256": "519348615a89d8b486d5ed489d946584487dc5876e6cc473d46a7d6af422562b"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -64,6 +64,13 @@
             "markers": "python_version >= '3.5'",
             "version": "==2.3.6"
         },
+        "apscheduler": {
+            "hashes": [
+                "sha256:64a6a71f6a794bcae6902d7574d879ae586b088c5252d8072e23b79dbdc96ce4",
+                "sha256:b51118a8ed014104f7e440456dcbd90f2015aea7bcc34c57e307fb34bc746316"
+            ],
+            "version": "==3.4.0"
+        },
         "arctic": {
             "hashes": [
                 "sha256:34bc395f5688bbe1fd3542b3877f5d5306719d9efa5b58209880aa5659516e77",
@@ -125,11 +132,8 @@
             "version": "==2.1.1"
         },
         "ccxt": {
-            "hashes": [
-                "sha256:b2df098c6b2b7c202bf947062065c6ea1fc5fd9e83a9f8abf8a2a36ec5580479",
-                "sha256:6824196b95654cb8030d87a381f32aaf9ab627483d826507cc49ce7296db3545"
-            ],
-            "version": "==1.10.428"
+            "hashes": [],
+            "version": "==1.10.429"
         },
         "certifi": {
             "hashes": [

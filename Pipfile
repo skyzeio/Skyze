@@ -24,6 +24,7 @@ rollbar = "*"
 pymongo = {extras = ["tls"]}
 halo = "*"
 ccxt = "*"
+apscheduler = "*"
 
 
 [dev-packages]
