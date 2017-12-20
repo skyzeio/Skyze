@@ -23,6 +23,7 @@ python-bittrex = {git = "https://github.com/ericsomdahl/python-bittrex.git", edi
 rollbar = "*"
 pymongo = {extras = ["tls"]}
 halo = "*"
+ccxt = "*"
 
 
 [dev-packages]
