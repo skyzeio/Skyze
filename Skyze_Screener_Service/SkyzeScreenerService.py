@@ -17,7 +17,7 @@ class SkyzeScreenerService(SkyzeServiceAbstract):
     path_to_service = "Skyze_Screener_Service"
     super().__init__(message_bus=message_bus, log_path=path_to_service)
     self.__running_screeners = []
-    self.__connect_to_message_bus()
+    # self.__connect_to_message_bus() # remove zmq call for now
     # self.__listen_to_message_bus()
 
   def getRunningScreeners(self):
