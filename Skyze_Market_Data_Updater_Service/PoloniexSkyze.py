@@ -50,54 +50,54 @@ the date range for the data returned. Sample output:
 
 class PoloniexSkyze (MarketDataSourceAbstract, ExceptionSkyzeAbstract):
 
-    def __init__(self, message_bus=None, logger=None):
-        source_name = "Poloniex"
-        source_dir_name = "Poloniex"
-        url_list_all_markets = "https://poloniex.com/public?command=returnTicker"
-        max_start_date = datetime.datetime(2010, 1, 1)
-        default_end_date = datetime.datetime.now()
-        url_market_history = "https://poloniex.com/public?command=returnChartData&currencyPair={0}&start={1}&end={2}&period={3}"
-        exchange_intervals = ["DAY_1", "HOUR_4", "HOUR_2", "MIN_5"]
+  def __init__(self, message_bus=None, logger=None):
+    source_name = "Poloniex"
+    source_dir_name = "Poloniex"
+    url_list_all_markets = "https://poloniex.com/public?command=returnTicker"
+    max_start_date = datetime.datetime(2010, 1, 1)
+    default_end_date = datetime.datetime.now()
+    url_market_history = "https://poloniex.com/public?command=returnChartData&currencyPair={0}&start={1}&end={2}&period={3}"
+    exchange_intervals = ["DAY_1", "HOUR_4", "HOUR_2", "MIN_5"]
 #         exchange_intervals      = ["MIN_5"]
 
-        super().__init__(source_name, source_dir_name, url_list_all_markets,
-                         max_start_date, default_end_date, url_market_history,
-                         exchange_intervals, message_bus, logger)
+    super().__init__(source_name, source_dir_name, url_list_all_markets,
+                     max_start_date, default_end_date, url_market_history,
+                     exchange_intervals, message_bus, logger)
 
-    def getAllMarkets(self, p_save_excel=False):
-        """
-            Returns a list of all markets (currency pairs) on the exchange
+  def getAllMarkets(self, p_save_excel=False):
+    """
+        Returns a list of all markets (currency pairs) on the exchange
 
-            https://www.cryptopia.co.nz/api/GetTradePairs
-            {"Id":5447,"Label":"OMG/DOGE","Currency":"OmiseGo","Symbol":"OMG","BaseCurrency":"Dogecoin","BaseSymbol":"DOGE",
-            "Status":"OK","StatusMessage":null,"TradeFee":0.20000000,"MinimumTrade":0.00000001,"MaximumTrade":100000000.0,
-            "MinimumBaseTrade":1.00000000,"MaximumBaseTrade":100000000.0,"MinimumPrice":0.00000001,"MaximumPrice":100000000.0},
+        https://www.cryptopia.co.nz/api/GetTradePairs
+        {"Id":5447,"Label":"OMG/DOGE","Currency":"OmiseGo","Symbol":"OMG","BaseCurrency":"Dogecoin","BaseSymbol":"DOGE",
+        "Status":"OK","StatusMessage":null,"TradeFee":0.20000000,"MinimumTrade":0.00000001,"MaximumTrade":100000000.0,
+        "MinimumBaseTrade":1.00000000,"MaximumBaseTrade":100000000.0,"MinimumPrice":0.00000001,"MaximumPrice":100000000.0},
 
-        """
-        print("Get all markets")
-        # query the website and return the html to the variable ‘page’
-        all_markets = requests.get(
-            self.url_list_all_markets[0])    # <class 'dict'>
-        # all_markets.json() is class 'dict'
-        all_markets = pd.DataFrame(all_markets.json())
+    """
+    print("Get all markets")
+    # query the website and return the html to the variable ‘page’
+    all_markets = requests.get(
+        self.url_list_all_markets[0])    # <class 'dict'>
+    # all_markets.json() is class 'dict'
+    all_markets = pd.DataFrame(all_markets.json())
 
 #         payload = pd.DataFrame(list(all_markets.Data))
 
-        if p_save_excel:
-            payload.to_excel(settings_skyze.data_file_path +
-                             '/Cryptopia_Markets.xlsx', index=False)
+    if p_save_excel:
+      payload.to_excel(settings_skyze.data_file_path +
+                       '/Cryptopia_Markets.xlsx', index=False)
 
-        return list(all_markets.columns.values)
+    return list(all_markets.columns.values)
 
-    def formatMarketHistoryURL(self, p_market, p_interval, p_start_date, p_end_date):
+  def formatMarketHistoryURL(self, p_market, p_interval, p_start_date, p_end_date):
 
-        # "https://poloniex.com/public?command=returnChartData&currencyPair={0}&start={1}&end={2}&period={3}"
-        formatted_url = self.url_market_history.format(
-            p_market, p_start_date.strftime("%s"), p_end_date.strftime("%s"), p_interval)
+    # "https://poloniex.com/public?command=returnChartData&currencyPair={0}&start={1}&end={2}&period={3}"
+    formatted_url = self.url_market_history.format(
+        p_market, p_start_date.strftime("%s"), p_end_date.strftime("%s"), p_interval)
 
-        return formatted_url
+    return formatted_url
 
-        '''
+    '''
             get Historical Data
             https://poloniex.com/public?command=returnChartData&currencyPair={0}&start={1}&end={2}&period={3}
 
@@ -106,29 +106,23 @@ class PoloniexSkyze (MarketDataSourceAbstract, ExceptionSkyzeAbstract):
 
         '''
 
-    def post_process_market_history(self, p_market_history):
+  def post_process_market_history(self, p_market_history):
 
-        # Request failures
-        if p_market_history.status_code != 200:
-            raise ExceptionSkyzeAbstract()
+    # Request failures
+    if p_market_history.status_code != 200:
+      raise ExceptionSkyzeAbstract()
 
-        # all_markets.json() is class 'dict'
-        payload = pd.DataFrame(p_market_history.json())
-        if len(payload) > 0:
-            pd.DatetimeIndex(payload.date * 10**9)
-            # Set the date as the index
-            payload.index = pd.to_datetime(payload.date * 10**9)
-            # Delete the date column
-            payload.drop('date', axis=1, inplace=True)
-            # payload = payload.iloc[::-1]                             # Reverse the order to time ascending
+    # all_markets.json() is class 'dict'
+    payload = pd.DataFrame(p_market_history.json())
+    if len(payload) > 0:
+      pd.DatetimeIndex(payload.date * 10**9)
+      # Set the date as the index
+      payload.index = pd.to_datetime(payload.date * 10**9)
+      # Delete the date column
+      payload.drop('date', axis=1, inplace=True)
+      # payload = payload.iloc[::-1]                             # Reverse the order to time ascending
 
-        '''
+    '''
             Return DataFrame has columns [  close high low open quoteVolume volume ]
         '''
-        return payload
-
-
-if __name__ == "__main__":
-    print("MAIN")
-    cryptopia = Cryptopia()
-    cryptopia.getAllMarkets()
+    return payload
