@@ -26,8 +26,8 @@ class ArbitrageTriangular(IndicatorAbstract):
     self.error = []
 
   def initial(self, p_data):
-    """Calculate the first value if the calc is different
-       to the subsequent calculations"""
+    '''Calculate the first value if the calc is different
+       to the subsequent calculations'''
     return p_data
 
   def calculate(self,
