@@ -303,6 +303,7 @@ class UnitTestSkyzeAbstract(unittest.TestCase):
       print(p_data.head(20))
       print("\n=== " + data_type + " . tail === === === === === ")
       print(p_data.tail(5))
+
       for set in column_sets:
         print("\n=== " + data_type + " Head: === ===")
         print(p_data[set].head(5))
