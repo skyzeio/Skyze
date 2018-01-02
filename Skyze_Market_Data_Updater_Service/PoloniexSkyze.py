@@ -85,7 +85,7 @@ class PoloniexSkyze (MarketDataSourceAbstract, ExceptionSkyzeAbstract):
 
     if p_save_excel:
       payload.to_excel(settings_skyze.data_file_path +
-                       '/Cryptopia_Markets.xlsx', index=False)
+                       '/' + self.source_name + '_markets.xlsx', index=False)
 
     return list(all_markets.columns.values)
 
