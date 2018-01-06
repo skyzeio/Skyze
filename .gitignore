@@ -15,6 +15,7 @@ Strategies/SuperTrendCrossScreener.py
 Unit_Test/Test_Results/*
 Unit_Test/Strategies/SuperTrendCross_test.py
 Unit_Test/Strategies/SuperTrendCrossScreener_test.py
+Skyze_Arbitrage_Service1/*
 SuperTrendCross.py
 SuperTrendCrossScreener.py
 SuperTrendCross_test.py
