@@ -25,6 +25,7 @@ pymongo = {extras = ["tls"]}
 halo = "*"
 ccxt = "*"
 apscheduler = "*"
+cctx = "*"
 
 
 [dev-packages]
