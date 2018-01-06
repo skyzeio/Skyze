@@ -12,18 +12,27 @@ target_results_file_path = "Unit_Test/Test_Data/"
 test_results_file_path = "Unit_Test/Test_Results/"
 
 
-# INTERVALS
+# CCXT INTERVAL NOTATION (there may be more this is Bitfinex)
+# {'1m': '1m', '5m': '5m', '15m': '15m', '30m': '30m', '1h': '1h',
+#   '3h': '3h', '6h': '6h', '12h': '12h', '1d': '1D', '1w': '7D',
+#   '2w': '14D', '1M': '1M'}
 dict_list = [
-    {"Name": "TICK",    "Seconds":      0,    "Directory_name": "tick"},
-    {"Name": "MIN_5",   "Seconds":    300,  "Directory_name": "minutes_5"},
-    {"Name": "MIN_15",  "Seconds":    900,  "Directory_name": "minutes_5"},
-    {"Name": "MIN_30",  "Seconds":   1800,  "Directory_name": "minutes_5"},
-    {"Name": "HOUR_1",  "Seconds":   3600,  "Directory_name": "hours_1"},
-    {"Name": "HOUR_2",  "Seconds":   7200,  "Directory_name": "hours_2"},
-    {"Name": "HOUR_4",  "Seconds":  14400,  "Directory_name": "hours_4"},
-    {"Name": "DAY_1",   "Seconds":  86400,  "Directory_name": "day_1"},
-    {"Name": "WEEK_1",  "Seconds": 604800,  "Directory_name": "week_1"},
-    {"Name": "MONTH_1", "Seconds":   3600,  "Directory_name": "month_1"}
+    {"Name": "TICK",    "ccxt":   "",  "Seconds":     0, "Directory_name": "tick"},
+    {"Name": "MIN_1",   "ccxt": "1m",  "Seconds":    60,
+        "Directory_name": "minutes_1"},
+    {"Name": "MIN_5",   "ccxt": "5m",  "Seconds":   300,
+        "Directory_name": "minutes_5"},
+    {"Name": "MIN_15",  "ccxt": "15m",  "Seconds":   900,
+        "Directory_name": "minutes_15"},
+    {"Name": "MIN_30",  "ccxt": "30m",  "Seconds":  1800,
+        "Directory_name": "minutes_30"},
+    {"Name": "HOUR_1",  "ccxt": "1h",  "Seconds":   3600,  "Directory_name": "hours_1"},
+    {"Name": "HOUR_2",  "ccxt": "2h",  "Seconds":   7200,  "Directory_name": "hours_2"},
+    {"Name": "HOUR_3",  "ccxt": "3h",  "Seconds":  10800,  "Directory_name": "hours_3"},
+    {"Name": "HOUR_4",  "ccxt": "4h",  "Seconds":  14400,  "Directory_name": "hours_4"},
+    {"Name": "DAY_1",   "ccxt": "1d",  "Seconds":  86400,  "Directory_name": "day_1"},
+    {"Name": "WEEK_1",  "ccxt": "1w",  "Seconds": 604800,  "Directory_name": "week_1"},
+    {"Name": "MONTH_1", "ccxt": "1M",  "Seconds": 2592000, "Directory_name": "month_1"}
 ]
 
 intervals = pd.DataFrame(dict_list)
