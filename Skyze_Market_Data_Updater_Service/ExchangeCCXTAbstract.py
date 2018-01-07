@@ -371,7 +371,7 @@ class ExchangeCCXTAbstract(object):
                 msg = MessageDataReceived(
                     self._getType(), market, interval.Directory_name)
                 self._message_bus.publishMessage(msg)
-      break
+      # break # To do one pair only for testing
       time.sleep(self._exchange.rateLimit / 1000 * 1.5)
 
     # Log end of update run
