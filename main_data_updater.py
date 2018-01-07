@@ -24,10 +24,14 @@ from Skyze_Standard_Library.SkyzeLogger import SkyzeLogger
 #--- Rollbar Error reporting ---------------------------------------------------
 rollbar_on = False
 if rollbar_on:
-    rollbar.init('8f67acbc427a4d6ba80c31516bd355da',
-                 'Mike Laptop')  # access_token, environment
-    rollbar.report_message(
-        'main_data_updater.py - Rollbar is configured correctly')
+  # Mike Laptop
+  # rollbar.init('8f67acbc427a4d6ba80c31516bd355da',
+  #              'Mike Laptop')  # access_token, environment
+  # AWS Server
+  rollbar.init('8f67acbc427a4d6ba80c31516bd355da',
+               'AWS Server')  # access_token, environment
+  rollbar.report_message(
+      'main_data_updater.py - Rollbar is configured correctly')
 
 #--- Set up the Skyze Logger ---------------------------------------------------
 logger_class_name = "main"
@@ -81,43 +85,43 @@ spinner.start()
 # Data load switches
 data_load_switch = cmc_load or cryptopia_load or poloniex_load
 try:
-    if load_type == "all" and data_load_switch:
-        print("=== UPDATE MARKET DATA - ALL ===")
-        if cmc_load:
-            cmc = CoinMarketCap()
-            cmc.updateMarketData()
-        if cryptopia_load:
-            crypt = Cryptopia()
-            crypt.updateMarketData()
-        if poloniex_load:
-            poloniex = PoloniexSkyze()
-            poloniex.updateMarketData()
-    elif load_type == "ico" and data_load_switch:
-        print("=== UPDATE MARKET DATA - ICO ===")
-        if cmc_load:
-            cmc = CoinMarketCap()
-            mkt_data = cmc.updateMarketData(portfolio.markets_ICO)
-        if cryptopia_load:
-            crypt = Cryptopia()
-            crypt.updateMarketData(portfolio.cryptopia_ICO)
-    elif load_type == "custom_list" and data_load_switch:
-        if cmc_load:
-            print("=== UPDATE MARKET DATA - CUSTOM ===")
-            cmc = CoinMarketCap(logger=logger)
-            cmc.updateMarketData(custom_list_cmc)
-        if cryptopia_load:
-            crypt = Cryptopia(logger=logger)
-            crypt.updateMarketData(custom_list_cryptopia)
-        if poloniex_load:
-            poloniex = PoloniexSkyze(logger=logger)
-            poloniex.updateMarketData(custom_list_poloniex)
+  if load_type == "all" and data_load_switch:
+    print("=== UPDATE MARKET DATA - ALL ===")
+    if cmc_load:
+      cmc = CoinMarketCap()
+      cmc.updateMarketData()
+    if cryptopia_load:
+      crypt = Cryptopia()
+      crypt.updateMarketData()
+    if poloniex_load:
+      poloniex = PoloniexSkyze()
+      poloniex.updateMarketData()
+  elif load_type == "ico" and data_load_switch:
+    print("=== UPDATE MARKET DATA - ICO ===")
+    if cmc_load:
+      cmc = CoinMarketCap()
+      mkt_data = cmc.updateMarketData(portfolio.markets_ICO)
+    if cryptopia_load:
+      crypt = Cryptopia()
+      crypt.updateMarketData(portfolio.cryptopia_ICO)
+  elif load_type == "custom_list" and data_load_switch:
+    if cmc_load:
+      print("=== UPDATE MARKET DATA - CUSTOM ===")
+      cmc = CoinMarketCap(logger=logger)
+      cmc.updateMarketData(custom_list_cmc)
+    if cryptopia_load:
+      crypt = Cryptopia(logger=logger)
+      crypt.updateMarketData(custom_list_cryptopia)
+    if poloniex_load:
+      poloniex = PoloniexSkyze(logger=logger)
+      poloniex.updateMarketData(custom_list_poloniex)
 except e:
-    # Catch all exceptions
-    if rollbar_on:
-        rollbar.report_exc_info()
-    else:
-        print(f"Unexpected ERROR: {sys.exc_info()[0]}")
-        raise Excpetion
+  # Catch all exceptions
+  if rollbar_on:
+    rollbar.report_exc_info()
+  else:
+    print(f"Unexpected ERROR: {sys.exc_info()[0]}")
+    raise Excpetion
 
 # Calculate and print run time
 end_time = datetime.datetime.now()

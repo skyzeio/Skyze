@@ -1,4 +1,7 @@
 # Ubuntu Tips
+## Time and dates
+### Display
+`timedatectl`
 
 ## File System
 ### move folders and sub files/folders
@@ -34,6 +37,8 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-li
 ### List all processes
 `ps -ef`
 #### Get Skyze process
+`ps -ef | grep skyze `
+
 In `ps -ef` the Skyze process looks like:
 
 `ubuntu   22440 22283  1 07:47 pts/0    00:00:01 /home/ubuntu/.local/share/virtualenvs/Skyze-ZP_7bfwZ/bin/python3 run_skyze.py`
@@ -48,7 +53,7 @@ In `ps -ef` the Skyze process looks like:
 
 
 `nohup script.sh 2>&1 script.out &
-# later:
+#### later:
 tail -f script.out`
 
 If you close the shell/terminal or log off, your command is no longer a child of that shell. It belongs to `init` process. If you search in `pstree` you'll see it is now owned by process 1 (init). That cannot be brought back to the foreground because the foreground no longer exists.
@@ -97,6 +102,8 @@ After much research and experimentation, I found this works every time:
 1) Create a zipped tar file with this command on the Mac in Terminal:
 
 `tar -cvzf your_archive_name.tar.gz your_folder_name/`
+
+`zip -r my_arch.zip my_folder`
 
 2) When you FTP the file from one server to another, make sure you do so with binary mode turned on
 

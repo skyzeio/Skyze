@@ -139,16 +139,16 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
 
     # Poloniex only needs daily update - as can request that much history
     job = self._sched.add_job(self.poloniex_daily_update, 'cron',
-                              day_of_week='mon-sun', hour=11, minute=16)  # 10:12
+                              day_of_week='mon-sun', hour=20, minute=12)  # 20:12
     # Cryptopia Daily run 1 - twice a day for low volume markets
     job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
-                              day_of_week='mon-sun', hour=11, minute=35)  # 10:35
+                              day_of_week='mon-sun', hour=21, minute=35)  # 21:35
     # CoinMarketCap Daily update - as can request that much history
     job = self._sched.add_job(self.cmc_daily_update, 'cron',
-                              day_of_week='mon-sun', hour=12, minute=8)  # 14:08
+                              day_of_week='mon-sun', hour=1, minute=8)  # 01:08
     # Cryptopia Daily run 2 - twice a day for low volume markets
     job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
-                              day_of_week='mon-sun', hour=16, minute=30)  # 16:30
+                              day_of_week='mon-sun', hour=8, minute=8)  # 08:08
 
     # === Print the list of jobs and start the scheduler
     self._sched.print_jobs()
