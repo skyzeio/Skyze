@@ -74,6 +74,14 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
   # ========================================================================
   # ----- Jobs to Schedule =================================================
   # ========================================================================
+  def bitfinex_90min_update(self, market_pairs=None):
+    log_msg = 'Scheduler:: Triggering:: Bitfinex 90 minute Update'
+    self._logger.log_info(log_msg)
+    pairs = []
+    message = MessageMarketDataUpdaterRun(
+        "Bitfinex", "All", market_pairs=pairs)
+    self._sendMessage(message)
+
   #@sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23', minute=1)
   def cryptopia_hourly_update(self, market_pairs=None):
     log_msg = 'Scheduler:: Triggering:: Cryptopia Hourly Update'
@@ -120,10 +128,15 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     # TODO Get list of jobs from settings file
     #job = sched.add_job(self.send_random_message, 'interval', minutes=1)
 
+    # Bitfinex 90 minute-ly for all markets
+    job = self._sched.add_job(self.bitfinex_90min_update,
+                              'interval', minutes=90)
+
     # Cryptopia Daily - hourly for high volume markets
     job = self._sched.add_job(self.cryptopia_hourly_update,
-                              'cron', day_of_week='mon-sun', hour='0-23')  #
+                              'cron', day_of_week='mon-sun', hour='0-23')
     #                          'interval', hours=1)
+
     # Poloniex only needs daily update - as can request that much history
     job = self._sched.add_job(self.poloniex_daily_update, 'cron',
                               day_of_week='mon-sun', hour=11, minute=16)  # 10:12
