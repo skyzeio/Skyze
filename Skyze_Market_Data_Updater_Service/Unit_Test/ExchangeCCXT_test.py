@@ -20,7 +20,7 @@ class ExchangeCCXT_test(UnitTestSkyzeAbstract):
   _class_tested = "ExchangeCCXT"
 
   @unittest.skip("Working on new test")
-  def test_cctx(self):
+  def test_smoke_cctx(self):
     print("yup test_cctx")
     hitbtc = ccxt.hitbtc({'verbose': True})
     bitmex = ccxt.bitmex()
@@ -45,6 +45,12 @@ class ExchangeCCXT_test(UnitTestSkyzeAbstract):
     exchangeBroker = ExchangeCCXT()
     exchangeBroker.getAllMarkets()
 
+  @unittest.skip("Working on new test")
+  def test_getAllExchangeDetails(self):
+    exchangeBroker = ExchangeCCXT("Bitfinex")
+    exchangeBroker.printAllExchangeDetails()
+
+  # @unittest.skip("Working on new test")
   def test_updateMarketData(self):
     # Set up for testing
     logger_class_name = self.__class__.__name__
@@ -53,7 +59,9 @@ class ExchangeCCXT_test(UnitTestSkyzeAbstract):
 
     message_bus = SkyzeMessageBusService()
     # Testing
-    exchangeBroker = ExchangeCCXT(logger=logger, message_bus=message_bus)
+    exchangeBroker = ExchangeCCXT("Bitfinex",
+                                  logger=logger,
+                                  message_bus=message_bus)
     print("Start")
     print(cp.openingTitles())
     exchangeBroker.updateMarketData()

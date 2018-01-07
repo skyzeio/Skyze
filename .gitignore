@@ -2,6 +2,7 @@ __pycache__
 Data/*
 Jupyter/Martin Flow Calcs.ipynb
 Jupyter/.ipynb_checkpoints/*
+Jupyter/Generators - Triangular Arb.ipynb
 .ipynb_checkpoints
 .DS_Store
 .externalToolBuilders

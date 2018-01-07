@@ -7,6 +7,12 @@
 `mv old_name new_name `
 ### List all directories by size
 `du -sh *`
+### List all Files by size and update
+`stat -c "%y %s %n" *`
+
+and sorted by date - reversed
+
+`stat -c '%y - %n' * | sort -r -t'-' -k1,1`
 ### How many files in a directory
 `find . -type f | wc -l`
 
@@ -25,6 +31,12 @@ sudo file -s /dev/xvd*
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html
 
 ## Process Management
+### List all processes
+`ps -ef`
+#### Get Skyze process
+In `ps -ef` the Skyze process looks like:
+
+`ubuntu   22440 22283  1 07:47 pts/0    00:00:01 /home/ubuntu/.local/share/virtualenvs/Skyze-ZP_7bfwZ/bin/python3 run_skyze.py`
 ### Run process in background independent of shell
 
 `nohup pipenv run python3 run_skyze.py > /dev/null 2>&1 &`
