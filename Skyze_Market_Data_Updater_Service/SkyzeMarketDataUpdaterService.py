@@ -10,6 +10,7 @@ import json
 import settings_skyze
 from Skyze_Market_Data_Updater_Service import settings
 # Exchanges and other data sources
+from Skyze_Market_Data_Updater_Service.ExchangeCCXT import ExchangeCCXT
 from Skyze_Market_Data_Updater_Service.CoinMarketCap import CoinMarketCap
 from Skyze_Market_Data_Updater_Service.Cryptopia import Cryptopia
 from Skyze_Market_Data_Updater_Service.PoloniexSkyze import PoloniexSkyze
