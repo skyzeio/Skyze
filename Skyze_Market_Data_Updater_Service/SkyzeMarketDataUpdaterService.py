@@ -95,5 +95,3 @@ class SkyzeMarketDataUpdaterService(SkyzeServiceAbstract):
       self.run_update_all()
     else:
       self._unknownMessageTypeError(message_received)
-
-  def ccxtUpdate(self):
