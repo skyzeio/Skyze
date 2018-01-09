@@ -281,7 +281,7 @@ class ExchangeCCXTAbstract(object):
     # Log header info
     download_total = str(len(mkt_list))
     interval_total = len(self._exchange_intervals)
-    log_msg = f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    log_msg = f"\n\n\n"
     log_msg += f"Exchange: {self._source_name} ==============================="
     log_msg += f"\nMarkets to downlaod: {download_total}  ... each market has "
     log_msg += f"{interval_total} intervals"
