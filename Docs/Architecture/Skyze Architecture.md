@@ -282,7 +282,7 @@ __Notifications__
 1. Twitter - Twython https://github.com/ryanmcgrath/twython
 2. SMS - tweet to Skyze_IO, personal account subscribe to Skyze_io and
  have twitter notification send SMS for all skyze_io tweets in personal account
- 3. eMail - 
+ 3. eMail -
 
 
 
@@ -323,7 +323,13 @@ when we have one
 #### csv
 #### Excel
 
-## Code Resository
+## Storing Confidential Information
+### Environment variables
+Used to store access keys and other sensitive environment specific data.
+**on Mac in the shell** e.g. `~/.zshrc`
+**on AWS ....** e.g. 
+
+## Code Repository
 ### GitHub
 https://github.com/SkyzeTrading/Skyze/
 
