@@ -65,15 +65,9 @@ class SkyzeNotifierService(SkyzeServiceAbstract):
     return tweepy.API(auth)
 
   def __sendTweet(self, msg_subject, msg_content):
-    ''' uses tweepy to send a Tweet
-        Twitter apps https://apps.twitter.com/
-        http://nodotcom.org/python-twitter-tutorial.html'''
-    log_msg = f"{self.getType()}::sendTweet::UNDER DEVELOPMENT::{msg_content}"
+    ''' uses tweepy to send a Tweet'''
+    log_msg = f"{self.getType()}::sendTweet::{msg_content}"
     self._logger.log_info(log_msg)
-    cp.prt(cp.pink("consumer_key"), os.environ['TWITTER_CONSUMER_KEY'],
-           "consumer_secret", os.environ['TWITTER_CONSUMER_SECRET'],
-           "access_token", os.environ['TWITTER_ACCESS_TOKEN'],
-           "access_token_secret", os.environ['TWITTER_TOKEN_SECRET'])
     cfg = {
         "consumer_key": os.environ['TWITTER_CONSUMER_KEY'],
         "consumer_secret": os.environ['TWITTER_CONSUMER_SECRET'],
@@ -83,11 +77,12 @@ class SkyzeNotifierService(SkyzeServiceAbstract):
 
     api = self.__get_twitter_api(cfg)
     tweet = f"{msg_subject} :: {msg_content}"
-    cp.prt(cp.pink(tweet))
     status = api.update_status(status=tweet)
     return
 
   def __sendSMS(self, msg_subject, msg_content):
+    log_msg = f"{self.getType()}::sendSMS::NOT IMPLIMENTED Routed to Tweet::{msg_content}"
+    self._logger.log_info(log_msg)
     self.__sendTweet(msg_subject, msg_content)
 
   def receiveMessage(self, message_received):
