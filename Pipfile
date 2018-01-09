@@ -23,12 +23,13 @@ pymongo = {extras = ["tls"]}
 halo = "*"
 ccxt = "*"
 apscheduler = "*"
+tweepy = "*"
 
 
 [dev-packages]
 
 "autopep8" = "*"
-Quandl = "*"
+quandl = "*"
 ystockquote = "*"
 nose = "*"
 coverage = "*"
