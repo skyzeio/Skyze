@@ -18,24 +18,19 @@ pandas = "*"
 pylint = "*"
 scipy = "*"
 arctic = "*"
-trading-ig = "*"
-python-bittrex = {git = "https://github.com/ericsomdahl/python-bittrex.git", editable = true, ref = "0.1.3"}
 rollbar = "*"
 pymongo = {extras = ["tls"]}
 halo = "*"
 ccxt = "*"
 apscheduler = "*"
-cctx = "*"
 
 
 [dev-packages]
 
 "autopep8" = "*"
-quandl = "*"
+Quandl = "*"
 ystockquote = "*"
 nose = "*"
 coverage = "*"
 jupyter = "*"
 mypy = "*"
-docker = "*"
-"279e797" = {path = "/Users/michaelnew/Dropbox/Aptana_Workspace/Skyze/jupyter"}
