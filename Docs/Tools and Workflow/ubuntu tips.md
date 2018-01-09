@@ -46,6 +46,9 @@ In `ps -ef` the Skyze process looks like:
 
 `nohup pipenv run python3 run_skyze.py > /dev/null 2>&1 &`
 
+
+`nohup pipenv run python3 run_skyze.py > /Logs/skyze20180108.out 2>&1 &`
+
 1. nohup means: Do not terminate this process even when the stty is cut off.
 2. > /dev/null means: stdout goes to /dev/null (which is a dummy device that does not record any output).
 3. 2>&1 means: stderr also goes to the stdout (which is already redirected to /dev/null). You may replace &1 with a file path to keep a log of errors, e.g.: 2>/tmp/myLog
