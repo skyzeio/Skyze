@@ -77,9 +77,7 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
   def bitfinex_90min_update(self, market_pairs=None):
     log_msg = 'Scheduler:: Triggering:: Bitfinex 90 minute Update'
     self._logger.log_info(log_msg)
-    pairs = []
-    message = MessageMarketDataUpdaterRun(
-        "Bitfinex", "All", market_pairs=pairs)
+    message = MessageMarketDataUpdaterRun("Bitfinex", "All", market_pairs=None)
     self._sendMessage(message)
 
   #@sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23', minute=1)

@@ -9,6 +9,7 @@ import json
 # Settings
 import settings_skyze
 from Skyze_Market_Data_Updater_Service import settings
+import Skyze_Standard_Library.Colourful_Printing as cp
 # Exchanges and other data sources
 from Skyze_Market_Data_Updater_Service.ExchangeCCXT import ExchangeCCXT
 from Skyze_Market_Data_Updater_Service.CoinMarketCap import CoinMarketCap
@@ -44,29 +45,14 @@ class SkyzeMarketDataUpdaterService(SkyzeServiceAbstract):
 
     # Create the exchange object and run the update
     if exchange_name == "Bitfinex":
+      cp.prt(cp.red("Updater Service Create exchange "))
       exchange = ExchangeCCXT("Bitfinex", self._message_bus, self._logger)
-    if exchange_name == "Cryptopia":
+    elif exchange_name == "Cryptopia":
       exchange = Cryptopia(self._message_bus, self._logger)
     elif exchange_name == "CoinMarketCap":
       exchange = CoinMarketCap(self._message_bus, self._logger)
     elif exchange_name == "Poloniex":
       exchange = PoloniexSkyze(self._message_bus, self._logger)
-    elif exchange == "TODO Dynamic Creation":
-      # TODO construct the exchange class from the classs name string
-      #      won't have to do the above if/elif ....
-      # from https://stackoverflow.com/questions/452969/does-python-have-an-equivalent-to-java-class-forname
-      class_name = settings_skyze.exchanges.get_value(
-          exchange_name, "Class_name")
-      exchange_class_name = f'{self._path_to_service}.{ex_cls_name}'
-      # exchange_class_name = settings_skyze.exchanges.get_value(
-      #    exchange_name, "Class_name")
-      print(exchange_name)
-      print(exchange_class_name)
-      #m = __import__("Skyze_Market_Data_Updater_Service.Cryptopia")
-      #m1 = getattr(m, "Cryptopia")
-      #exchange = getattr(m1, "Cryptopia")
-      exchange = self.__get_class(exchange_class_name)
-      print(type(exchange))
     else:
       # Unknown exchange sent
       rollbar.report_exc_info()
