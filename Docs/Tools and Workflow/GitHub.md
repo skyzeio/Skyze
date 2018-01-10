@@ -1,5 +1,14 @@
 # GIT
 
+## GIT environment set up
+
+In the .gitconfig .... `vim ~/.gitconfig`
+
+`[alias]
+    # the acronym stands for "subtree add"
+    sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f"
+    # the acronym stands for "subtree update"
+    sbu = "!f() { git subtree pull --prefix $2 $1 master --squash; }; f"`
 
 
 ## COMMANDS
@@ -133,3 +142,42 @@ $ git push origin :[name_of_your_new_branch]
 The only difference is the : to say delete, you can do it too by using github interface to remove branch : https://help.github.com/articles/deleting-unused-branches.
 
 If you want to change default branch, it's so easy with github, in your fork go into Admin and in the drop-down list default branch choose what you want.
+
+## SubModules vs SubTrees
+## Decision
+Deciding to use **subtree** as the code is in each repe, you can stay with a certain version of the subtree'd repo and you can push back to the subtree'd repo if you want
+
+### **git submodules **
+you typically want to separate a large repository into smaller ones. The way of referencing a submodule is maven-style - you are referencing a single commit from the other (submodule) repository. If you need a change within the submodule you have to make a commit/push within the submodule, then reference the new commit in the main repository and then commit/push the changed reference of the main repository. That way you have to have access to both repositories for the complete build.
+
+submodule is a better fit for component-based development, where your main project depends on a fixed version of another component (repo).
+You keep only references in your parent repo (gitlinks, special entries in the index)
+
+### **git subtrees**
+to develop both main project and sub-project within the same directory (which is called a "system approach": you develop, tag and merge the all system)
+- http://alistra.ghost.io/2014/11/30/git-subtree-a-better-alternative-to-git-submodule/
+- https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree
+- https://services.github.com/on-demand/downloads/submodule-vs-subtree-cheat-sheet/
+
+
+### Workflow with forks
+**submodule** https://stackoverflow.com/questions/7174347/what-is-a-good-workflow-for-submodule-forks
+**Subtree**   https://github.com/ande3577/Git-Subtree-Workflow-Proposal/wiki/Subtree-Based-Workflow
+**Forks**     https://gist.github.com/Chaser324/ce0505fbed06b947d962
+
+## Splitting out a directory
+see http://alyssafrazee.com/2014/05/01/popping-a-subdirectory.html
+
+_**steps are:**_
+1. `git clone` skyze into a new directory that is the name of the subfolder
+2. `git filter-branch --prune-empty --subdirectory-filter XXX master` to remove everything except directory XXX
+3. Add the new repo at the SkyzeIO organisation level
+4. `git remote rm origin`
+5. `git remote add origin ` new SkyzeIO repository
+6. add branches `git branch NAME` develop or master
+7. Set origin for master
+8. `git push origin develop master`
+9. Fork the repo into your username on github
+10. `git remote add origin `
+11. `git remote add origin ` to the new forked username repository
+12. do a test commit
