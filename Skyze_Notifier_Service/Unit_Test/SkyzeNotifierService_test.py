@@ -49,12 +49,6 @@ class SkyzeNotifierService_test(UnitTestSkyzeAbstract):
         error_list, market_pairs=None)
     notifier_service.receiveMessage(end_run_msg)
 
-    # Testing
-    # notifier_service = SkyzeNotifierService(message_bus)
-    # msg_subject = "Testing"
-    # msg_content = "Tweet-a-Test-a-Tweet-a-Test-a-Tweet-a-Test-a-Tweet-a-Test-a-"
-    # notifier_service.__sendTweet(self, msg_subject, msg_content)
-
 
 if __name__ == '__main__':
   unittest.main()

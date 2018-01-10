@@ -76,7 +76,8 @@ class SkyzeNotifierService(SkyzeServiceAbstract):
     }
 
     api = self.__get_twitter_api(cfg)
-    tweet = f"{msg_subject} :: {msg_content}"
+    max_tweet_length = 140
+    tweet = f"{msg_subject} :: {msg_content}"[0:max_tweet_length - 1]
     status = api.update_status(status=tweet)
     return
 
