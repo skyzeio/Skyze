@@ -5,6 +5,7 @@
 from datetime import datetime
 import json
 import os
+from random import *
 
 # eMail
 import smtplib
@@ -75,10 +76,20 @@ class SkyzeNotifierService(SkyzeServiceAbstract):
         "access_token_secret": os.environ['TWITTER_TOKEN_SECRET']
     }
 
-    api = self.__get_twitter_api(cfg)
+    # Put three random numbers at the beginning of the tweet to ensure that
+    # no two tweets in a row are the same as it generates an error from Twitter
+    # .... well 1 in 1000 chance !
+    now = str(randint(1, 999))
     max_tweet_length = 140
-    tweet = f"{msg_subject} :: {msg_content}"[0:max_tweet_length - 1]
-    status = api.update_status(status=tweet)
+    tweet = f"{now} - {msg_subject} :: {msg_content}"[0:max_tweet_length - 4]
+
+    # Send the tweet
+    try:
+      api = self.__get_twitter_api(cfg)
+      status = api.update_status(status=tweet)
+    except:
+      print("EXCEPTION SkyzeNotifierService::__sendTweet")
+
     return
 
   def __sendSMS(self, msg_subject, msg_content):
