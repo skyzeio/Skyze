@@ -1,7 +1,7 @@
 """Created on 9 / 1 / 2018 @author: michaelnew"""
 
 
-# Standard Libraries
+# Third Party Libraries
 import ccxt
 
 # Skyze libraries - Required
