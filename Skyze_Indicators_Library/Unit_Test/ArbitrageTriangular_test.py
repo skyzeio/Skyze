@@ -10,7 +10,7 @@ from Skyze_Standard_Library.Skyze_Utility import readCSV
 # Skyze imports
 from Skyze_Standard_Library.Unit_Test.UnitTestSkyzeAbstract import *       # Parent import
 from Skyze_Indicators_Library.ArbitrageTriangular import ArbitrageTriangular
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 
 
 class ArbitrageTriangular_test(UnitTestSkyzeAbstract):

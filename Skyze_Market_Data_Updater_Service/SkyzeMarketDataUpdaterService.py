@@ -7,7 +7,7 @@ import json
 
 # Skyze Imports
 # Settings
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 from Skyze_Market_Data_Updater_Service import settings
 import Skyze_Standard_Library.Colourful_Printing as cp
 # Exchanges and other data sources

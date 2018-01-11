@@ -18,7 +18,7 @@ from Skyze_Market_Data_Updater_Service.CoinMarketCap import CoinMarketCap
 from Skyze_Market_Data_Updater_Service.Cryptopia import Cryptopia
 from Skyze_Market_Data_Updater_Service.PoloniexSkyze import PoloniexSkyze
 # other
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 from Skyze_Standard_Library.SkyzeLogger import SkyzeLogger
 
 #--- Rollbar Error reporting ---------------------------------------------------

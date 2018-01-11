@@ -7,8 +7,8 @@ from datetime import datetime
 import ccxt
 
 # Skyze Libraries
-import settings_skyze
-from settings_skyze import exchange_list
+import Skyze_Standard_Library.settings_skyze as settings_skyze
+from Skyze_Standard_Library.settings_skyze import exchange_list
 from Skyze_Market_Data_Updater_Service.ExchangeCCXTAbstract import ExchangeCCXTAbstract
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Skyze_Standard_Library.Market import Market
