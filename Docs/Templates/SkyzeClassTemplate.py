@@ -12,7 +12,7 @@
 
 
 # Skyze Libraries
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Skyze_Standard_Library.Market import Market
 

@@ -23,7 +23,7 @@ from collections import deque
 # Skyze Libraries
 from Skyze_Market_Data_Updater_Service.MarketDataSourceAbstract import MarketDataSourceAbstract
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 from Skyze_Standard_Library.Market import Market
 
 

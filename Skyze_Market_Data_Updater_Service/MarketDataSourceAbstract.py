@@ -26,7 +26,7 @@ from collections import deque
 
 
 # skyze libraries
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 from Skyze_Standard_Library.Market import Market
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 # Messages

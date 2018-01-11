@@ -1,4 +1,6 @@
-# GIT
+# GIT CHEATS AND WORKFLOWS
+
+
 
 ## GIT environment set up
 
@@ -32,28 +34,29 @@ example:
 To see full file paths of the files that will change, run:
 ```git diff --numstat [remote repo/branch]```
 
-## GIT WORKFLOW
+## GIT REPO WORKFLOW
+The following is for the main repo. For subtrees in the repo see the subtree workflow below.
+
 ### Pushing to Personal Repo
 1.	Commit to local Repo on the development branch
 ``` git commit -m 'my notes' path/to/my/file.ext ```
 
 2.	Check local Repo git status to ensure all files have been committed
-git status
+`git status`
 
 3.	Push to development branch on Origin (in repo Personal/Skyze )
-git push
+`git push origin develop master`
 
 ### Pushing to Organizational Repo (Pull Request)
-1.	From Personal/Skyze Repo: Send a pull request to Skyze Org Repo on development branch
-www.github/ … personal repo URL
 
-2.	Admins: Process the pull request in Skyze Org Repo
-https://github.com/SkyzeTrading/Skyze/pulls
+There two steps for the developer to submit code:
+1. Synch local repo with the Organisational repo
+2. Push local to the organisational repo
 
-Questions … when to Push to Master on personal and on organizational?
+The organisational reviewer will then review code before merging with the org repo
 
-### Before Pushing to organisational repo
-When doing a Pull Request from github.com/PERSONAL/skypz to github.com/skypeTrading/skypz
+### Step 1. Synch with the Organisational repo first
+When doing a Pull Request from `github.com/PERSONAL/skyze` to `github.com/skypeTrading/skypz`
 
 Do the following commands in this order:
 ```
@@ -71,6 +74,39 @@ git push origin develop master
 # Pull request in gitbut from personal to to Skyze repo
 RUN FROM SHELL
 ```
+### Step 2. Push to the repo
+1.	From **Personal/Skyze Repo**: Send a `pull request` to Skyze Org Repo on development branch
+www.github/ … personal repo URL
+
+2.	Admins: Process the pull request in Skyze Org Repo
+https://github.com/SkyzeTrading/Skyze/pulls
+
+## Work flow questions
+ 1. … when to Push to Master on personal and on organizational?
+
+## SubTree Workflows
+From: https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtree
+
+### Adding a new SubTree
+1. Add the sub repo (e.g. Skyze_Standard_Library) as a remote    
+`git remote add -f YOUR_REMOTE_NAME  https://github.org/.../SUB-REPO.git`
+
+    e.g. `git remote add -f Skyze_Standard_Library  https://github.org/.../SkzyeStandardLibrary.git`
+
+2. Add the subtree `git subtree add --prefix SUBTREE_REPO_FOLDER_NAME YOUR_REMOTE_NAME master --squash`
+
+### Updating the SubTree from upstream
+1. `git fetch YOUR_REMOTE_NAME master`
+
+2. `git subtree pull --prefix SUBTREE_REPO_FOLDER_NAME YOUR_REMOTE_NAME master --squash`
+
+### Pushing the SubTree to upstream
+1. Update local repo from the upstream (Skyze Organisation Repo) and sort out any conflicts
+2. fork the organisation repo and add it as another remote to the local repo:
+`git remote add YOUR_FORKED_REMOTE_NAME  https://github.org/.../FORKED-SUB-REPO.git`
+4. Push to the fork `git subtree push --prefix=SUBTREE_REPO_FOLDER_NAME YOUR_FORKED_REMOTE_NAME master`
+5. Open a _Pull Request_ from the fork to the upstream
+
 
 ##  Submodules
 https://chrisjean.com/git-submodules-adding-using-removing-and-updating/
@@ -100,45 +136,45 @@ When you do a pull request on a branch, you can continue to work on another bran
 Before creating a new branch, pull the changes from upstream. Your master needs to be up to date.
 
 Create the branch on your local machine and switch in this branch :
+`$ git checkout -b [name_of_your_new_branch]`
 
-$ git checkout -b [name_of_your_new_branch]
 Change working branch :
+`$ git checkout [name_of_your_new_branch]`
 
-$ git checkout [name_of_your_new_branch]
 Push the branch on github :
+`$ git push origin [name_of_your_new_branch]`
 
-$ git push origin [name_of_your_new_branch]
-When you want to commit something in your branch, be sure to be in your branch. Add -u parameter to set upstream.
+When you want to commit something in your branch, be sure to be in your branch. Add `-u` parameter to set upstream.
 
 You can see all branches created by using :
 
-$ git branch
+`$ git branch`
 Which will show :
 
 * approval_messages
   master
   master_clean
+
 Add a new remote for your branch :
+`$ git remote add [name_of_your_remote]`
 
-$ git remote add [name_of_your_remote]
 Push changes from your commit into your branch :
+`$ git push [name_of_your_new_remote] [name_of_your_branch]`
 
-$ git push [name_of_your_new_remote] [name_of_your_branch]
-Update your branch when the original branch from official repository has been updated :
+Update your branch when the original branch from official repository has been updated :`$ git fetch [name_of_your_remote]`
 
-$ git fetch [name_of_your_remote]
 Then you need to apply to merge changes, if your branch is derivated from develop you need to do :
+`$ git merge [name_of_your_remote]/develop`
 
-$ git merge [name_of_your_remote]/develop
 Delete a branch on your local filesystem :
+`$ git branch -d [name_of_your_new_branch]`
 
-$ git branch -d [name_of_your_new_branch]
 To force the deletion of local branch on your filesystem :
+`$ git branch -D [name_of_your_new_branch]`
 
-$ git branch -D [name_of_your_new_branch]
 Delete the branch on github :
+`$ git push origin :[name_of_your_new_branch]`
 
-$ git push origin :[name_of_your_new_branch]
 The only difference is the : to say delete, you can do it too by using github interface to remove branch : https://help.github.com/articles/deleting-unused-branches.
 
 If you want to change default branch, it's so easy with github, in your fork go into Admin and in the drop-down list default branch choose what you want.
@@ -162,7 +198,9 @@ to develop both main project and sub-project within the same directory (which is
 
 ### Workflow with forks
 **submodule** https://stackoverflow.com/questions/7174347/what-is-a-good-workflow-for-submodule-forks
+
 **Subtree**   https://github.com/ande3577/Git-Subtree-Workflow-Proposal/wiki/Subtree-Based-Workflow
+
 **Forks**     https://gist.github.com/Chaser324/ce0505fbed06b947d962
 
 ## Splitting out a directory
@@ -174,10 +212,10 @@ _**steps are:**_
 3. Add the new repo at the SkyzeIO organisation level
 4. `git remote rm origin`
 5. `git remote add origin ` new SkyzeIO repository
-6. add branches `git branch NAME` develop or master
+6. add branches `git branch NAME` develop or master (check what branches are with `git branch -v`)
 7. Set origin for master
 8. `git push origin develop master`
 9. Fork the repo into your username on github
-10. `git remote add origin `
-11. `git remote add origin ` to the new forked username repository
+10. `git remote rm origin`
+11. `git remote add origin` to the new forked username repository
 12. do a test commit

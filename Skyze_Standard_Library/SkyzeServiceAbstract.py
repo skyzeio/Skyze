@@ -8,7 +8,7 @@ import logging
 import rollbar
 
 # Skyze Imports
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
 from Skyze_Standard_Library.SkyzeLogger import *
 # Skyze Messages
@@ -18,43 +18,43 @@ from Skyze_Messaging_Service.Messages.MessageServiceStatus import MessageService
 
 
 class SkyzeServiceAbstract(object):
-    """Skyze Base class for services"""
+  """Skyze Base class for services"""
 
-    def __init__(self, message_bus=None, log_path="", print_log=True):
-        """Constructor"""
-        self._created = datetime.now()
-        self._message_bus = message_bus
-        self._print_log = print_log
+  def __init__(self, message_bus=None, log_path="", print_log=True):
+    """Constructor"""
+    self._created = datetime.now()
+    self._message_bus = message_bus
+    self._print_log = print_log
 
-        # Create Logger
-        logger_class_name = self.getType()
-        self._logger = SkyzeLogger(logger_class_name, log_path)
-        log_message = f"{self.getType()}::__init__::Started"
-        self._logger.log_info(log_message, False)
-        if self._message_bus != None:
-            status_message = MessageServiceStatus(self.getType(), "Started")
-            self._message_bus.publishMessage(status_message)
+    # Create Logger
+    logger_class_name = self.getType()
+    self._logger = SkyzeLogger(logger_class_name, log_path)
+    log_message = f"{self.getType()}::__init__::Started"
+    self._logger.log_info(log_message, False)
+    if self._message_bus != None:
+      status_message = MessageServiceStatus(self.getType(), "Started")
+      self._message_bus.publishMessage(status_message)
 
-    def getType(self):
-        return self.__class__.__name__
+  def getType(self):
+    return self.__class__.__name__
 
-    def getPrintLog(self):
-        return self._print_log
+  def getPrintLog(self):
+    return self._print_log
 
-    def setPrintLog(self, print_log):
-        self._print_log = print_log
+  def setPrintLog(self, print_log):
+    self._print_log = print_log
 
-    def _sendMessage(self, message):
-        log_msg = f"{self.getType()}::Send Msg::{message.getJSON()}"
-        self._logger.log_info(log_msg)
-        self._message_bus.publishMessage(message)
+  def _sendMessage(self, message):
+    log_msg = f"{self.getType()}::Send Msg::{message.getJSON()}"
+    self._logger.log_info(log_msg)
+    self._message_bus.publishMessage(message)
 
-    def _unknownMessageTypeError(self, message):
-        log_msg = f"{self.__class__.__name__}::Unknown Message Type Error"
-        log_msg += f"\ntype: {type(message)}\n{message.getJSON()}"
-        self._logger.log_info(log_msg)
-        raise IOError
+  def _unknownMessageTypeError(self, message):
+    log_msg = f"{self.__class__.__name__}::Unknown Message Type Error"
+    log_msg += f"\ntype: {type(message)}\n{message.getJSON()}"
+    self._logger.log_info(log_msg)
+    raise IOError
 
-    def receiveMessage(self, message):
-        log_msg = f"{self.getType()}::receiveMessage::{message.getJSON()}"
-        self._logger.log_info(log_msg)
+  def receiveMessage(self, message):
+    log_msg = f"{self.getType()}::receiveMessage::{message.getJSON()}"
+    self._logger.log_info(log_msg)
