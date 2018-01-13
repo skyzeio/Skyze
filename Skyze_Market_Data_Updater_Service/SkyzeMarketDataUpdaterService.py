@@ -44,9 +44,10 @@ class SkyzeMarketDataUpdaterService(SkyzeServiceAbstract):
     self._logger.log_info(log_message, self._print_log)
 
     # Create the exchange object and run the update
-    if exchange_name == "Bitfinex":
-      cp.prt(cp.red("Updater Service Create exchange "))
-      exchange = ExchangeCCXT("Bitfinex", self._message_bus, self._logger)
+    if exchange_name == "Bitfinex" or exchange_name == "Bittrex" \
+            or exchange_name == "Kraken":
+      cp.prt(cp.red(f"Updater Service ccxt Create Exchange - {exchange_name}"))
+      exchange = ExchangeCCXT(exchange_name, self._message_bus, self._logger)
     elif exchange_name == "Cryptopia":
       exchange = Cryptopia(self._message_bus, self._logger)
     elif exchange_name == "CoinMarketCap":
