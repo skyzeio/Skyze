@@ -5,9 +5,11 @@ import pandas as pd
 from datetime import datetime
 
 import ccxt
+from ccxt.base.errors import ExchangeNotAvailable
 
 # Skyze Libraries
 import Skyze_Standard_Library.settings_skyze as settings_skyze
+import Skyze_Standard_Library.Colourful_Printing as cp
 from Skyze_Standard_Library.settings_skyze import exchange_list
 from Skyze_Market_Data_Updater_Service.ExchangeCCXTAbstract import ExchangeCCXTAbstract
 from Skyze_Standard_Library.ExceptionSkyzeAbstract import ExceptionSkyzeAbstract
@@ -69,15 +71,22 @@ class ExchangeCCXT (ExchangeCCXTAbstract, ExceptionSkyzeAbstract):
 
   def getAllMarkets(self, p_save_excel=False):
     '''Get all Markets'''
-    all_markets = self._exchange.load_markets()
+    try:
+      all_markets = self._exchange.load_markets()
+    except ExchangeNotAvailable:
+      cp.prt(cp.red("EXCEPTION ExchangeCCXT::getAllMarkets --- ExchangeNotAvailable"))
+      all_markets = []
+    except:
+      cp.prt(cp.red("EXCEPTION ExchangeCCXT::getAllMarkets -- UNKNOWN"))
+      all_markets = []
+    else:
+      if p_save_excel:
+        pd.DataFrame.from_dict(all_markets). \
+            to_excel(settings_skyze.data_file_path +
+                     '/' + self.source_name + '_markets.xlsx', index=False)
 
-    if p_save_excel:
-      pd.DataFrame.from_dict(all_markets). \
-          to_excel(settings_skyze.data_file_path +
-                   '/' + self.source_name + '_markets.xlsx', index=False)
-
-    # Convert to list of ccxt market symbol's
-    all_markets = [symbol for symbol in all_markets]
+      # Convert to list of ccxt market symbol's
+      all_markets = [symbol for symbol in all_markets]
 
     return all_markets
 
