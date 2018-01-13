@@ -86,7 +86,7 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     message = MessageMarketDataUpdaterRun("Bittrex", "All", market_pairs=None)
     self._sendMessage(message)
 
-  def kraken_12hr_update(self, market_pairs=None):
+  def kraken_5hr_update(self, market_pairs=None):
     log_msg = 'Scheduler:: Triggering:: Kraken 12 hourly Update'
     self._logger.log_info(log_msg)
     message = MessageMarketDataUpdaterRun("Kraken", "All", market_pairs=None)
@@ -147,8 +147,8 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
                               'interval', hours=12)
 
     # Kraken 90 minute-ly for all markets
-    job = self._sched.add_job(self.kraken_12hr_update,
-                              'interval', minutes=1)
+    job = self._sched.add_job(self.kraken_5hr_update,
+                              'interval', hours=5)
 
     # Cryptopia Daily - hourly for high volume markets
     job = self._sched.add_job(self.cryptopia_hourly_update,
