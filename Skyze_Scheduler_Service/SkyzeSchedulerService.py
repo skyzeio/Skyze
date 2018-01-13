@@ -80,6 +80,18 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     message = MessageMarketDataUpdaterRun("Bitfinex", "All", market_pairs=None)
     self._sendMessage(message)
 
+  def bittrex_12hr_update(self, market_pairs=None):
+    log_msg = 'Scheduler:: Triggering:: Bittrex 12 hourly Update'
+    self._logger.log_info(log_msg)
+    message = MessageMarketDataUpdaterRun("Bittrex", "All", market_pairs=None)
+    self._sendMessage(message)
+
+  def kraken_12hr_update(self, market_pairs=None):
+    log_msg = 'Scheduler:: Triggering:: Kraken 12 hourly Update'
+    self._logger.log_info(log_msg)
+    message = MessageMarketDataUpdaterRun("Kraken", "All", market_pairs=None)
+    self._sendMessage(message)
+
   #@sched.scheduled_job('cron', day_of_week='mon-sun', hour='0-23', minute=1)
   def cryptopia_hourly_update(self, market_pairs=None):
     log_msg = 'Scheduler:: Triggering:: Cryptopia Hourly Update'
@@ -130,6 +142,14 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     job = self._sched.add_job(self.bitfinex_90min_update,
                               'interval', minutes=90)
 
+    # Bittrex 12 Hour-ly for all markets
+    job = self._sched.add_job(self.bittrex_12hr_update,
+                              'interval', hours=12)
+
+    # Kraken 90 minute-ly for all markets
+    job = self._sched.add_job(self.kraken_12hr_update,
+                              'interval', minutes=1)
+
     # Cryptopia Daily - hourly for high volume markets
     job = self._sched.add_job(self.cryptopia_hourly_update,
                               'cron', day_of_week='mon-sun', hour='0-23')
@@ -138,12 +158,15 @@ class SkyzeSchedulerService(SkyzeServiceAbstract):
     # Poloniex only needs daily update - as can request that much history
     job = self._sched.add_job(self.poloniex_daily_update, 'cron',
                               day_of_week='mon-sun', hour=20, minute=12)  # 20:12
+
     # Cryptopia Daily run 1 - twice a day for low volume markets
     job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
                               day_of_week='mon-sun', hour=21, minute=35)  # 21:35
+
     # CoinMarketCap Daily update - as can request that much history
     job = self._sched.add_job(self.cmc_daily_update, 'cron',
                               day_of_week='mon-sun', hour=1, minute=8)  # 01:08
+
     # Cryptopia Daily run 2 - twice a day for low volume markets
     job = self._sched.add_job(self.cryptopia_daily_update, 'cron',
                               day_of_week='mon-sun', hour=8, minute=8)  # 08:08
