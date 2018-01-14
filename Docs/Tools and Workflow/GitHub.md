@@ -208,9 +208,11 @@ see http://alyssafrazee.com/2014/05/01/popping-a-subdirectory.html
 
 _**steps are:**_
 1. `git clone` skyze into a new directory that is the name of the subfolder
+2. `cd` into folder
 2. `git filter-branch --prune-empty --subdirectory-filter XXX master` to remove everything except directory XXX
 3. Add the new repo at the SkyzeIO organisation level
 4. `git remote rm origin`
+5. (Optional!) Fork the Skyzio repo to your repo
 5. `git remote add origin ` new SkyzeIO repository
 6. add branches `git branch NAME` develop or master (check what branches are with `git branch -v`)
 7. Set origin for master
@@ -218,4 +220,6 @@ _**steps are:**_
 9. Fork the repo into your username on github
 10. `git remote rm origin`
 11. `git remote add origin` to the new forked username repository
+12. On the forked repo from the git website - set the default branch to 'develop'
+13. On the Skyzeio repo set default branch to 'develop'
 12. do a test commit
