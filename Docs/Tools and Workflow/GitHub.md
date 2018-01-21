@@ -81,6 +81,48 @@ www.github/ … personal repo URL
 2.	Admins: Process the pull request in Skyze Org Repo
 https://github.com/SkyzeTrading/Skyze/pulls
 
+## Worflow - Hot fixes
+- Branch off from: master
+- Must merge back into: develop and master
+- Branch naming convention: hotfix-*
+
+**Workflow**
+
+1. **Create the HotFix Branch**
+
+
+    `git checkout -b hotfix-1.2.1 master`
+
+    `./bump-version.sh 1.2.1`
+
+    `git commit -a -m "Bumped version number to 1.2.1"`
+
+2. **Fix the issue**
+
+3. **Commit the fix**
+
+3. **Merge the hotfix branch into Master**
+
+`git checkout master`
+
+`git merge --no-ff hotfix-XXXXX`
+
+`git tag -a 1.2.1`
+
+
+4. **Merge the fix into develop and/or release/feature**
+
+`git checkout develop`
+
+`git merge --no-ff master`
+
+5. **Remove the hotfix branch**
+
+`git branch -d hotfix-XXXXX`
+
+6. **Push up to the remotes and deploy**
+
+
 ## Work flow questions
  1. … when to Push to Master on personal and on organizational?
 
@@ -95,21 +137,51 @@ From: https://www.atlassian.com/blog/git/alternatives-to-git-submodule-git-subtr
 
 2. Add the subtree `git subtree add --prefix SUBTREE_REPO_FOLDER_NAME YOUR_REMOTE_NAME master --squash`
 
-### Updating the SubTree from upstream
+### Updating (Pulling) the local SubTree from upstream
 1. `git fetch YOUR_REMOTE_NAME master`
 
 2. `git subtree pull --prefix SUBTREE_REPO_FOLDER_NAME YOUR_REMOTE_NAME master --squash`
 
-### Pushing the SubTree to upstream
+### Pushing the local SubTree to upstream
 1. Update local repo from the upstream (Skyze Organisation Repo) and sort out any conflicts
+
 2. fork the organisation repo and add it as another remote to the local repo:
 `git remote add YOUR_FORKED_REMOTE_NAME  https://github.org/.../FORKED-SUB-REPO.git`
+
 4. Push to the fork `git subtree push --prefix=SUBTREE_REPO_FOLDER_NAME YOUR_FORKED_REMOTE_NAME master`
 5. Open a _Pull Request_ from the fork to the upstream
 
 
 ##  Submodules
 https://chrisjean.com/git-submodules-adding-using-removing-and-updating/
+
+## Merge onto master
+https://stackoverflow.com/questions/14168677/merge-development-branch-with-master
+I generally like to merge master into the development first so that if there are any conflicts, I can resolve in the development branch itself and my master remains clean.
+
+`(on branch development)$ git merge master`
+
+`(resolve any merge conflicts if there are any)`
+
+`git checkout master`
+
+`git merge development (there won't be any conflicts now)`
+
+OR
+
+The first line makes sure he has any upstream commits that have been made to master since the last time updated his local repository.
+
+The second pulls those changes (if any) from master into development
+
+The third pushes the development branch (now fully merged with master) up to origin/master.
+
+`git fetch origin master`
+
+`git merge master`
+
+`git push origin development:master`
+
+
 
 ##  LOG
 ```git log``` ..... look at the last few commits
@@ -212,8 +284,8 @@ _**steps are:**_
 2. `git filter-branch --prune-empty --subdirectory-filter XXX master` to remove everything except directory XXX
 3. Add the new repo at the SkyzeIO organisation level
 4. `git remote rm origin`
-5. (Optional!) Fork the Skyzio repo to your repo
-5. `git remote add origin ` new SkyzeIO repository
+5. `git remote add origin ` new forked SkyzeIO repository
+5. `git remote add upstream ` SkyzeIO repository
 6. add branches `git branch NAME` develop or master (check what branches are with `git branch -v`)
 7. Set origin for master
 8. `git push origin develop master`
