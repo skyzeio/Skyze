@@ -53,7 +53,7 @@ exchange_list = {
     "Bitfinex":
         {"Name": "Bitfinex",
          "Directory_name": "Bitfinex",
-         "Class_name": "bitfinex2",
+         "Class_name": "bitfinex",
          "Data_intervals": ["DAY_1", "HOUR_3", "HOUR_1", "MIN_5", "MIN_1"],
          "ccxt_support": True,
          "Data_provided": "all: 120 rows"},

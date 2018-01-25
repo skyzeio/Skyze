@@ -20,7 +20,7 @@ from pathlib2 import Path                       # OO File management
 from pandas import ExcelWriter
 
 # Skyze Libraries
-import settings_skyze
+import Skyze_Standard_Library.settings_skyze as settings_skyze
 import Skyze_Standard_Library.ExceptionSkyzeAbstract
 # import Portfolio
 
